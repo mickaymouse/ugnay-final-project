@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Brand Colors -->
+    <color name="brgy_blue">#0038A8</color>
+    <color name="brgy_red">#CE1126</color>
+    <color name="brgy_yellow">#FCD116</color>
+
+
+    <color name="text_secondary">#757575</color>
+    <color name="surface_dark">#121212</color>
+
+    <!-- UI Essentials -->
+    <color name="background_dark">#1E1E1E</color>
+    <color name="card_background">#2D2D2D</color>
+    <color name="text_white">#FFFFFF</color>
+</resources>

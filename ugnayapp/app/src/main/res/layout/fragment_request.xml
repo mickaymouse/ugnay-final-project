@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_dark"
+    android:orientation="vertical">
+
+    <!-- HEADER -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/brgy_blue"
+        android:padding="24dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_semibold"
+            android:text="Service Requests"
+            android:textColor="@color/text_white"
+            android:textSize="22sp" />
+    </LinearLayout>
+
+    <!-- GRID FOR 6 ITEMS -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <GridLayout
+            android:id="@+id/gl_requests"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:columnCount="2"
+            android:alignmentMode="alignMargins">
+
+            <!-- We will use 'include' to repeat the card 6 times -->
+            <include layout="@layout/item_request_card" />
+            <include layout="@layout/item_request_card" />
+            <include layout="@layout/item_request_card" />
+            <include layout="@layout/item_request_card" />
+            <include layout="@layout/item_request_card" />
+            <include layout="@layout/item_request_card" />
+
+        </GridLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <!-- Host only, no https:// and no quotes -->
+        <domain includeSubdomains="true">ayzydnwrsecujoubohuy.supabase.co</domain>
+    </domain-config>
+</network-security-config>

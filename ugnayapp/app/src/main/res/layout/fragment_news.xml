@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@color/background_dark">
+
+    <TextView
+        android:id="@+id/tv_news_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Barangay News &amp; Alerts"
+        android:textColor="@color/text_white"
+        android:fontFamily="@font/poppins_bold"
+        android:textSize="22sp"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- A simple card for high-priority alerts -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/alert_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_news_title"
+        android:layout_marginBottom="16dp"
+        app:cardBackgroundColor="@color/brgy_red"
+        app:cardCornerRadius="12dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="No active emergency alerts."
+            android:textColor="@color/text_white"
+            android:fontFamily="@font/poppins_mediumitalic"/>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_news_feed"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/alert_card" />
+
+</RelativeLayout>

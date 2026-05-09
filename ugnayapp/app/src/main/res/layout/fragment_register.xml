@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_dark">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:fontFamily="@font/poppins_bold"
+            android:text="Create Account"
+            android:textColor="@color/text_white"
+            android:textSize="24sp" />
+
+        <!-- Profile Picture Upload -->
+        <FrameLayout
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="24dp">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/iv_register_profile"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_profile_placeholder"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.MaterialComponents.LargeComponent"
+                app:strokeColor="@color/brgy_yellow"
+                app:strokeWidth="2dp" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_upload_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:src="@android:drawable/ic_menu_camera"
+                app:fabSize="mini"
+                app:backgroundTint="@color/brgy_yellow"
+                app:tint="@color/background_dark" />
+        </FrameLayout>
+
+        <!-- User ID removed from UI -->
+
+        <!-- First Name -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:hint="First Name"
+            android:textColorHint="@color/text_white"
+            app:boxStrokeColor="@color/brgy_yellow"
+            app:hintTextColor="@color/brgy_yellow">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_register_firstname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_regular"
+                android:textColor="@color/text_white" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Middle Name -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:hint="Middle Name"
+            android:textColorHint="@color/text_white"
+            app:boxStrokeColor="@color/brgy_yellow"
+            app:hintTextColor="@color/brgy_yellow">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_register_middlename"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_regular"
+                android:textColor="@color/text_white" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Last Name -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:hint="Last Name"
+            android:textColorHint="@color/text_white"
+            app:boxStrokeColor="@color/brgy_yellow"
+            app:hintTextColor="@color/brgy_yellow">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_register_lastname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_regular"
+                android:textColor="@color/text_white" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <!-- Gender -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="16dp"
+                android:layout_weight="1"
+                android:hint="Gender"
+                android:textColorHint="@color/text_white"
+                app:boxStrokeColor="@color/brgy_yellow"
+                app:hintTextColor="@color/brgy_yellow">
+
+                <AutoCompleteTextView
+                    android:id="@+id/actv_register_gender"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_regular"
+                    android:inputType="none"
+                    android:textColor="@color/text_white" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Civil Status -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="16dp"
+                android:layout_weight="1"
+                android:hint="Civil Status"
+                android:textColorHint="@color/text_white"
+                app:boxStrokeColor="@color/brgy_yellow"
+                app:hintTextColor="@color/brgy_yellow">
+
+                <AutoCompleteTextView
+                    android:id="@+id/actv_register_civil_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_regular"
+                    android:inputType="none"
+                    android:textColor="@color/text_white" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <!-- Date of Birth -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:hint="Date of Birth"
+            android:textColorHint="@color/text_white"
+            app:boxStrokeColor="@color/brgy_yellow"
+            app:hintTextColor="@color/brgy_yellow">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_register_dob"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:fontFamily="@font/poppins_regular"
+                android:textColor="@color/text_white" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Place of Birth -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:hint="Place of Birth"
+            android:textColorHint="@color/text_white"
+            app:boxStrokeColor="@color/brgy_yellow"
+            app:hintTextColor="@color/brgy_yellow">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_register_pob"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_regular"
+                android:textColor="@color/text_white" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/poppins_semibold"
+            android:text="Address Details"
+            android:textColor="@color/brgy_yellow"
+            android:textSize="18sp" />
+
+        <!-- Purok & Barangay -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="16dp"
+                android:layout_weight="1"
+                android:hint="Purok"
+                android:textColorHint="@color/text_white"
+                app:boxStrokeColor="@color/brgy_yellow"
+                app:hintTextColor="@color/brgy_yellow">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_register_purok"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_regular"
+                    android:textColor="@color/text_white" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="16dp"
+                android:layout_weight="1"
+                android:hint="Barangay"
+                android:textColorHint="@color/text_white"
+                app:boxStrokeColor="@color/brgy_yellow"
+                app:hintTextColor="@color/brgy_yellow">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_register_barangay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_regular"
+                    android:textColor="@color/text_white" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <!-- Municipality & Province -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="16dp"
+                android:layout_weight="1"
+                android:hint="Municipality"
+                android:textColorHint="@color/text_white"
+                app:boxStrokeColor="@color/brgy_yellow"
+                app:hintTextColor="@color/brgy_yellow">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_register_municipality"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_regular"
+                    android:textColor="@color/text_white" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="16dp"
+                android:layout_weight="1"
+                android:hint="Province"
+                android:textColorHint="@color/text_white"
+                app:boxStrokeColor="@color/brgy_yellow"
+                app:hintTextColor="@color/brgy_yellow">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_register_province"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_regular"
+                    android:textColor="@color/text_white" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <!-- Zip Code -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:hint="Zip Code"
+            android:textColorHint="@color/text_white"
+            app:boxStrokeColor="@color/brgy_yellow"
+            app:hintTextColor="@color/brgy_yellow">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_register_zip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_regular"
+                android:inputType="number"
+                android:textColor="@color/text_white" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/poppins_semibold"
+            android:text="Contact Information"
+            android:textColor="@color/brgy_yellow"
+            android:textSize="18sp" />
+
+        <!-- Email Address -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:hint="Email Address"
+            android:textColorHint="@color/text_white"
+            app:boxStrokeColor="@color/brgy_yellow"
+            app:hintTextColor="@color/brgy_yellow"
+            app:suffixText="@guintas.ph"
+            app:suffixTextColor="@color/text_white">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_register_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_regular"
+                android:inputType="textEmailAddress"
+                android:textColor="@color/text_white" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Contact Number -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:hint="Contact Number"
+            android:textColorHint="@color/text_white"
+            app:boxStrokeColor="@color/brgy_yellow"
+            app:hintTextColor="@color/brgy_yellow">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_register_contact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_regular"
+                android:inputType="phone"
+                android:textColor="@color/text_white" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Password -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_register_password"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:hint="Password"
+            android:textColorHint="@color/text_white"
+            app:boxStrokeColor="@color/brgy_yellow"
+            app:hintTextColor="@color/brgy_yellow"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/text_white">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_register_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_regular"
+                android:inputType="textPassword"
+                android:textColor="@color/text_white" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Confirm Password -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_register_confirm_password"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:hint="Confirm Password"
+            android:textColorHint="@color/text_white"
+            app:boxStrokeColor="@color/brgy_yellow"
+            app:hintTextColor="@color/brgy_yellow"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/text_white">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_register_confirm_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_regular"
+                android:inputType="textPassword"
+                android:textColor="@color/text_white" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btn_register"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:backgroundTint="@color/brgy_blue"
+            android:fontFamily="@font/poppins_semibold"
+            android:text="Register"
+            android:textAllCaps="false"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_go_to_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/poppins_regular"
+            android:text="Already have an account? Login"
+            android:textColor="@color/brgy_yellow" />
+
+    </LinearLayout>
+</ScrollView>

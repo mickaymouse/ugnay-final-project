@@ -1,0 +1,13 @@
+<resources>
+    <!-- Base Theme -->
+    <style name="Theme.UGNAY" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:fontFamily">@font/poppins</item>
+    </style>
+
+    <!-- Specific Style for Error Messages -->
+    <style name="ErrorTextAppearance">
+        <item name="android:fontFamily">@font/poppins_mediumitalic</item>
+        <item name="android:textColor">@color/brgy_red</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+</resources>

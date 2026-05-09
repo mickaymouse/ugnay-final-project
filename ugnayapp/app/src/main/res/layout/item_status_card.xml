@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="12dp"
+    app:cardBackgroundColor="@color/card_background"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="2dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/iv_doc_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@android:drawable/ic_menu_agenda"
+            app:tint="@color/brgy_blue" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_toEndOf="@id/iv_doc_icon"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_status_doc_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_bold"
+                android:text="Barangay Clearance"
+                android:textColor="@color/text_white"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tv_status_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_regular"
+                android:text="Status: Approved"
+                android:textColor="#4CAF50"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- DOWNLOAD BUTTON: Hide this (android:visibility="gone") if still pending -->
+        <ImageButton
+            android:id="@+id/btn_download_file"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/bg_circle_yellow"
+            android:src="@android:drawable/stat_sys_download"
+            app:tint="@color/background_dark" />
+
+    </RelativeLayout>
+</com.google.android.material.card.MaterialCardView>
