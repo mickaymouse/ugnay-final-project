@@ -49,7 +49,8 @@ class MainActivity : AppCompatActivity() {
         // 5. Hide Bottom Navigation on Login/Register screens
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.nav_login, R.id.nav_register -> {
+                R.id.nav_login, R.id.nav_register,
+                R.id.nav_official_login, R.id.nav_official_register -> {
                     bottomNav.visibility = View.GONE
                 }
                 else -> {

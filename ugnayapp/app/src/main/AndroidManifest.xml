@@ -23,7 +23,7 @@
     </activity>
 
         <activity
-            android:name=".frontend.ui.request.RequestFormActivity"
+            android:name=".frontend.residents.ui.request.RequestFormActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
 
