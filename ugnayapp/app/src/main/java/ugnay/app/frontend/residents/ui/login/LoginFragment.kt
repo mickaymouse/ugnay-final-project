@@ -39,18 +39,29 @@ class LoginFragment : Fragment() {
             findNavController().navigate(R.id.action_login_to_register)
         }
 
+        // SWITCH TO OFFICIAL LOGIN (top right switch)
         binding.tvGoToOfficialLogin.setOnClickListener {
-            findNavController().navigate(R.id.action_login_to_official_login)
+            findNavController().navigate(
+                R.id.action_login_to_official_login
+            )
         }
     }
 
     private fun loginUser() {
+
         val emailInput = binding.etLoginEmail.text.toString().trim()
         val password = binding.etLoginPassword.text.toString().trim()
 
-        val email = if (emailInput.isEmpty()) "" else if (emailInput.contains("@")) emailInput else "$emailInput@guintas.ph"
+        val email = if (emailInput.isEmpty()) {
+            ""
+        } else if (emailInput.contains("@")) {
+            emailInput
+        } else {
+            "$emailInput@guintas.ph"
+        }
 
         val errors = LoginRepository.validateLogin(email, password)
+
         if (errors.isNotEmpty()) {
             errors["email"]?.let { binding.etLoginEmail.error = it }
             errors["password"]?.let { binding.etLoginPassword.error = it }
@@ -60,26 +71,46 @@ class LoginFragment : Fragment() {
         lifecycleScope.launch {
             try {
                 binding.btnLogin.isEnabled = false
-                
+
                 val resident = LoginRepository.login(email, password)
 
                 if (resident != null) {
+
                     if (resident.userType == UserType.OFFICIAL) {
+
                         LoginRepository.logout()
+
                         Toast.makeText(
                             requireContext(),
                             "This account is for Barangay Officials. Use Official Login.",
                             Toast.LENGTH_LONG
                         ).show()
+
                     } else {
-                        Toast.makeText(requireContext(), "Welcome, ${resident.firstName}!", Toast.LENGTH_SHORT).show()
+
+                        Toast.makeText(
+                            requireContext(),
+                            "Welcome, ${resident.firstName}!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
                         findNavController().navigate(R.id.action_login_to_home)
                     }
+
                 } else {
-                    Toast.makeText(requireContext(), "Invalid Email or Password", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "Invalid Email or Password",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
+
             } catch (e: Exception) {
-                Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    requireContext(),
+                    "Error: ${e.message}",
+                    Toast.LENGTH_LONG
+                ).show()
             } finally {
                 binding.btnLogin.isEnabled = true
             }

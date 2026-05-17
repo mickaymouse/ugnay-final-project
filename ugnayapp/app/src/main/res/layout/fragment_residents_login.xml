@@ -1,97 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_dark"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:padding="24dp">
+    android:fillViewport="true"
+    android:background="@color/background_dark">
 
-    <ImageView
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_marginBottom="32dp"
-        android:src="@drawable/ic_launcher_foreground"
-        app:tint="@color/brgy_yellow" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:fontFamily="@font/poppins_bold"
-        android:text="Login to Ugnay"
-        android:textColor="@color/text_white"
-        android:textSize="24sp" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:hint="Email Address"
-        android:textColorHint="@color/text_white"
-        app:boxStrokeColor="@color/brgy_yellow"
-        app:hintTextColor="@color/brgy_yellow"
-        app:suffixText="@guintas.ph"
-        app:suffixTextColor="@color/text_white">
+        android:orientation="vertical"
+        android:padding="24dp">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_login_email"
+        <!-- SWITCH LAYER -->
+        <TextView
+            android:id="@+id/tv_go_to_official_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Switch (Official)"
+            android:textColor="@color/brgy_yellow"
+            android:textSize="14sp"
+            android:fontFamily="@font/poppins_medium"
+            android:layout_gravity="end"
+            android:padding="4dp"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- LOGO -->
+        <ImageView
+            android:id="@+id/imgLogo"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/ic_launcher_foreground"
+            app:tint="@color/brgy_yellow"
+            android:layout_gravity="start"
+            android:layout_marginBottom="24dp"
+            android:layout_marginTop="32dp"/>
+
+        <!-- HEADINGS -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BARANGAY RESIDENT LOGIN"
+            android:textColor="@color/text_white"
+            android:textSize="22sp"
+            android:fontFamily="@font/poppins_bold"
+            android:includeFontPadding="false"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Welcome to UGNAY"
+            android:textColor="@color/text_white"
+            android:alpha="0.7"
+            android:textSize="14sp"
+            android:fontFamily="@font/poppins_regular"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="32dp"/>
+
+        <!-- EMAIL INPUT -->
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_regular"
-            android:inputType="textEmailAddress"
-            android:textColor="@color/text_white" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginBottom="16dp"
+            style="@widget/com.google.android.material.textfield.TextInputLayout.OutlinedBox">
 
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:hint="Password"
-        android:textColorHint="@color/text_white"
-        app:boxStrokeColor="@color/brgy_yellow"
-        app:hintTextColor="@color/brgy_yellow"
-        app:passwordToggleEnabled="true"
-        app:passwordToggleTint="@color/text_white">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_login_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter User ID"
+                android:inputType="textEmailAddress"
+                android:textColor="@color/text_white"
+                android:fontFamily="@font/poppins_regular"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_login_password"
+        <!-- PASSWORD INPUT -->
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_regular"
-            android:inputType="textPassword"
-            android:textColor="@color/text_white" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginBottom="32dp"
+            app:passwordToggleEnabled="true"
+            style="@widget/com.google.android.material.textfield.TextInputLayout.OutlinedBox">
 
-    <Button
-        android:id="@+id/btn_login"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:backgroundTint="@color/brgy_blue"
-        android:fontFamily="@font/poppins_semibold"
-        android:text="Login"
-        android:textAllCaps="false"
-        android:textSize="16sp" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_login_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Password"
+                android:inputType="textPassword"
+                android:textColor="@color/text_white"
+                android:fontFamily="@font/poppins_regular"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/tv_go_to_official_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/poppins_regular"
-        android:text="Barangay Official? Login here"
-        android:textColor="@color/brgy_yellow" />
+        <!-- LOGIN ACTION -->
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="LOGIN"
+            android:textColor="@color/text_white"
+            android:textSize="16sp"
+            android:fontFamily="@font/poppins_bold"
+            android:backgroundTint="@color/brgy_blue"
+            android:textAllCaps="false"
+            app:cornerRadius="8dp"/>
 
-    <TextView
-        android:id="@+id/tv_go_to_register"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:fontFamily="@font/poppins_regular"
-        android:text="Don't have an account? Register here"
-        android:textColor="@color/brgy_yellow" />
+        <!-- NAVIGATION TO REGISTER -->
+        <TextView
+            android:id="@+id/tv_go_to_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Don't have an account? Register"
+            android:textColor="@color/brgy_yellow"
+            android:textSize="14sp"
+            android:fontFamily="@font/poppins_medium"
+            android:layout_gravity="center"
+            android:padding="8dp"
+            android:layout_marginTop="24dp"/>
 
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>
