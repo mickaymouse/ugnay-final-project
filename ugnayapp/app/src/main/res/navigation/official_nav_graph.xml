@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/official_nav_graph"
+    app:startDestination="@id/nav_official_home">
+
+    <!-- OFFICIAL HOME -->
+    <fragment
+        android:id="@+id/nav_official_home"
+        android:name="ugnay.app.frontend.brgy_officials.ui.home.OfficialHomeFragment"
+        android:label="Official Home"
+        tools:layout="@layout/fragment_official_home" />
+
+    <!-- OFFICIAL REQUESTS -->
+    <fragment
+        android:id="@+id/nav_official_requests"
+        android:name="ugnay.app.frontend.brgy_officials.ui.requests.OfficialRequestsFragment"
+        android:label="Official Requests"
+        tools:layout="@layout/fragment_official_requests" />
+
+    <!-- OFFICIAL NEWS -->
+    <fragment
+        android:id="@+id/nav_official_news"
+        android:name="ugnay.app.frontend.brgy_officials.ui.news.OfficialNewsFragment"
+        android:label="Official News"
+        tools:layout="@layout/fragment_official_news">
+
+        <action
+            android:id="@+id/action_official_news_to_create_post"
+            app:destination="@id/nav_create_post" />
+    </fragment>
+
+    <!-- CREATE POST -->
+    <fragment
+        android:id="@+id/nav_create_post"
+        android:name="ugnay.app.frontend.brgy_officials.ui.news.CreatePostFragment"
+        android:label="Create Post"
+        tools:layout="@layout/fragment_create_post" />
+
+    <!-- OFFICIAL PROFILE -->
+    <fragment
+        android:id="@+id/nav_official_profile"
+        android:name="ugnay.app.frontend.brgy_officials.ui.profile.OfficialProfileFragment"
+        android:label="Official Profile"
+        tools:layout="@layout/fragment_official_profile">
+
+        <action
+            android:id="@+id/action_profile_to_manage_residents"
+            app:destination="@id/nav_manage_residents" />
+
+        <action
+            android:id="@+id/action_profile_to_manage_officials"
+            app:destination="@id/nav_manage_officials" />
+
+        <action
+            android:id="@+id/action_profile_to_manage_profile"
+            app:destination="@id/nav_manage_official_profile" />
+
+        <action
+            android:id="@+id/action_official_profile_to_login"
+            app:destination="@id/nav_login"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <!-- MANAGE RESIDENTS -->
+    <fragment
+        android:id="@+id/nav_manage_residents"
+        android:name="ugnay.app.frontend.brgy_officials.ui.profile.ManageResidentsFragment"
+        android:label="Manage Residents"
+        tools:layout="@layout/fragment_manage_residents" />
+
+    <!-- MANAGE OFFICIALS -->
+    <fragment
+        android:id="@+id/nav_manage_officials"
+        android:name="ugnay.app.frontend.brgy_officials.ui.profile.ManageOfficialsFragment"
+        android:label="Manage Officials"
+        tools:layout="@layout/fragment_manage_officials" />
+
+    <!-- MANAGE PROFILE -->
+    <fragment
+        android:id="@+id/nav_manage_official_profile"
+        android:name="ugnay.app.frontend.brgy_officials.ui.profile.ManageOfficialProfileFragment"
+        android:label="Manage Official Profile"
+        tools:layout="@layout/fragment_manage_official_profile" />
+
+</navigation>

@@ -238,7 +238,10 @@ class OfficialRegisterFragment : Fragment() {
                 LoginRepository.updateCurrentAddress(address)
 
                 Toast.makeText(requireContext(), "Registration Successful!", Toast.LENGTH_LONG).show()
-                findNavController().navigate(R.id.action_official_register_to_home)
+                findNavController().navigate(
+                    R.id.action_official_register_to_official_home
+                )
+
             } catch (e: Exception) {
                 binding.btnOfficialRegister.isEnabled = true
                 Toast.makeText(requireContext(), "Registration Failed: ${e.message}", Toast.LENGTH_LONG).show()

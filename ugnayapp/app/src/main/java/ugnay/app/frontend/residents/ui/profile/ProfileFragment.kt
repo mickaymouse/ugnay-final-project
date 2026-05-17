@@ -9,11 +9,11 @@ import androidx.navigation.fragment.findNavController
 import ugnay.app.R
 import ugnay.app.backend.residents.data.UserType
 import ugnay.app.backend.residents.login.LoginRepository
-import ugnay.app.databinding.FragmentProfileBinding
+import ugnay.app.databinding.FragmentResidentsProfileBinding
 
 class ProfileFragment : Fragment() {
 
-    private var _binding: FragmentProfileBinding? = null
+    private var _binding: FragmentResidentsProfileBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -21,7 +21,7 @@ class ProfileFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentProfileBinding.inflate(inflater, container, false)
+        _binding = FragmentResidentsProfileBinding.inflate(inflater, container, false)
         return binding.root
     }
 

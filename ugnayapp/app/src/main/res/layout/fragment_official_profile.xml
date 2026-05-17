@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/tvProfileTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Profile"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btnManageResidents"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Manage Residents"
+        android:layout_marginTop="16dp"/>
+
+    <Button
+        android:id="@+id/btnManageOfficials"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Manage Officials"
+        android:layout_marginTop="8dp"/>
+
+    <Button
+        android:id="@+id/btnManageProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Manage My Profile"
+        android:layout_marginTop="8dp"/>
+
+    <Button
+        android:id="@+id/btnLogout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        android:layout_marginTop="16dp"/>
+
+</LinearLayout>

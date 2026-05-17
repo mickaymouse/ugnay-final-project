@@ -5,29 +5,35 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/nav_login">
 
+    <!-- RESIDENT LOGIN -->
     <fragment
         android:id="@+id/nav_login"
         android:name="ugnay.app.frontend.residents.ui.login.LoginFragment"
         android:label="Login"
-        tools:layout="@layout/fragment_login">
+        tools:layout="@layout/fragment_residents_login">
+
         <action
             android:id="@+id/action_login_to_home"
             app:destination="@id/nav_home"
             app:popUpTo="@id/nav_login"
             app:popUpToInclusive="true" />
+
         <action
             android:id="@+id/action_login_to_register"
             app:destination="@id/nav_register" />
+
         <action
             android:id="@+id/action_login_to_official_login"
             app:destination="@id/nav_official_login" />
     </fragment>
 
+    <!-- RESIDENT REGISTER -->
     <fragment
         android:id="@+id/nav_register"
         android:name="ugnay.app.frontend.residents.ui.register.RegisterFragment"
         android:label="Register"
-        tools:layout="@layout/fragment_register">
+        tools:layout="@layout/fragment_residents_register">
+
         <action
             android:id="@+id/action_register_to_home"
             app:destination="@id/nav_home"
@@ -35,76 +41,93 @@
             app:popUpToInclusive="true" />
     </fragment>
 
+    <!-- OFFICIAL LOGIN -->
+    <!-- OFFICIAL LOGIN -->
     <fragment
         android:id="@+id/nav_official_login"
         android:name="ugnay.app.frontend.brgy_officials.ui.login.OfficialLoginFragment"
         android:label="Official Login"
         tools:layout="@layout/fragment_official_login">
+
         <action
-            android:id="@+id/action_official_login_to_home"
-            app:destination="@id/nav_home"
+            android:id="@+id/action_official_login_to_official_home"
+            app:destination="@id/nav_official_home"
             app:popUpTo="@id/nav_login"
             app:popUpToInclusive="true" />
+
         <action
             android:id="@+id/action_official_login_to_official_register"
             app:destination="@id/nav_official_register" />
+
         <action
             android:id="@+id/action_official_login_to_resident_login"
             app:destination="@id/nav_login"
             app:popUpTo="@id/nav_official_login"
             app:popUpToInclusive="true" />
+
     </fragment>
 
+    <!-- OFFICIAL REGISTER -->
     <fragment
         android:id="@+id/nav_official_register"
         android:name="ugnay.app.frontend.brgy_officials.ui.register.OfficialRegisterFragment"
         android:label="Official Register"
         tools:layout="@layout/fragment_official_register">
+
         <action
-            android:id="@+id/action_official_register_to_home"
-            app:destination="@id/nav_home"
+            android:id="@+id/action_official_register_to_official_home"
+            app:destination="@id/nav_official_home"
             app:popUpTo="@id/nav_login"
             app:popUpToInclusive="true" />
     </fragment>
 
+    <!-- RESIDENT NAV -->
+    <!-- HOME-->
     <fragment
         android:id="@+id/nav_home"
         android:name="ugnay.app.frontend.residents.ui.home.HomeFragment"
         android:label="Home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_residents_home" />
 
+    <!-- REQUEST -->
     <fragment
         android:id="@+id/nav_request"
         android:name="ugnay.app.frontend.residents.ui.request.RequestFragment"
         android:label="Request"
-        tools:layout="@layout/fragment_request" />
+        tools:layout="@layout/fragment_residents_request" />
 
+    <!-- NEWS -->
     <fragment
         android:id="@+id/nav_news"
         android:name="ugnay.app.frontend.residents.ui.news.NewsFragment"
         android:label="News"
-        tools:layout="@layout/fragment_news" />
+        tools:layout="@layout/fragment_residents_news" />
 
+    <!-- PROFILE -->
     <fragment
         android:id="@+id/nav_profile"
         android:name="ugnay.app.frontend.residents.ui.profile.ProfileFragment"
         android:label="Profile"
-        tools:layout="@layout/fragment_profile">
+        tools:layout="@layout/fragment_residents_profile">
+
         <action
             android:id="@+id/action_profile_to_login"
             app:destination="@id/nav_login"
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
+
         <action
             android:id="@+id/action_profile_to_official_login"
             app:destination="@id/nav_official_login"
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
+
         <action
             android:id="@+id/action_profile_to_settings"
             app:destination="@id/nav_account_settings" />
     </fragment>
 
+    <!-- SETTINGS -->
     <fragment
         android:id="@+id/nav_account_settings"
         android:name="ugnay.app.frontend.residents.ui.profile.AccountSettingsFragment"

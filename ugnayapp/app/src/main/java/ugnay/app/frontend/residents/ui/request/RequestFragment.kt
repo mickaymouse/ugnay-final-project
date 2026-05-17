@@ -6,11 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import ugnay.app.databinding.FragmentRequestBinding
+import ugnay.app.databinding.FragmentResidentsRequestBinding
 
 class RequestFragment : Fragment() {
 
-    private var _binding: FragmentRequestBinding? = null
+    private var _binding: FragmentResidentsRequestBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -18,7 +18,7 @@ class RequestFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentRequestBinding.inflate(inflater, container, false)
+        _binding = FragmentResidentsRequestBinding.inflate(inflater, container, false)
         return binding.root
     }
 

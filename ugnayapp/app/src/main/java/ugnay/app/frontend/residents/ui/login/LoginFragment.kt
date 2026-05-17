@@ -12,11 +12,11 @@ import kotlinx.coroutines.launch
 import ugnay.app.R
 import ugnay.app.backend.residents.data.UserType
 import ugnay.app.backend.residents.login.LoginRepository
-import ugnay.app.databinding.FragmentLoginBinding
+import ugnay.app.databinding.FragmentResidentsLoginBinding
 
 class LoginFragment : Fragment() {
 
-    private var _binding: FragmentLoginBinding? = null
+    private var _binding: FragmentResidentsLoginBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -24,7 +24,7 @@ class LoginFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentLoginBinding.inflate(inflater, container, false)
+        _binding = FragmentResidentsLoginBinding.inflate(inflater, container, false)
         return binding.root
     }
 

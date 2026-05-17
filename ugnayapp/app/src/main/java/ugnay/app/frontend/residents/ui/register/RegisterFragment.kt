@@ -23,13 +23,13 @@ import ugnay.app.backend.residents.data.UserType
 import ugnay.app.backend.residents.login.LoginRepository
 import ugnay.app.backend.residents.register.RegisterRepository
 import ugnay.app.backend.residents.utils.HashUtils
-import ugnay.app.databinding.FragmentRegisterBinding
+import ugnay.app.databinding.FragmentResidentsRegisterBinding
 import java.util.Calendar
 import java.util.Locale
 
 class RegisterFragment : Fragment() {
 
-    private var _binding: FragmentRegisterBinding? = null
+    private var _binding: FragmentResidentsRegisterBinding? = null
     private val binding get() = _binding!!
     private var selectedImageUri: Uri? = null
 
@@ -45,7 +45,7 @@ class RegisterFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentRegisterBinding.inflate(inflater, container, false)
+        _binding = FragmentResidentsRegisterBinding.inflate(inflater, container, false)
         return binding.root
     }
 

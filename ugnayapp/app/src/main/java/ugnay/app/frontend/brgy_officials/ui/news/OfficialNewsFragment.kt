@@ -1,16 +1,17 @@
-package ugnay.app.frontend.residents.ui.home
+package ugnay.app.frontend.brgy_officials.ui.news
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import ugnay.app.backend.residents.login.LoginRepository
-import ugnay.app.databinding.FragmentResidentsHomeBinding
+import androidx.navigation.fragment.findNavController
+import ugnay.app.R
+import ugnay.app.databinding.FragmentOfficialNewsBinding
 
-class HomeFragment : Fragment() {
+class OfficialNewsFragment : Fragment() {
 
-    private var _binding: FragmentResidentsHomeBinding? = null
+    private var _binding: FragmentOfficialNewsBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -18,20 +19,19 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentResidentsHomeBinding.inflate(inflater, container, false)
+        _binding = FragmentOfficialNewsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        displayUserInfo()
-    }
 
-    private fun displayUserInfo() {
-        val user = LoginRepository.getCurrentUser()
-        if (user != null) {
-            binding.tvFirstName.text = "${user.firstName} ${user.lastName}"
-            binding.tvGreeting.text = "Good day,"
+        binding.tvNewsTitle.text = "Official News & Announcements"
+
+        binding.btnCreatePost.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_official_news_to_create_post
+            )
         }
     }
 

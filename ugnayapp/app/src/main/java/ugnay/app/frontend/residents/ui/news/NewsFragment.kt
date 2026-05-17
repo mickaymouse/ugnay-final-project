@@ -10,11 +10,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.launch
 import ugnay.app.backend.residents.news.NewsRepository
-import ugnay.app.databinding.FragmentNewsBinding
+import ugnay.app.databinding.FragmentResidentsNewsBinding
 
 class NewsFragment : Fragment() {
 
-    private var _binding: FragmentNewsBinding? = null
+    private var _binding: FragmentResidentsNewsBinding? = null
     private val binding get() = _binding!!
     private lateinit var newsAdapter: NewsAdapter
 
@@ -23,7 +23,7 @@ class NewsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentNewsBinding.inflate(inflater, container, false)
+        _binding = FragmentResidentsNewsBinding.inflate(inflater, container, false)
         return binding.root
     }
 

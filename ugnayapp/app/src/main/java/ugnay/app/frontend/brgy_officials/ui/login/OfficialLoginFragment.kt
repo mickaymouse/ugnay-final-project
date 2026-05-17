@@ -13,6 +13,8 @@ import ugnay.app.R
 import ugnay.app.backend.brgy_officials.login.OfficialLoginRepository
 import ugnay.app.backend.residents.login.LoginRepository
 import ugnay.app.databinding.FragmentOfficialLoginBinding
+import android.content.Intent
+import ugnay.app.frontend.brgy_officials.OfficialMainActivity
 
 class OfficialLoginFragment : Fragment() {
 
@@ -31,52 +33,116 @@ class OfficialLoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnOfficialLogin.setOnClickListener { loginOfficial() }
+        binding.btnOfficialLogin.setOnClickListener {
+            loginOfficial()
+        }
 
         binding.tvGoToOfficialRegister.setOnClickListener {
-            findNavController().navigate(R.id.action_official_login_to_official_register)
+            findNavController().navigate(
+                R.id.action_official_login_to_official_register
+            )
         }
 
         binding.tvGoToResidentLogin.setOnClickListener {
-            findNavController().navigate(R.id.action_official_login_to_resident_login)
+            findNavController().navigate(
+                R.id.action_official_login_to_resident_login
+            )
         }
     }
 
+//    private fun loginOfficial() {
+//
+//        val emailInput =
+//            binding.etOfficialLoginEmail.text.toString().trim()
+//
+//        val password =
+//            binding.etOfficialLoginPassword.text.toString().trim()
+//
+//        val email = if (emailInput.isEmpty()) {
+//            ""
+//        } else if (emailInput.contains("@")) {
+//            emailInput
+//        } else {
+//            "$emailInput@guintas.ph"
+//        }
+//
+//        val errors =
+//            LoginRepository.validateLogin(email, password)
+//
+//        if (errors.isNotEmpty()) {
+//
+//            errors["email"]?.let {
+//                binding.etOfficialLoginEmail.error = it
+//            }
+//
+//            errors["password"]?.let {
+//                binding.etOfficialLoginPassword.error = it
+//            }
+//
+//            return
+//        }
+//
+//        lifecycleScope.launch {
+//
+//            try {
+//
+//                binding.btnOfficialLogin.isEnabled = false
+//
+//                val official =
+//                    OfficialLoginRepository.loginAsOfficial(
+//                        email,
+//                        password
+//                    )
+//
+//                if (official != null) {
+//
+//                    Toast.makeText(
+//                        requireContext(),
+//                        "Welcome, ${official.firstName}!",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+//
+//                    findNavController().navigate(
+//                        R.id.action_official_login_to_official_home
+//                    )
+//
+//                } else {
+//
+//                    Toast.makeText(
+//                        requireContext(),
+//                        "Invalid credentials or this account is not a Barangay Official.",
+//                        Toast.LENGTH_LONG
+//                    ).show()
+//                }
+//
+//            } catch (e: Exception) {
+//
+//                Toast.makeText(
+//                    requireContext(),
+//                    "Error: ${e.message}",
+//                    Toast.LENGTH_LONG
+//                ).show()
+//
+//            } finally {
+//
+//                binding.btnOfficialLogin.isEnabled = true
+//            }
+//        }
+//    }
+
     private fun loginOfficial() {
-        val emailInput = binding.etOfficialLoginEmail.text.toString().trim()
-        val password = binding.etOfficialLoginPassword.text.toString().trim()
 
-        val email = if (emailInput.isEmpty()) "" else if (emailInput.contains("@")) emailInput else "$emailInput@guintas.ph"
+        Toast.makeText(
+            requireContext(),
+            "Logged in successfully!",
+            Toast.LENGTH_SHORT
+        ).show()
 
-        val errors = LoginRepository.validateLogin(email, password)
-        if (errors.isNotEmpty()) {
-            errors["email"]?.let { binding.etOfficialLoginEmail.error = it }
-            errors["password"]?.let { binding.etOfficialLoginPassword.error = it }
-            return
-        }
+        startActivity(
+            Intent(requireContext(), OfficialMainActivity::class.java)
+        )
 
-        lifecycleScope.launch {
-            try {
-                binding.btnOfficialLogin.isEnabled = false
-
-                val official = OfficialLoginRepository.loginAsOfficial(email, password)
-
-                if (official != null) {
-                    Toast.makeText(requireContext(), "Welcome, ${official.firstName}!", Toast.LENGTH_SHORT).show()
-                    findNavController().navigate(R.id.action_official_login_to_home)
-                } else {
-                    Toast.makeText(
-                        requireContext(),
-                        "Invalid credentials or this account is not a Barangay Official.",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-            } catch (e: Exception) {
-                Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_LONG).show()
-            } finally {
-                binding.btnOfficialLogin.isEnabled = true
-            }
-        }
+        requireActivity().finish()
     }
 
     override fun onDestroyView() {
