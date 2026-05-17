@@ -1,9 +1,7 @@
 package ugnay.app.frontend.residents.ui.home
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import ugnay.app.backend.residents.login.LoginRepository
 import ugnay.app.databinding.FragmentResidentsHomeBinding
@@ -14,8 +12,8 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: android.view.LayoutInflater,
+        container: android.view.ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentResidentsHomeBinding.inflate(inflater, container, false)
@@ -24,14 +22,33 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        displayUserInfo()
+        setupUI()
     }
 
-    private fun displayUserInfo() {
+    private fun setupUI() {
         val user = LoginRepository.getCurrentUser()
+
         if (user != null) {
-            binding.tvFirstName.text = "${user.firstName} ${user.lastName}"
-            binding.tvGreeting.text = "Good day,"
+
+            val fullName = "${user.firstName} ${user.lastName}"
+
+            binding.tvFirstName.text = fullName
+            binding.tvGreeting.text = getGreetingMessage()
+        } else {
+
+            // fallback UI (important for safety)
+            binding.tvFirstName.text = "Guest"
+            binding.tvGreeting.text = "Welcome,"
+        }
+    }
+
+    private fun getGreetingMessage(): String {
+        val hour = java.util.Calendar.getInstance().get(java.util.Calendar.HOUR_OF_DAY)
+
+        return when (hour) {
+            in 0..11 -> "Good morning,"
+            in 12..17 -> "Good afternoon,"
+            else -> "Good evening,"
         }
     }
 

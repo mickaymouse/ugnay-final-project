@@ -1,10 +1,7 @@
 package ugnay.app.frontend.residents.ui.request
 
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
@@ -20,38 +17,60 @@ class RequestFormActivity : AppCompatActivity() {
         setContentView(R.layout.activity_request_form)
 
         val btnBack = findViewById<ImageButton>(R.id.btn_back)
-        val etName = findViewById<EditText>(R.id.et_form_name)
+        val tvUserId = findViewById<TextView>(R.id.tv_user_id)
+        val tvFullName = findViewById<TextView>(R.id.tv_full_name)
+        val spinner = findViewById<Spinner>(R.id.sp_document)
         val etPurpose = findViewById<EditText>(R.id.et_form_purpose)
         val btnSubmit = findViewById<Button>(R.id.btn_submit_request)
 
         btnBack.setOnClickListener {
-            onBackPressedDispatcher.onBackPressed()
+            finish()
         }
 
+        val user = LoginRepository.getCurrentUser()
+
+        tvUserId.text = user?.userId ?: "Guest"
+        tvFullName.text = "${user?.firstName ?: ""} ${user?.lastName ?: ""}"
+
+        val docs = arrayOf(
+            "Certificate of Indigency",
+            "Certificate of Residency",
+            "Barangay ID",
+            "Barangay Clearance",
+            "Others"
+        )
+
+        spinner.adapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_dropdown_item,
+            docs
+        )
+
         btnSubmit.setOnClickListener {
-            val currentUser = LoginRepository.getCurrentUser()
+
             val request = Request(
-                userId = currentUser?.userId,
-                fullName = etName.text.toString().trim(),
+                userId = user?.userId,
+                fullName = tvFullName.text.toString(),
                 purpose = etPurpose.text.toString().trim()
             )
-
-            val errors = RequestRepository.validateRequest(request)
-            if (errors.isNotEmpty()) {
-                errors["fullName"]?.let { etName.error = it }
-                errors["purpose"]?.let { etPurpose.error = it }
-                return@setOnClickListener
-            }
 
             lifecycleScope.launch {
                 try {
                     btnSubmit.isEnabled = false
+
                     RequestRepository.submitRequest(request)
-                    Toast.makeText(this@RequestFormActivity, "Request Submitted Successfully", Toast.LENGTH_SHORT).show()
+
+                    Toast.makeText(this@RequestFormActivity,
+                        "Request Submitted!",
+                        Toast.LENGTH_SHORT).show()
+
                     finish()
+
                 } catch (e: Exception) {
                     btnSubmit.isEnabled = true
-                    Toast.makeText(this@RequestFormActivity, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@RequestFormActivity,
+                        e.message,
+                        Toast.LENGTH_SHORT).show()
                 }
             }
         }

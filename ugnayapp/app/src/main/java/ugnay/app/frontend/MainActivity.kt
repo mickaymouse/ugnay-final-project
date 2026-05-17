@@ -25,14 +25,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         // 2. Handle System Window Insets (Padding for Status/Navigation bars)
-        val rootLayout = findViewById<android.widget.RelativeLayout>(R.id.main_root)
-        // In MainActivity.kt inside onCreate
-        ViewCompat.setOnApplyWindowInsetsListener(rootLayout) { v, insets ->
+        val rootView = findViewById<View>(android.R.id.content)
+
+        ViewCompat.setOnApplyWindowInsetsListener(rootView) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-
-            // Apply padding for both top (status bar) AND bottom (system nav bar)
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-
             insets
         }
 

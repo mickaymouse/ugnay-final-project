@@ -27,8 +27,8 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        
-        displayProfileInfo()
+
+        loadProfile()
 
         binding.btnEditProfile.setOnClickListener {
             findNavController().navigate(R.id.action_profile_to_settings)
@@ -37,6 +37,7 @@ class ProfileFragment : Fragment() {
         binding.btnLogout.setOnClickListener {
             val userType = LoginRepository.getCurrentUser()?.userType
             LoginRepository.logout()
+
             if (userType == UserType.OFFICIAL) {
                 findNavController().navigate(R.id.action_profile_to_official_login)
             } else {
@@ -45,8 +46,9 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    private fun displayProfileInfo() {
+    private fun loadProfile() {
         val user = LoginRepository.getCurrentUser()
+
         if (user != null) {
             binding.tvProfileName.text = "${user.firstName} ${user.lastName}"
             binding.tvProfileEmail.text = user.emailAddress
