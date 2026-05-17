@@ -25,9 +25,12 @@ class ManageResidentsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.tvManageResidentsTitle.text = "Manage Residents"
-
         binding.tvManageResidentsSubtitle.text =
-            "View, edit, and manage registered residents here."
+            "View, search, and manage registered residents."
+
+        binding.btnAddResident.setOnClickListener {
+            // placeholder for now
+        }
     }
 
     override fun onDestroyView() {

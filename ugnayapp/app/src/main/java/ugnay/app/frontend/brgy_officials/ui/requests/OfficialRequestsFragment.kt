@@ -17,24 +17,16 @@ class OfficialRequestsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
-        _binding = FragmentOfficialRequestsBinding.inflate(
-            inflater,
-            container,
-            false
-        )
-
+        _binding = FragmentOfficialRequestsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.tvOfficialRequestsTitle.text =
-            "Resident Requests"
-
+        binding.tvOfficialRequestsTitle.text = "Resident Requests"
         binding.tvOfficialRequestsSubtitle.text =
-            "Manage resident concerns, documents, and approvals here."
+            "Review and manage document requests (placeholder data only)"
     }
 
     override fun onDestroyView() {

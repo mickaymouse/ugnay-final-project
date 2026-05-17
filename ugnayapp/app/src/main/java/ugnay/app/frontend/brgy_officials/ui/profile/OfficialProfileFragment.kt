@@ -41,9 +41,7 @@ class OfficialProfileFragment : Fragment() {
         }
 
         binding.btnLogout.setOnClickListener {
-            findNavController().navigate(
-                R.id.action_official_profile_to_login
-            )
+            findNavController().navigate(R.id.action_official_profile_to_login)
         }
     }
 

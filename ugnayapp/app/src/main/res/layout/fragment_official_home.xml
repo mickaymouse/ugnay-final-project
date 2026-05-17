@@ -1,17 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical">
+    android:background="@color/background_dark">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Official Home"
-        android:textSize="24sp"
-        android:textStyle="bold" />
+        android:orientation="vertical"
+        android:padding="20dp">
 
-</LinearLayout>
+        <!-- HEADER -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Barangay Official Dashboard"
+            android:textColor="@color/brgy_yellow"
+            android:textSize="20sp"
+            android:fontFamily="@font/poppins_semibold"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- REQUESTS -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_requests"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginBottom="12dp"
+            android:backgroundTint="@color/card_background"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="6dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:padding="16dp"
+                android:text="Requests"
+                android:textColor="@color/text_white"
+                android:textSize="18sp"
+                android:fontFamily="@font/poppins_semibold"/>
+        </androidx.cardview.widget.CardView>
+
+        <!-- ANNOUNCEMENTS -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_announcements"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginBottom="12dp"
+            android:backgroundTint="@color/card_background"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="6dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:padding="16dp"
+                android:text="Announcements"
+                android:textColor="@color/text_white"
+                android:textSize="18sp"
+                android:fontFamily="@font/poppins_semibold"/>
+        </androidx.cardview.widget.CardView>
+
+        <!-- OFFICIALS -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_officials"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginBottom="12dp"
+            android:backgroundTint="@color/card_background"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="6dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:padding="16dp"
+                android:text="Barangay Officials"
+                android:textColor="@color/text_white"
+                android:textSize="18sp"
+                android:fontFamily="@font/poppins_semibold"/>
+        </androidx.cardview.widget.CardView>
+
+        <!-- CONTACT -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_contact"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:backgroundTint="@color/card_background"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="6dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:padding="16dp"
+                android:text="Contact Information"
+                android:textColor="@color/text_white"
+                android:textSize="18sp"
+                android:fontFamily="@font/poppins_semibold"/>
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+</ScrollView>

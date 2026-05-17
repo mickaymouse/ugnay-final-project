@@ -1,44 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@color/background_dark">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="20dp">
+        android:padding="24dp">
 
-        <EditText
-            android:id="@+id/etPostTitle"
+        <!-- HEADER -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Create Announcement"
+            android:textSize="24sp"
+            android:fontFamily="@font/poppins_bold"
+            android:textColor="@color/text_white"
+            android:includeFontPadding="false" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Share official barangay updates with residents"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp"
+            android:fontFamily="@font/poppins_regular"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="28dp" />
+
+        <!-- CARD CONTAINER -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Post Title" />
+            app:cardBackgroundColor="@color/card_background"
+            app:cardCornerRadius="16dp"
+            app:strokeWidth="0dp"
+            android:layout_marginBottom="28dp">
 
-        <EditText
-            android:id="@+id/etPostContent"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:hint="Write your announcement..."
-            android:gravity="top"
-            android:inputType="textMultiLine"
-            android:layout_marginTop="12dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
 
-        <Button
+                <!-- TITLE INPUT -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilPostTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:hint="Announcement Title"
+                    app:hintTextColor="@color/brgy_yellow"
+                    app:boxStrokeColor="@color/brgy_blue"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etPostTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapSentences"
+                        android:textColor="@color/text_white"
+                        android:fontFamily="@font/poppins_medium"
+                        android:textSize="16sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- CONTENT INPUT -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilPostContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Write your announcement..."
+                    app:hintTextColor="@color/brgy_yellow"
+                    app:boxStrokeColor="@color/brgy_blue"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etPostContent"
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+                        android:gravity="top"
+                        android:inputType="textMultiLine"
+                        android:textColor="@color/text_white"
+                        android:fontFamily="@font/poppins_regular"
+                        android:textSize="15sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- ACTION BUTTONS -->
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSubmitPost"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Publish Post"
-            android:layout_marginTop="16dp" />
+            android:layout_height="56dp"
+            android:text="Publish Announcement"
+            android:textColor="@color/text_white"
+            android:textSize="16sp"
+            android:fontFamily="@font/poppins_bold"
+            android:backgroundTint="@color/brgy_blue"
+            android:textAllCaps="false"
+            app:cornerRadius="12dp"
+            android:layout_marginBottom="12dp" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnCancelPost"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="56dp"
             android:text="Cancel"
-            android:layout_marginTop="8dp" />
+            android:textColor="@color/text_white"
+            android:textSize="16sp"
+            android:fontFamily="@font/poppins_medium"
+            android:backgroundTint="@color/card_background"
+            android:textAllCaps="false"
+            app:cornerRadius="12dp"
+            style="@style/Widget.MaterialComponents.Button.TextButton" />
 
     </LinearLayout>
-
 </ScrollView>

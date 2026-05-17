@@ -39,18 +39,26 @@ class CreatePostFragment : Fragment() {
         val title = binding.etPostTitle.text.toString().trim()
         val content = binding.etPostContent.text.toString().trim()
 
+        // Reset error states
+        binding.tilPostTitle.error = null
+        binding.tilPostContent.error = null
+
+        var hasError = false
+
         if (title.isEmpty()) {
-            binding.etPostTitle.error = "Title is required"
-            return
+            binding.tilPostTitle.error = "Title is required"
+            hasError = true
         }
 
         if (content.isEmpty()) {
-            binding.etPostContent.error = "Content is required"
-            return
+            binding.tilPostContent.error = "Content is required"
+            hasError = true
         }
 
+        if (hasError) return
+
         // TODO: Save to DB / API later
-        Toast.makeText(requireContext(), "Post created!", Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), "Post created successfully!", Toast.LENGTH_SHORT).show()
 
         findNavController().popBackStack()
     }
