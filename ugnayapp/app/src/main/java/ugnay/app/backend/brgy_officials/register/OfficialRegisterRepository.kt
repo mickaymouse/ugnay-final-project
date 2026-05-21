@@ -15,7 +15,7 @@ object OfficialRegisterRepository {
             errors["committee"] = "Committee assignment is required"
         }
         if (user.dateElected.isNullOrBlank()) errors["dateElected"] = "Date elected / appointed is required"
-        if (user.teamStartDate.isNullOrBlank()) errors["teamStart"] = "Team start date is required"
+        if (user.termStartDate.isNullOrBlank()) errors["termStart"] = "Term start date is required"
         if (user.termEndDate.isNullOrBlank()) errors["termEnd"] = "Term end date is required"
         if (user.officialStatus == null) errors["status"] = "Status is required"
 

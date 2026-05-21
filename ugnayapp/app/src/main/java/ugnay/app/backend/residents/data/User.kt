@@ -35,8 +35,8 @@ data class User(
     val committeeAssignment: String? = null,
     @SerialName("date_elected")
     val dateElected: String? = null,
-    @SerialName("team_start_date")
-    val teamStartDate: String? = null,
+    @SerialName("term_start_date")
+    val termStartDate: String? = null,
     @SerialName("term_end_date")
     val termEndDate: String? = null,
     @SerialName("official_status")

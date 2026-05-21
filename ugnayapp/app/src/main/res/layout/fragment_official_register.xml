@@ -463,13 +463,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:hint="Team Start Date"
+            android:hint="Term Start Date"
             android:textColorHint="@color/text_white"
             app:boxStrokeColor="@color/brgy_yellow"
             app:hintTextColor="@color/brgy_yellow">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_official_team_start"
+                android:id="@+id/et_official_term_start"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="false"

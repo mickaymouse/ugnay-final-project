@@ -24,9 +24,11 @@ import ugnay.app.backend.residents.data.User
 import ugnay.app.backend.residents.data.UserPosition
 import ugnay.app.backend.residents.data.UserType
 import ugnay.app.backend.residents.login.LoginRepository
+import android.content.Intent
 import ugnay.app.backend.residents.register.RegisterRepository
 import ugnay.app.backend.residents.utils.HashUtils
 import ugnay.app.databinding.FragmentOfficialRegisterBinding
+import ugnay.app.frontend.brgy_officials.OfficialMainActivity
 import java.util.Calendar
 import java.util.Locale
 
@@ -113,7 +115,7 @@ class OfficialRegisterFragment : Fragment() {
             binding.actvOfficialPosition.error = errors["position"]
             binding.etOfficialCommittee.error = errors["committee"]
             binding.etOfficialDateElected.error = errors["dateElected"]
-            binding.etOfficialTeamStart.error = errors["teamStart"]
+            binding.etOfficialTermStart.error = errors["termStart"]
             binding.etOfficialTermEnd.error = errors["termEnd"]
             binding.actvOfficialStatus.error = errors["status"]
         }
@@ -137,8 +139,6 @@ class OfficialRegisterFragment : Fragment() {
             "Married" -> CivilStatus.MARRIED
             "Widowed" -> CivilStatus.WIDOWED
             "Separated" -> CivilStatus.SEPARATED
-            "Divorced" -> CivilStatus.DIVORCED
-            "Annulled" -> CivilStatus.ANNULLED
             else -> CivilStatus.SINGLE
         }
     }
@@ -194,7 +194,7 @@ class OfficialRegisterFragment : Fragment() {
             position = positionFromUi(),
             committeeAssignment = binding.etOfficialCommittee.text.toString().trim(),
             dateElected = binding.etOfficialDateElected.text.toString().trim(),
-            teamStartDate = binding.etOfficialTeamStart.text.toString().trim(),
+            termStartDate = binding.etOfficialTermStart.text.toString().trim(),
             termEndDate = binding.etOfficialTermEnd.text.toString().trim(),
             officialStatus = officialStatusFromUi()
         )
@@ -238,9 +238,8 @@ class OfficialRegisterFragment : Fragment() {
                 LoginRepository.updateCurrentAddress(address)
 
                 Toast.makeText(requireContext(), "Registration Successful!", Toast.LENGTH_LONG).show()
-                findNavController().navigate(
-                    R.id.action_official_register_to_official_home
-                )
+                startActivity(Intent(requireContext(), OfficialMainActivity::class.java))
+                requireActivity().finish()
 
             } catch (e: Exception) {
                 binding.btnOfficialRegister.isEnabled = true
@@ -257,7 +256,7 @@ class OfficialRegisterFragment : Fragment() {
         )
 
         val civilStatuses = arrayOf(
-            "Single", "Married", "Widowed", "Separated", "Divorced", "Annulled"
+            "Single", "Married", "Widowed", "Separated"
         )
         binding.actvOfficialCivilStatus.setAdapter(
             ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, civilStatuses)
@@ -299,7 +298,7 @@ class OfficialRegisterFragment : Fragment() {
 
         binding.etOfficialDob.setOnClickListener(listenerFactory(binding.etOfficialDob))
         binding.etOfficialDateElected.setOnClickListener(listenerFactory(binding.etOfficialDateElected))
-        binding.etOfficialTeamStart.setOnClickListener(listenerFactory(binding.etOfficialTeamStart))
+        binding.etOfficialTermStart.setOnClickListener(listenerFactory(binding.etOfficialTermStart))
         binding.etOfficialTermEnd.setOnClickListener(listenerFactory(binding.etOfficialTermEnd))
     }
 
