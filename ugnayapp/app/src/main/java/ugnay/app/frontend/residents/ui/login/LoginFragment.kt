@@ -74,7 +74,7 @@ class LoginFragment : Fragment() {
                 val resident = LoginRepository.login(email, password)
 
                 if (resident != null) {
-                    if (resident.userType == UserType.OFFICIAL) {
+                    if (resident.userType == UserType.BARANGAY_OFFICIAL) {
                         LoginRepository.logout()
                         Toast.makeText(
                             requireContext(),

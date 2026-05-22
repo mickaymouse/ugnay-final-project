@@ -37,11 +37,7 @@ class OfficialLoginFragment : Fragment() {
             loginOfficial()
         }
 
-        binding.tvGoToOfficialRegister.setOnClickListener {
-            findNavController().navigate(
-                R.id.action_official_login_to_official_register
-            )
-        }
+        binding.tvGoToOfficialRegister.visibility = View.GONE
 
         binding.tvGoToResidentLogin.setOnClickListener {
             findNavController().navigate(

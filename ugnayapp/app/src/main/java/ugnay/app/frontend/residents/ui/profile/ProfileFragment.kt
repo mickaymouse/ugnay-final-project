@@ -38,7 +38,7 @@ class ProfileFragment : Fragment() {
             val userType = LoginRepository.getCurrentUser()?.userType
             LoginRepository.logout()
 
-            if (userType == UserType.OFFICIAL) {
+            if (userType == UserType.BARANGAY_OFFICIAL) {
                 findNavController().navigate(R.id.action_profile_to_official_login)
             } else {
                 findNavController().navigate(R.id.action_profile_to_login)

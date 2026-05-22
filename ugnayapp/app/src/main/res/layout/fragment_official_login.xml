@@ -68,7 +68,7 @@
                 android:id="@+id/et_official_login_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Enter User ID"
+                android:hint="Enter Email Address"
                 android:inputType="textEmailAddress"
                 android:textColor="@color/text_white"
                 android:fontFamily="@font/poppins_regular"/>

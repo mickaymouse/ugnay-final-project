@@ -72,7 +72,7 @@ enum class CivilStatus {
 @Serializable
 enum class UserType {
     @SerialName("Resident") RESIDENT,
-    @SerialName("Barangay Official") OFFICIAL, // Matches our RLS Policy strings
+    @SerialName("Barangay Official") BARANGAY_OFFICIAL, // Matches our RLS Policy strings
     @SerialName("Admin") ADMIN
 }
 

@@ -181,7 +181,7 @@ class OfficialRegisterFragment : Fragment() {
             middleName = binding.etOfficialMiddlename.text.toString().trim().ifBlank { null },
             lastName = binding.etOfficialLastname.text.toString().trim(),
             nameSuffix = suffix,
-            userType = UserType.OFFICIAL,
+            userType = UserType.BARANGAY_OFFICIAL,
             gender = genderFromUi(),
             civilStatus = civilFromUi(),
             birthdate = binding.etOfficialDob.text.toString().trim(),
