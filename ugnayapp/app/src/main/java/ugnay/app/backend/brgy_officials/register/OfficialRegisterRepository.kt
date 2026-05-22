@@ -22,7 +22,7 @@ object OfficialRegisterRepository {
         return errors
     }
 
-    suspend fun registerOfficial(user: User, address: Address) {
-        RegisterRepository.registerUser(user, address)
+    suspend fun registerOfficial(user: User, address: Address): User {
+        return RegisterRepository.registerUser(user, address)
     }
 }

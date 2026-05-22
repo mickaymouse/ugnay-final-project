@@ -1,21 +1,38 @@
 package ugnay.app.backend.residents.register
 
+import io.github.jan.supabase.auth.*
+import io.github.jan.supabase.auth.providers.builtin.Email
 import io.github.jan.supabase.postgrest.from
 import io.github.jan.supabase.postgrest.query.Count
 import io.github.jan.supabase.storage.storage
 import ugnay.app.backend.residents.SupabaseConfig
 import ugnay.app.backend.residents.data.Address
 import ugnay.app.backend.residents.data.User
+import ugnay.app.backend.residents.utils.HashUtils
 import java.util.UUID
 
 object RegisterRepository {
-    suspend fun registerUser(user: User, address: Address) {
+    suspend fun registerUser(user: User, address: Address): User {
+        val rawPassword = user.password ?: throw Exception("Password is required")
+
+        val authUser = SupabaseConfig.client.auth.signUpWith(Email) {
+            email = user.emailAddress ?: ""
+            password = rawPassword
+        } ?: throw Exception("Failed to create authenticated user")
+
+        val userWithHashedPassword = user.copy(
+            userId = authUser.id,
+            password = HashUtils.hashPassword(rawPassword)
+        )
+
         // Insert user first to satisfy foreign key constraints
-        SupabaseConfig.client.from("users").insert(user)
-        
-        // Ensure address has the correct userId from the user object
-        val addressToInsert = address.copy(userId = user.userId)
+        SupabaseConfig.client.from("users").insert(userWithHashedPassword)
+
+        // Ensure address has the auth userId
+        val addressToInsert = address.copy(userId = authUser.id)
         SupabaseConfig.client.from("address").insert(addressToInsert)
+
+        return userWithHashedPassword
     }
 
     private suspend fun getUserCount(): Long {

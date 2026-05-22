@@ -177,13 +177,12 @@ class RegisterFragment : Fragment() {
                     }
                 }
 
-                val hashed = HashUtils.hashPassword(userTemp.password ?: "")
-                val user = userTemp.copy(profilePictureUrl = profileUrl ?: "", password = hashed)
+                val user = userTemp.copy(profilePictureUrl = profileUrl ?: "")
                 val address = createAddressObject(userId)
 
-                RegisterRepository.registerUser(user, address)
-                LoginRepository.updateCurrentUser(user)
-                LoginRepository.updateCurrentAddress(address)
+                val registeredUser = RegisterRepository.registerUser(user, address)
+                LoginRepository.updateCurrentUser(registeredUser)
+                LoginRepository.updateCurrentAddress(address.copy(userId = registeredUser.userId))
 
                 Toast.makeText(requireContext(), "Registration Successful!", Toast.LENGTH_LONG).show()
                 findNavController().navigate(R.id.action_register_to_home)

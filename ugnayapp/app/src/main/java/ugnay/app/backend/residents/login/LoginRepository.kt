@@ -1,5 +1,7 @@
 package ugnay.app.backend.residents.login
 
+import io.github.jan.supabase.auth.*
+import io.github.jan.supabase.auth.providers.builtin.Email
 import io.github.jan.supabase.postgrest.from
 import ugnay.app.backend.residents.SupabaseConfig
 import ugnay.app.backend.residents.data.Address
@@ -17,13 +19,23 @@ object LoginRepository {
         return errors
     }
 
-    suspend fun login(email: String, password: String): User? {
-        val hashedPassword = HashUtils.hashPassword(password)
+    suspend fun login(emailAddress: String, password: String): User? {
+        try {
+            SupabaseConfig.client.auth.signInWith(Email) {
+                email = emailAddress
+                this.password = password
+            }
+        } catch (e: Exception) {
+            return null
+        }
+
+        val authUserId = SupabaseConfig.client.auth.currentUserOrNull()?.id
+            ?: SupabaseConfig.client.auth.retrieveUserForCurrentSession().id
+
         val userResponse = SupabaseConfig.client.from("users")
             .select {
                 filter {
-                    eq("email_address", email)
-                    eq("password", hashedPassword)
+                    eq("user_id", authUserId)
                 }
             }
         currentUser = userResponse.decodeSingleOrNull<User>()
@@ -36,6 +48,10 @@ object LoginRepository {
                     }
                 }
             currentAddress = addressResponse.decodeSingleOrNull<Address>()
+        } else {
+            runCatching {
+                SupabaseConfig.client.auth.signOut()
+            }
         }
         
         return currentUser

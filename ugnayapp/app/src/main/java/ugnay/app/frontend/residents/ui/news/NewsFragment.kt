@@ -45,7 +45,7 @@ class NewsFragment : Fragment() {
     private fun loadNews() {
         lifecycleScope.launch {
             try {
-                val news = NewsRepository.fetchNews()
+                val news = NewsRepository.fetchNews().filter { it.status != "Deleted" }
                 newsAdapter.updateData(news)
             } catch (e: Exception) {
                 Toast.makeText(requireContext(), "Error loading news: ${e.message}", Toast.LENGTH_SHORT).show()

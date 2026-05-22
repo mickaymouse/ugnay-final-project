@@ -1,8 +1,8 @@
 package ugnay.app.frontend.residents.ui.news
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ugnay.app.R
@@ -13,8 +13,10 @@ class NewsAdapter(private var newsList: List<News>) :
 
     class NewsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title: TextView = itemView.findViewById(R.id.tv_news_item_title)
+        val priority: TextView = itemView.findViewById(R.id.tv_news_item_priority)
         val content: TextView = itemView.findViewById(R.id.tv_news_item_content)
         val date: TextView = itemView.findViewById(R.id.tv_news_item_date)
+        val duration: TextView = itemView.findViewById(R.id.tv_news_item_duration)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
@@ -27,7 +29,9 @@ class NewsAdapter(private var newsList: List<News>) :
         val news = newsList[position]
         holder.title.text = news.title
         holder.content.text = news.content
-        holder.date.text = news.createdAt?.take(10) ?: ""
+        holder.priority.visibility = if (!news.priority.isNullOrBlank() && news.priority != "Normal") View.VISIBLE else View.GONE
+        holder.date.text = news.datePosted?.take(10) ?: ""
+        holder.duration.text = news.relativeDuration() ?: ""
     }
 
     override fun getItemCount(): Int = newsList.size

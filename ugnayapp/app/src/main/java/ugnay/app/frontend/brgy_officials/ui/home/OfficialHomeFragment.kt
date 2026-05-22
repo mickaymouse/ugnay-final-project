@@ -29,7 +29,7 @@ class OfficialHomeFragment : Fragment(R.layout.fragment_official_home) {
         }
 
         binding.cardAnnouncements.setOnClickListener {
-            Toast.makeText(requireContext(), "Announcements clicked", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(R.id.nav_official_news)
         }
 
         binding.cardOfficials.setOnClickListener {

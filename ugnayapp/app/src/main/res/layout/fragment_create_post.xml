@@ -89,6 +89,56 @@
                         android:textSize="15sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <!-- ANNOUNCEMENT IMAGE SELECTOR -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Attach photo (optional)"
+                    android:textColor="@color/text_white"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="8dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnSelectPostImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:text="Select Photo"
+                    android:textColor="@color/text_white"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:backgroundTint="@color/brgy_blue"
+                    android:textAllCaps="false"
+                    app:cornerRadius="12dp" />
+
+                <ImageView
+                    android:id="@+id/ivPostImagePreview"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/card_background"
+                    android:contentDescription="Selected announcement photo"
+                    android:scaleType="centerCrop"
+                    android:visibility="gone" />
+
+                <!-- PRIORITY SELECTOR -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Priority"
+                    android:textColor="@color/text_white"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="8dp" />
+
+                <Spinner
+                    android:id="@+id/spPriority"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:popupTheme="@style/Theme.MaterialComponents.Light" />
+
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
