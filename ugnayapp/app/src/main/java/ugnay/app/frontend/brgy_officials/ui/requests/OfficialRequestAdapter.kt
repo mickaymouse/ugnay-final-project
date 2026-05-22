@@ -35,7 +35,7 @@ class OfficialRequestAdapter(
             tvRequestType.text = request.type
             tvRequestPurpose.text = "Purpose: ${request.purpose}"
             
-            val status = request.status ?: RequestStatus.PENDING
+            val status = request.status
             tvRequestStatus.text = status.displayName.uppercase()
 
             val statusColor = when (status) {

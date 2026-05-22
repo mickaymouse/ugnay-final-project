@@ -12,6 +12,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.launch
+import io.github.jan.supabase.realtime.PostgresAction
+import io.github.jan.supabase.realtime.channel
+import io.github.jan.supabase.realtime.postgresChangeFlow
+import kotlinx.coroutines.flow.collect
+import ugnay.app.backend.residents.SupabaseConfig
 import ugnay.app.backend.residents.data.Request
 import ugnay.app.backend.residents.data.RequestStatus
 import ugnay.app.backend.residents.data.UserRepository
@@ -41,6 +46,23 @@ class OfficialRequestsFragment : Fragment() {
 
         setupRecyclerView()
         loadRequests()
+        setupRealtimeListener()
+    }
+
+    private fun setupRealtimeListener() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            val channel = SupabaseConfig.client.channel("requests_channel")
+            val changeFlow = channel.postgresChangeFlow<PostgresAction>(schema = "public") {
+                table = "requests"
+            }
+
+            channel.subscribe()
+
+            changeFlow.collect {
+                // When any change happens in the requests table, reload the list
+                loadRequests()
+            }
+        }
     }
 
     private fun setupRecyclerView() {
@@ -136,33 +158,14 @@ class OfficialRequestsFragment : Fragment() {
     private fun loadRequests() {
         viewLifecycleOwner.lifecycleScope.launch {
             try {
+                // First, auto-expire old requests in the database
+                RequestRepository.autoExpireRequests()
+                
+                // Then fetch all requests
                 var requests = RequestRepository.getAllRequests()
                 
                 // Sort by startDate descending
                 requests = requests.sortedByDescending { it.startDate }
-
-                // Automatically mark as Expired if current date > end_date
-                val today = LocalDate.now()
-                val formatter = DateTimeFormatter.ISO_LOCAL_DATE
-                
-                requests = requests.map { request ->
-                    val status = request.status ?: RequestStatus.PENDING
-                    if (status != RequestStatus.EXPIRED && status != RequestStatus.DONE && status != RequestStatus.REJECTED) {
-                        try {
-                            val endDate = LocalDate.parse(request.endDate, formatter)
-                            if (today.isAfter(endDate)) {
-                                RequestRepository.updateRequestStatus(request.requestId!!, RequestStatus.EXPIRED)
-                                request.copy(status = RequestStatus.EXPIRED)
-                            } else {
-                                request
-                            }
-                        } catch (e: Exception) {
-                            request
-                        }
-                    } else {
-                        request
-                    }
-                }
 
                 adapter.updateRequests(requests)
             } catch (e: Exception) {

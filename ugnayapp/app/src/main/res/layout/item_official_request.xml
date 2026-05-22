@@ -61,6 +61,7 @@
             android:textSize="14sp" />
 
         <View
+            android:id="@+id/view_divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginVertical="12dp"

@@ -14,7 +14,7 @@ object RequestRepository {
         val userId = currentUser?.userId ?: throw Exception("User not logged in")
 
         val startDate = LocalDate.now()
-        val endDate = startDate.plusMonths(1)
+        val endDate = startDate.plusWeeks(1)
         val formatter = DateTimeFormatter.ISO_LOCAL_DATE
 
         val finalRequest = request.copy(
@@ -28,12 +28,14 @@ object RequestRepository {
     }
 
     suspend fun getAllRequests(): List<Request> {
+        autoExpireRequests()
         return SupabaseConfig.client.from("requests")
             .select()
             .decodeList<Request>()
     }
 
     suspend fun getResidentRequests(): List<Request> {
+        autoExpireRequests()
         val currentUser = LoginRepository.getCurrentUser()
         val userId = currentUser?.userId ?: return emptyList()
 
@@ -49,12 +51,32 @@ object RequestRepository {
     suspend fun updateRequestStatus(requestId: String, status: RequestStatus) {
         SupabaseConfig.client.from("requests").update(
             {
-                Request::status setTo status.displayName
+                Request::status setTo status
             }
         ) {
             filter {
                 eq("request_id", requestId)
             }
+        }
+    }
+
+    suspend fun autoExpireRequests() {
+        val today = LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE)
+        try {
+            SupabaseConfig.client.from("requests").update(
+                {
+                    Request::status setTo RequestStatus.EXPIRED
+                }
+            ) {
+                filter {
+                    and {
+                        neq("status", RequestStatus.EXPIRED.displayName)
+                        lt("end_date", today)
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 

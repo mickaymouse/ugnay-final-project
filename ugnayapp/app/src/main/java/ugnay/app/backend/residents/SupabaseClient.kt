@@ -2,6 +2,8 @@ package ugnay.app.backend.residents
 
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.auth.Auth
+import io.github.jan.supabase.realtime.Realtime
+import io.github.jan.supabase.realtime.realtime
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.storage.Storage
 
@@ -20,5 +22,6 @@ object SupabaseConfig {
         install(Postgrest)
         install(Storage)
         install(Auth)
+        install(Realtime)
     }
 }

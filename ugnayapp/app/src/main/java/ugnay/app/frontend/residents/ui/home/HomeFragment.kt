@@ -7,8 +7,14 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import io.github.jan.supabase.realtime.PostgresAction
+import io.github.jan.supabase.realtime.channel
+import io.github.jan.supabase.realtime.postgresChangeFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ugnay.app.R
+import ugnay.app.backend.residents.SupabaseConfig
 import ugnay.app.backend.residents.data.Request
 import ugnay.app.backend.residents.login.LoginRepository
 import ugnay.app.backend.residents.request.RequestRepository
@@ -36,6 +42,23 @@ class HomeFragment : Fragment() {
 
         setupUI()
         loadRequestStatus()
+        setupRealtimeListener()
+    }
+
+    private fun setupRealtimeListener() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            val channel = SupabaseConfig.client.channel("resident_requests_channel")
+            val changeFlow = channel.postgresChangeFlow<PostgresAction>(schema = "public") {
+                table = "requests"
+            }
+
+            channel.subscribe()
+
+            changeFlow.collect {
+                // When any change happens in the requests table, reload the status
+                loadRequestStatus()
+            }
+        }
     }
 
     private fun setupUI() {
@@ -86,11 +109,16 @@ class HomeFragment : Fragment() {
             true
         )
 
+        cardBinding.root.setOnClickListener {
+            // Navigate to RequestFragment where history is now displayed
+            findNavController().navigate(R.id.nav_request)
+        }
+
         cardBinding.apply {
 
             tvStatusDocName.text = request.type
 
-            val statusText = request.status?.toString() ?: "Pending"
+            val statusText = request.status.displayName
 
             tvStatusLabel.text =
                 "STATUS: ${statusText.uppercase(Locale.ROOT)}"
@@ -123,7 +151,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun getGreetingMessage(): String {
-
         val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
 
         return when (hour) {

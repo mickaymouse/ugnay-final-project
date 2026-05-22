@@ -16,7 +16,7 @@ data class Request(
     @SerialName("purpose")
     val purpose: String? = null,
     @SerialName("status")
-    val status: RequestStatus? = RequestStatus.PENDING,
+    val status: RequestStatus = RequestStatus.PENDING,
     @SerialName("start_date")
     val startDate: String? = null,
     @SerialName("end_date")
