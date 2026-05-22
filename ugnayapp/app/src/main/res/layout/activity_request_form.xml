@@ -42,11 +42,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- USER ID -->
+            <!-- USER ID (Hidden from UI) -->
             <TextView
+                android:id="@+id/label_user_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="User ID"
+                android:visibility="gone"
                 android:textColor="@color/brgy_yellow" />
 
             <TextView
@@ -54,11 +56,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="12dp"
+                android:layout_marginTop="4dp"
+                android:visibility="gone"
                 android:background="@color/card_background"
                 android:textColor="@color/text_white"
                 android:text="-" />
 
-            <!-- FULL NAME -->
+            <!-- FULL NAME (Now Editable) -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -66,14 +70,17 @@
                 android:textColor="@color/brgy_yellow"
                 android:layout_marginTop="16dp" />
 
-            <TextView
-                android:id="@+id/tv_full_name"
+            <EditText
+                android:id="@+id/et_full_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="12dp"
+                android:layout_marginTop="4dp"
                 android:background="@color/card_background"
                 android:textColor="@color/text_white"
-                android:text="-" />
+                android:hint="Enter full name"
+                android:textColorHint="@color/text_secondary"
+                android:inputType="textPersonName" />
 
             <!-- DOCUMENT TYPE -->
             <TextView
@@ -83,12 +90,16 @@
                 android:textColor="@color/brgy_yellow"
                 android:layout_marginTop="16dp" />
 
-            <Spinner
-                android:id="@+id/sp_document"
+            <TextView
+                android:id="@+id/tv_selected_document"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:layout_marginTop="4dp"
                 android:background="@color/card_background"
-                android:padding="12dp" />
+                android:textColor="@color/text_white"
+                android:textStyle="bold"
+                android:text="-" />
 
             <!-- PURPOSE LABEL -->
             <TextView
@@ -98,18 +109,19 @@
                 android:textColor="@color/brgy_yellow"
                 android:layout_marginTop="16dp" />
 
-            <!-- PURPOSE INPUT (WITH SUGGESTED TEXT INSIDE) -->
+            <!-- PURPOSE INPUT -->
             <EditText
                 android:id="@+id/et_form_purpose"
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
                 android:layout_marginTop="8dp"
                 android:gravity="top"
-                android:hint="I am requesting this document for school, employment, or personal identification purposes."
+                android:hint="State your purpose here..."
                 android:padding="12dp"
                 android:background="@color/card_background"
                 android:textColor="@color/text_white"
-                android:textColorHint="@color/text_secondary" />
+                android:textColorHint="@color/text_secondary"
+                android:inputType="textMultiLine" />
 
             <!-- BUTTON -->
             <Button

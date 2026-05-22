@@ -26,6 +26,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:id="@+id/iv_resident_profile"
                     android:layout_width="56dp"
                     android:layout_height="56dp"
                     android:src="@android:drawable/ic_menu_gallery"
@@ -68,6 +69,34 @@
             android:orientation="vertical"
             android:padding="20dp">
 
+            <!-- ================= REQUEST STATUS (DYNAMIC) ================= -->
+            <LinearLayout
+                android:id="@+id/ll_status_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Latest Request Update"
+                    android:textColor="@color/brgy_blue"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp" />
+
+                <!-- item_status_card.xml will be inflated here -->
+                <FrameLayout
+                    android:id="@+id/fl_status_card_holder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp" />
+            </LinearLayout>
+
             <!-- ================= SERVICES ================= -->
             <TextView
                 android:layout_width="wrap_content"
@@ -102,7 +131,7 @@
                             android:layout_width="28dp"
                             android:layout_height="28dp"
                             android:src="@android:drawable/ic_menu_compass"
-                            android:tint="@color/brgy_yellow" />
+                            app:tint="@color/brgy_yellow" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -131,7 +160,7 @@
                             android:layout_width="28dp"
                             android:layout_height="28dp"
                             android:src="@android:drawable/ic_menu_compass"
-                            android:tint="@color/brgy_yellow" />
+                            app:tint="@color/brgy_yellow" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -160,7 +189,7 @@
                             android:layout_width="28dp"
                             android:layout_height="28dp"
                             android:src="@android:drawable/ic_menu_compass"
-                            android:tint="@color/brgy_yellow" />
+                            app:tint="@color/brgy_yellow" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -225,174 +254,6 @@
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
-
-            <!-- ================= OFFICIALS ================= -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Barangay Officials"
-                android:textColor="@color/brgy_blue"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="12dp" />
-
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scrollbars="none"
-                android:layout_marginBottom="24dp">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <!-- ===== OFFICIAL CARD TEMPLATE (10 TOTAL) ===== -->
-
-                    <!-- Captain -->
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="110dp"
-                        android:layout_height="140dp"
-                        android:layout_marginEnd="10dp"
-                        app:cardCornerRadius="18dp"
-                        app:cardBackgroundColor="@color/card_background">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="50dp"
-                                android:layout_height="50dp"
-                                android:src="@android:drawable/ic_menu_myplaces" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Juan Dela Cruz"
-                                android:textColor="@color/text_white"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Captain"
-                                android:textColor="@color/text_secondary"
-                                android:textSize="12sp" />
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-
-                    <!-- Secretary -->
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="110dp"
-                        android:layout_height="140dp"
-                        android:layout_marginEnd="10dp"
-                        app:cardCornerRadius="18dp"
-                        app:cardBackgroundColor="@color/card_background">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="50dp"
-                                android:layout_height="50dp"
-                                android:src="@android:drawable/ic_menu_myplaces" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Maria Santos"
-                                android:textColor="@color/text_white"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Secretary"
-                                android:textColor="@color/text_secondary"
-                                android:textSize="12sp" />
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-
-                    <!-- Treasurer -->
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="110dp"
-                        android:layout_height="140dp"
-                        android:layout_marginEnd="10dp"
-                        app:cardCornerRadius="18dp"
-                        app:cardBackgroundColor="@color/card_background">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="50dp"
-                                android:layout_height="50dp"
-                                android:src="@android:drawable/ic_menu_myplaces" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Jose Reyes"
-                                android:textColor="@color/text_white"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Treasurer"
-                                android:textColor="@color/text_secondary"
-                                android:textSize="12sp" />
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-
-                    <!-- Kagawads (7 more placeholders) -->
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="110dp"
-                        android:layout_height="140dp"
-                        android:layout_marginEnd="10dp"
-                        app:cardCornerRadius="18dp"
-                        app:cardBackgroundColor="@color/card_background">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:layout_width="50dp"
-                                android:layout_height="50dp"
-                                android:src="@android:drawable/ic_menu_myplaces" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Kagawad 1"
-                                android:textColor="@color/text_white"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Kagawad"
-                                android:textColor="@color/text_secondary"
-                                android:textSize="12sp" />
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-
-                    <!-- You can duplicate this 6 more times for Kagawads 2–7 -->
-
-                </LinearLayout>
-            </HorizontalScrollView>
 
             <!-- ================= CONTACT ================= -->
             <TextView

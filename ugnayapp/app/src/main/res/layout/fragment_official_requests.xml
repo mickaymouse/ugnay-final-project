@@ -1,193 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_dark">
+    android:background="@color/background_dark"
+    android:orientation="vertical"
+    android:padding="20dp">
 
+    <!-- TITLE -->
+    <TextView
+        android:id="@+id/tvOfficialRequestsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Resident Requests"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="@color/text_white" />
+
+    <!-- SUBTITLE -->
+    <TextView
+        android:id="@+id/tvOfficialRequestsSubtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="Manage resident document requests"
+        android:textSize="14sp"
+        android:textColor="@color/text_secondary" />
+
+    <!-- TABLE HEADER -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp">
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:padding="10dp"
+        android:background="@color/card_background">
 
-        <!-- TITLE -->
         <TextView
-            android:id="@+id/tvOfficialRequestsTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Resident Requests"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:textColor="@color/text_white" />
+            android:layout_weight="2"
+            android:text="Name"
+            android:textColor="@color/brgy_yellow"
+            android:textStyle="bold"/>
 
-        <!-- SUBTITLE -->
         <TextView
-            android:id="@+id/tvOfficialRequestsSubtitle"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:text="Manage resident document requests"
-            android:textSize="14sp"
-            android:textColor="@color/text_secondary" />
+            android:layout_weight="2"
+            android:text="Request"
+            android:textColor="@color/brgy_yellow"
+            android:textStyle="bold"/>
 
-        <!-- TABLE HEADER -->
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="20dp"
-            android:padding="10dp"
-            android:background="@color/card_background">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="Name"
-                android:textColor="@color/brgy_yellow"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="Request"
-                android:textColor="@color/brgy_yellow"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="Status"
-                android:textColor="@color/brgy_yellow"
-                android:textStyle="bold"/>
-        </LinearLayout>
-
-        <!-- ROW 1 -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp"
-            android:background="@color/card_background"
-            android:layout_marginTop="10dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="Jose Rizal"
-                android:textColor="@color/text_white"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="Barangay ID"
-                android:textColor="@color/text_white"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="PENDING"
-                android:textColor="@color/brgy_yellow"/>
-        </LinearLayout>
-
-        <!-- ROW 2 -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp"
-            android:background="@color/card_background"
-            android:layout_marginTop="10dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="Maria Clara"
-                android:textColor="@color/text_white"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="Certificate of Residency"
-                android:textColor="@color/text_white"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="APPROVED"
-                android:textColor="@color/brgy_blue"/>
-        </LinearLayout>
-
-        <!-- ROW 3 -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp"
-            android:background="@color/card_background"
-            android:layout_marginTop="10dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="Juan Dela Cruz"
-                android:textColor="@color/text_white"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="Clearance"
-                android:textColor="@color/text_white"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="READY"
-                android:textColor="@color/brgy_yellow"/>
-        </LinearLayout>
-
-        <!-- ROW 4 -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp"
-            android:background="@color/card_background"
-            android:layout_marginTop="10dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="Pedro Santos"
-                android:textColor="@color/text_white"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="Indigency"
-                android:textColor="@color/text_white"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="REJECTED"
-                android:textColor="@color/brgy_red"/>
-        </LinearLayout>
-
+            android:layout_weight="2"
+            android:text="Status"
+            android:textColor="@color/brgy_yellow"
+            android:textStyle="bold"/>
     </LinearLayout>
-</ScrollView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_official_requests"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        tools:listitem="@layout/item_official_request" />
+
+</LinearLayout>

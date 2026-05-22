@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
-import ugnay.app.R
 import ugnay.app.databinding.FragmentResidentsRequestBinding
 
 class RequestFragment : Fragment() {
@@ -38,25 +37,25 @@ class RequestFragment : Fragment() {
     }
 
     private fun setupCardClicks() {
-
         val grid = binding.glRequests
 
+        // Indices should match your layout order
+        // 0: Certificate of Indigency
+        // 1: Certificate of Residency
+        // 2: Barangay ID
+        // 3: Barangay Clearance
+        
         for (i in 0 until grid.childCount) {
-
             val child = grid.getChildAt(i)
-
             if (child is CardView) {
-
                 child.setOnClickListener {
-
                     val type = when (i) {
-                        0 -> "INDIGENCY"
-                        1 -> "RESIDENCY"
-                        2 -> "BRGY_ID"
-                        3 -> "CLEARANCE"
-                        else -> "OTHERS"
+                        0 -> "Certificate of Indigency"
+                        1 -> "Certificate of Residency"
+                        2 -> "Barangay ID"
+                        3 -> "Barangay Clearance"
+                        else -> "Others"
                     }
-
                     openForm(type)
                 }
             }
@@ -64,15 +63,10 @@ class RequestFragment : Fragment() {
     }
 
     private fun addCardAnimations() {
-
         val grid = binding.glRequests
-
         for (i in 0 until grid.childCount) {
-
             val child = grid.getChildAt(i)
-
             if (child is CardView) {
-
                 child.alpha = 0f
                 child.translationY = 30f
 

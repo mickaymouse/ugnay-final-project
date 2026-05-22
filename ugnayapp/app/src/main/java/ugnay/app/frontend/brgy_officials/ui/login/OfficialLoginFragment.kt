@@ -1,5 +1,6 @@
 package ugnay.app.frontend.brgy_officials.ui.login
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +14,6 @@ import ugnay.app.R
 import ugnay.app.backend.brgy_officials.login.OfficialLoginRepository
 import ugnay.app.backend.residents.login.LoginRepository
 import ugnay.app.databinding.FragmentOfficialLoginBinding
-import android.content.Intent
 import ugnay.app.frontend.brgy_officials.OfficialMainActivity
 
 class OfficialLoginFragment : Fragment() {
@@ -51,18 +51,60 @@ class OfficialLoginFragment : Fragment() {
     }
 
     private fun loginOfficial() {
+        val emailInput = binding.etOfficialLoginEmail.text.toString().trim()
+        val password = binding.etOfficialLoginPassword.text.toString().trim()
 
-        Toast.makeText(
-            requireContext(),
-            "Logged in successfully!",
-            Toast.LENGTH_SHORT
-        ).show()
+        val email = if (emailInput.isEmpty()) {
+            ""
+        } else if (emailInput.contains("@")) {
+            emailInput
+        } else {
+            "$emailInput@guintas.ph"
+        }
 
-        startActivity(
-            Intent(requireContext(), OfficialMainActivity::class.java)
-        )
+        val errors = LoginRepository.validateLogin(email, password)
 
-        requireActivity().finish()
+        if (errors.isNotEmpty()) {
+            errors["email"]?.let { binding.etOfficialLoginEmail.error = it }
+            errors["password"]?.let { binding.etOfficialLoginPassword.error = it }
+            return
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            try {
+                binding.btnOfficialLogin.isEnabled = false
+
+                val official = OfficialLoginRepository.loginAsOfficial(email, password)
+
+                if (official != null) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Welcome, Official ${official.firstName}!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    startActivity(
+                        Intent(requireContext(), OfficialMainActivity::class.java)
+                    )
+                    requireActivity().finish()
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        "Invalid credentials or not authorized as Official.",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+
+            } catch (e: Exception) {
+                Toast.makeText(
+                    requireContext(),
+                    "Error: ${e.message}",
+                    Toast.LENGTH_LONG
+                ).show()
+            } finally {
+                binding.btnOfficialLogin.isEnabled = true
+            }
+        }
     }
 
     override fun onDestroyView() {

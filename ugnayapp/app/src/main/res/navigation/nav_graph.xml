@@ -42,7 +42,6 @@
     </fragment>
 
     <!-- OFFICIAL LOGIN -->
-    <!-- OFFICIAL LOGIN -->
     <fragment
         android:id="@+id/nav_official_login"
         android:name="ugnay.app.frontend.brgy_officials.ui.login.OfficialLoginFragment"
@@ -82,28 +81,24 @@
     </fragment>
 
     <!-- RESIDENT NAV -->
-    <!-- HOME-->
     <fragment
         android:id="@+id/nav_home"
         android:name="ugnay.app.frontend.residents.ui.home.HomeFragment"
         android:label="Home"
         tools:layout="@layout/fragment_residents_home" />
 
-    <!-- REQUEST -->
     <fragment
         android:id="@+id/nav_request"
         android:name="ugnay.app.frontend.residents.ui.request.RequestFragment"
         android:label="Request"
         tools:layout="@layout/fragment_residents_request" />
 
-    <!-- NEWS -->
     <fragment
         android:id="@+id/nav_news"
         android:name="ugnay.app.frontend.residents.ui.news.NewsFragment"
         android:label="News"
         tools:layout="@layout/fragment_residents_news" />
 
-    <!-- PROFILE -->
     <fragment
         android:id="@+id/nav_profile"
         android:name="ugnay.app.frontend.residents.ui.profile.ProfileFragment"
@@ -127,7 +122,6 @@
             app:destination="@id/nav_account_settings" />
     </fragment>
 
-    <!-- SETTINGS -->
     <fragment
         android:id="@+id/nav_account_settings"
         android:name="ugnay.app.frontend.residents.ui.profile.AccountSettingsFragment"

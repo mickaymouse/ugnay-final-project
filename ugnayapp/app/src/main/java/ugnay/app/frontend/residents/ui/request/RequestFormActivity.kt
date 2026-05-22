@@ -1,6 +1,8 @@
 package ugnay.app.frontend.residents.ui.request
 
+import android.app.Dialog
 import android.os.Bundle
+import android.view.Window
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -17,62 +19,76 @@ class RequestFormActivity : AppCompatActivity() {
         setContentView(R.layout.activity_request_form)
 
         val btnBack = findViewById<ImageButton>(R.id.btn_back)
-        val tvUserId = findViewById<TextView>(R.id.tv_user_id)
-        val tvFullName = findViewById<TextView>(R.id.tv_full_name)
-        val spinner = findViewById<Spinner>(R.id.sp_document)
+        val etFullName = findViewById<EditText>(R.id.et_full_name)
+        val tvSelectedDocument = findViewById<TextView>(R.id.tv_selected_document)
         val etPurpose = findViewById<EditText>(R.id.et_form_purpose)
         val btnSubmit = findViewById<Button>(R.id.btn_submit_request)
 
         btnBack.setOnClickListener {
             finish()
+
         }
 
+        // Get document type from intent
+        val requestType = intent.getStringExtra("REQUEST_TYPE") ?: "General Request"
+        tvSelectedDocument.text = requestType
+
+        // Pre-fill user name but keep it editable
         val user = LoginRepository.getCurrentUser()
-
-        tvUserId.text = user?.userId ?: "Guest"
-        tvFullName.text = "${user?.firstName ?: ""} ${user?.lastName ?: ""}"
-
-        val docs = arrayOf(
-            "Certificate of Indigency",
-            "Certificate of Residency",
-            "Barangay ID",
-            "Barangay Clearance",
-            "Others"
-        )
-
-        spinner.adapter = ArrayAdapter(
-            this,
-            android.R.layout.simple_spinner_dropdown_item,
-            docs
-        )
+        if (user != null) {
+            etFullName.setText("${user.firstName} ${user.lastName}")
+        }
 
         btnSubmit.setOnClickListener {
+            val purpose = etPurpose.text.toString().trim()
+            val fullName = etFullName.text.toString().trim()
 
             val request = Request(
-                userId = user?.userId,
-                fullName = tvFullName.text.toString(),
-                purpose = etPurpose.text.toString().trim()
+                fullName = fullName,
+                type = requestType,
+                purpose = purpose
             )
+
+            val errors = RequestRepository.validateRequest(request)
+            if (errors.isNotEmpty()) {
+                if (errors.containsKey("fullName")) {
+                    etFullName.error = errors["fullName"]
+                }
+                if (errors.containsKey("purpose")) {
+                    etPurpose.error = errors["purpose"]
+                }
+                Toast.makeText(this, "Please fix the errors", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
             lifecycleScope.launch {
                 try {
                     btnSubmit.isEnabled = false
-
                     RequestRepository.submitRequest(request)
-
-                    Toast.makeText(this@RequestFormActivity,
-                        "Request Submitted!",
-                        Toast.LENGTH_SHORT).show()
-
-                    finish()
-
+                    showSuccessDialog()
                 } catch (e: Exception) {
                     btnSubmit.isEnabled = true
                     Toast.makeText(this@RequestFormActivity,
-                        e.message,
+                        "Error: ${e.message}",
                         Toast.LENGTH_SHORT).show()
                 }
             }
         }
+    }
+
+    private fun showSuccessDialog() {
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.dialog_success_request)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        val btnClose = dialog.findViewById<Button>(R.id.btn_close_dialog)
+        btnClose.setOnClickListener {
+            dialog.dismiss()
+            finish() // Return to the previous screen
+        }
+
+        dialog.show()
     }
 }

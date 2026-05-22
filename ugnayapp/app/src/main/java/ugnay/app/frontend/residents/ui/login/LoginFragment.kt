@@ -39,7 +39,6 @@ class LoginFragment : Fragment() {
             findNavController().navigate(R.id.action_login_to_register)
         }
 
-        // SWITCH TO OFFICIAL LOGIN (top right switch)
         binding.tvGoToOfficialLogin.setOnClickListener {
             findNavController().navigate(
                 R.id.action_login_to_official_login
@@ -48,86 +47,66 @@ class LoginFragment : Fragment() {
     }
 
     private fun loginUser() {
-        // ===================== TEMP DEV LOGIN (COMMENTED) =====================
+        val emailInput = binding.etLoginEmail.text.toString().trim()
+        val password = binding.etLoginPassword.text.toString().trim()
 
-        findNavController().navigate(R.id.action_login_to_home)
+        // Handle quick domain append if user only enters username
+        val email = if (emailInput.isEmpty()) {
+            ""
+        } else if (emailInput.contains("@")) {
+            emailInput
+        } else {
+            "$emailInput@guintas.ph"
+        }
 
-        Toast.makeText(
-            requireContext(),
-            "DEV MODE: Skipped login",
-            Toast.LENGTH_SHORT
-        ).show()
+        val errors = LoginRepository.validateLogin(email, password)
 
-        return
+        if (errors.isNotEmpty()) {
+            errors["email"]?.let { binding.etLoginEmail.error = it }
+            errors["password"]?.let { binding.etLoginPassword.error = it }
+            return
+        }
 
-        // ======================================================================
+        viewLifecycleOwner.lifecycleScope.launch {
+            try {
+                binding.btnLogin.isEnabled = false
 
-//        val emailInput = binding.etLoginEmail.text.toString().trim()
-//        val password = binding.etLoginPassword.text.toString().trim()
-//
-//        val email = if (emailInput.isEmpty()) {
-//            ""
-//        } else if (emailInput.contains("@")) {
-//            emailInput
-//        } else {
-//            "$emailInput@guintas.ph"
-//        }
-//
-//        val errors = LoginRepository.validateLogin(email, password)
-//
-//        if (errors.isNotEmpty()) {
-//            errors["email"]?.let { binding.etLoginEmail.error = it }
-//            errors["password"]?.let { binding.etLoginPassword.error = it }
-//            return
-//        }
-//
-//        lifecycleScope.launch {
-//            try {
-//                binding.btnLogin.isEnabled = false
-//
-//                val resident = LoginRepository.login(email, password)
-//
-//                if (resident != null) {
-//
-//                    if (resident.userType == UserType.OFFICIAL) {
-//
-//                        LoginRepository.logout()
-//
-//                        Toast.makeText(
-//                            requireContext(),
-//                            "This account is for Barangay Officials. Use Official Login.",
-//                            Toast.LENGTH_LONG
-//                        ).show()
-//
-//                    } else {
-//
-//                        Toast.makeText(
-//                            requireContext(),
-//                            "Welcome, ${resident.firstName}!",
-//                            Toast.LENGTH_SHORT
-//                        ).show()
-//
-//                        findNavController().navigate(R.id.action_login_to_home)
-//                    }
-//
-//                } else {
-//                    Toast.makeText(
-//                        requireContext(),
-//                        "Invalid Email or Password",
-//                        Toast.LENGTH_LONG
-//                    ).show()
-//                }
-//
-//            } catch (e: Exception) {
-//                Toast.makeText(
-//                    requireContext(),
-//                    "Error: ${e.message}",
-//                    Toast.LENGTH_LONG
-//                ).show()
-//            } finally {
-//                binding.btnLogin.isEnabled = true
-//            }
-//        }
+                val resident = LoginRepository.login(email, password)
+
+                if (resident != null) {
+                    if (resident.userType == UserType.OFFICIAL) {
+                        LoginRepository.logout()
+                        Toast.makeText(
+                            requireContext(),
+                            "This account is for Barangay Officials. Use Official Login.",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            "Welcome, ${resident.firstName}!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        findNavController().navigate(R.id.action_login_to_home)
+                    }
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        "Invalid Email or Password",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+
+            } catch (e: Exception) {
+                Toast.makeText(
+                    requireContext(),
+                    "Error: ${e.message}",
+                    Toast.LENGTH_LONG
+                ).show()
+            } finally {
+                binding.btnLogin.isEnabled = true
+            }
+        }
     }
 
     override fun onDestroyView() {

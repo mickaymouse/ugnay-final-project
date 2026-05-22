@@ -1,6 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
-    kotlin("plugin.serialization") version "2.2.10"
+    kotlin("plugin.serialization")
 }
 
 android {
@@ -15,7 +15,7 @@ android {
     defaultConfig {
         applicationId = "ugnay.app"
         minSdk = 30
-        targetSdk = 36
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 

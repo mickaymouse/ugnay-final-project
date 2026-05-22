@@ -38,6 +38,13 @@
         android:label="Create Post"
         tools:layout="@layout/fragment_create_post" />
 
+    <!-- OFFICIAL NOTIFICATIONS -->
+    <fragment
+        android:id="@+id/nav_official_notifications"
+        android:name="ugnay.app.frontend.brgy_officials.ui.notifications.OfficialNotificationsFragment"
+        android:label="Notifications"
+        tools:layout="@layout/fragment_official_notifications" />
+
     <!-- OFFICIAL PROFILE -->
     <fragment
         android:id="@+id/nav_official_profile"
