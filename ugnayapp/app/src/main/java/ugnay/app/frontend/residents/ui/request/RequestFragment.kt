@@ -31,7 +31,7 @@ class RequestFragment : Fragment() {
 
     private var _binding: FragmentResidentsRequestBinding? = null
     private val binding get() = _binding!!
-    
+
     private lateinit var adapter: ResidentRequestAdapter
     private var allRequests: List<Request> = emptyList()
     private var searchJob: Job? = null
@@ -79,10 +79,17 @@ class RequestFragment : Fragment() {
     }
 
     private fun setupFilters() {
+        // Create the filter dropdown options listing "All Status" and statuses
         val statuses = listOf("All Status") + RequestStatus.entries.map { it.displayName }
         val spinnerAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, statuses)
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spinnerStatusFilter.adapter = spinnerAdapter
+
+        // Find the index of "Pending" to set it as the default selection on load
+        val pendingIndex = statuses.indexOfFirst { it.equals("Pending", ignoreCase = true) }
+        if (pendingIndex != -1) {
+            binding.spinnerStatusFilter.setSelection(pendingIndex)
+        }
 
         binding.spinnerStatusFilter.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -99,7 +106,7 @@ class RequestFragment : Fragment() {
             override fun afterTextChanged(s: Editable?) {
                 searchJob?.cancel()
                 searchJob = lifecycleScope.launch {
-                    delay(300) // Debounce search
+                    delay(300) // Debounce search typings
                     filterRequests()
                 }
             }
@@ -122,11 +129,13 @@ class RequestFragment : Fragment() {
         val selectedStatus = binding.spinnerStatusFilter.selectedItem?.toString() ?: "All Status"
 
         val filteredList = allRequests.filter { request ->
-            val matchesSearch = request.type?.lowercase()?.contains(query) == true || 
-                               request.purpose?.lowercase()?.contains(query) == true
-            
+            // Search query match evaluation
+            val matchesSearch = request.type?.lowercase()?.contains(query) == true ||
+                    request.purpose?.lowercase()?.contains(query) == true
+
+            // Filter evaluation selection logic
             val matchesStatus = selectedStatus == "All Status" || request.status.displayName == selectedStatus
-            
+
             matchesSearch && matchesStatus
         }.sortedByDescending { it.startDate }
 
@@ -141,23 +150,11 @@ class RequestFragment : Fragment() {
     }
 
     private fun setupCardClicks() {
-        val grid = binding.glRequests
-        
-        for (i in 0 until grid.childCount) {
-            val child = grid.getChildAt(i)
-            if (child is CardView) {
-                child.setOnClickListener {
-                    val type = when (i) {
-                        0 -> "Certificate of Indigency"
-                        1 -> "Certificate of Residency"
-                        2 -> "Barangay ID"
-                        3 -> "Barangay Clearance"
-                        else -> "Others"
-                    }
-                    openForm(type)
-                }
-            }
-        }
+        binding.cardIndigency.setOnClickListener { openForm("Certificate of Indigency") }
+        binding.cardResidency.setOnClickListener { openForm("Certificate of Residency") }
+        binding.cardBrgyId.setOnClickListener { openForm("Barangay ID") }
+        binding.cardClearance.setOnClickListener { openForm("Barangay Clearance") }
+        binding.cardOthers.setOnClickListener { openForm("Others") }
     }
 
     private fun addCardAnimations() {
@@ -171,8 +168,8 @@ class RequestFragment : Fragment() {
                 child.animate()
                     .alpha(1f)
                     .translationY(0f)
-                    .setStartDelay(i * 80L)
-                    .setDuration(300)
+                    .setStartDelay(i * 60L)
+                    .setDuration(250)
                     .start()
             }
         }

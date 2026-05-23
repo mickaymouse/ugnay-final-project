@@ -1,5 +1,6 @@
 package ugnay.app.frontend.residents.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import coil.load
+import coil.transform.CircleCropTransformation
 import io.github.jan.supabase.realtime.PostgresAction
 import io.github.jan.supabase.realtime.channel
 import io.github.jan.supabase.realtime.postgresChangeFlow
@@ -22,6 +24,7 @@ import ugnay.app.backend.residents.news.NewsRepository
 import ugnay.app.backend.residents.request.RequestRepository
 import ugnay.app.databinding.FragmentResidentsHomeBinding
 import ugnay.app.databinding.ItemStatusCardBinding
+import ugnay.app.frontend.residents.ui.request.RequestFormActivity
 import java.util.Calendar
 import java.util.Locale
 
@@ -43,11 +46,12 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupUI()
+        setupServiceCardClicks()
         loadRequestStatus()
         loadLatestAnnouncement()
         setupRealtimeListener()
         setupAnnouncementRealtimeListener()
-        
+
         binding.cvLatestAnnouncement.setOnClickListener {
             findNavController().navigate(R.id.nav_news)
         }
@@ -59,13 +63,8 @@ class HomeFragment : Fragment() {
             val changeFlow = channel.postgresChangeFlow<PostgresAction>(schema = "public") {
                 table = "requests"
             }
-
             channel.subscribe()
-
-            changeFlow.collect {
-                // When any change happens in the requests table, reload the status
-                loadRequestStatus()
-            }
+            changeFlow.collect { loadRequestStatus() }
         }
     }
 
@@ -75,48 +74,61 @@ class HomeFragment : Fragment() {
             val changeFlow = channel.postgresChangeFlow<PostgresAction>(schema = "public") {
                 table = "announcements"
             }
-
             channel.subscribe()
-
-            changeFlow.collect {
-                // When any change happens in the announcements table, reload the latest announcement
-                loadLatestAnnouncement()
-            }
+            changeFlow.collect { loadLatestAnnouncement() }
         }
     }
 
     private fun setupUI() {
         val user = LoginRepository.getCurrentUser()
-
         if (user != null) {
-            val fullName = "${user.firstName} ${user.lastName}"
-
-            binding.tvFirstName.text = fullName
+            binding.tvFirstName.text = "${user.firstName} ${user.lastName}".trim()
             binding.tvGreeting.text = getGreetingMessage()
-        } else {
-            binding.tvFirstName.text = "Guest"
-            binding.tvGreeting.text = "Welcome,"
+            if (!user.profilePictureUrl.isNullOrBlank()) {
+                binding.ivResidentProfile.apply {
+                    imageTintList = null
+                    load(user.profilePictureUrl) {
+                        crossfade(true)
+                        transformations(CircleCropTransformation())
+                    }
+                }
+            } else {
+                setDefaultProfileImage()
+            }
         }
+    }
+
+    private fun setDefaultProfileImage() {
+        binding.ivResidentProfile.apply {
+            setImageResource(R.drawable.ic_person)
+            imageTintList = ContextCompat.getColorStateList(requireContext(), R.color.brgy_blue)
+        }
+    }
+
+    private fun setupServiceCardClicks() {
+        binding.cardHomeIndigency.setOnClickListener { openForm("Certificate of Indigency") }
+        binding.cardHomeResidency.setOnClickListener { openForm("Certificate of Residency") }
+        binding.cardHomeBrgyId.setOnClickListener { openForm("Barangay ID") }
+        binding.cardHomeClearance.setOnClickListener { openForm("Barangay Clearance") }
+        binding.cardHomeOthers.setOnClickListener { openForm("Others") }
+    }
+
+    private fun openForm(type: String) {
+        val intent = Intent(requireContext(), RequestFormActivity::class.java)
+        intent.putExtra("REQUEST_TYPE", type)
+        startActivity(intent)
     }
 
     private fun loadRequestStatus() {
         viewLifecycleOwner.lifecycleScope.launch {
             try {
-                val requests = RequestRepository.getResidentRequests()
-
-                // Get latest request
-                val latestRequest = requests
+                val latestRequest = RequestRepository.getResidentRequests()
                     .sortedByDescending { it.startDate }
                     .firstOrNull()
 
-                if (latestRequest != null) {
-                    showStatusCard(latestRequest)
-                } else {
-                    binding.llStatusContainer.visibility = View.GONE
-                }
-
+                if (latestRequest != null) showStatusCard(latestRequest)
+                else binding.llStatusContainer.visibility = View.GONE
             } catch (e: Exception) {
-                e.printStackTrace()
                 binding.llStatusContainer.visibility = View.GONE
             }
         }
@@ -125,22 +137,24 @@ class HomeFragment : Fragment() {
     private fun loadLatestAnnouncement() {
         viewLifecycleOwner.lifecycleScope.launch {
             try {
-                val latestAnnouncement = NewsRepository.fetchLatestAnnouncement()
-                
-                if (latestAnnouncement != null) {
-                    binding.tvLatestAnnouncementTitle.text = latestAnnouncement.title
-                    binding.tvLatestAnnouncementContent.text = latestAnnouncement.content
-                    
-                    // Load image if available
-                    if (!latestAnnouncement.imageUrl.isNullOrBlank()) {
-                        binding.ivLatestAnnouncementImage.visibility = View.VISIBLE
-                        binding.ivLatestAnnouncementImage.load(latestAnnouncement.imageUrl) {
-                            crossfade(true)
-                            placeholder(R.drawable.ic_launcher_foreground)
-                            error(R.drawable.ic_launcher_foreground)
-                        }
+                val news = NewsRepository.fetchLatestAnnouncement()
+                if (news != null) {
+                    // Update Title with Priority if it exists
+                    val priorityPrefix = if (!news.priority.isNullOrBlank() && news.priority != "Normal")
+                        "[${news.priority.uppercase()}] " else ""
+
+                    binding.tvLatestAnnouncementTitle.text = priorityPrefix + news.title
+                    binding.tvLatestAnnouncementContent.text = news.content
+
+                    // Display relative time using your existing model function
+                    binding.tvAnnouncementTime.text = news.relativeDuration() ?: "Just now"
+
+                    // Handle Image
+                    if (!news.imageUrl.isNullOrBlank()) {
+                        binding.cvAnnouncementImageContainer.visibility = View.VISIBLE
+                        binding.ivLatestAnnouncementImage.load(news.imageUrl)
                     } else {
-                        binding.ivLatestAnnouncementImage.visibility = View.GONE
+                        binding.cvAnnouncementImageContainer.visibility = View.GONE
                     }
                 }
             } catch (e: Exception) {
@@ -150,65 +164,25 @@ class HomeFragment : Fragment() {
     }
 
     private fun showStatusCard(request: Request) {
-
         binding.llStatusContainer.visibility = View.VISIBLE
         binding.flStatusCardHolder.removeAllViews()
-
-        val cardBinding = ItemStatusCardBinding.inflate(
-            layoutInflater,
-            binding.flStatusCardHolder,
-            true
-        )
-
-        cardBinding.root.setOnClickListener {
-            // Navigate to RequestFragment where history is now displayed
-            findNavController().navigate(R.id.nav_request)
-        }
+        val cardBinding = ItemStatusCardBinding.inflate(layoutInflater, binding.flStatusCardHolder, true)
 
         cardBinding.apply {
-
             tvStatusDocName.text = request.type
-
             val statusText = request.status.displayName
+            tvStatusLabel.text = "STATUS: ${statusText.uppercase(Locale.ROOT)}"
 
-            tvStatusLabel.text =
-                "STATUS: ${statusText.uppercase(Locale.ROOT)}"
-
-            // Status Colors
-            val statusColor = when (statusText.lowercase(Locale.ROOT)) {
-                "pending" -> R.color.brgy_yellow
-                "approved" -> R.color.brgy_blue
-                "rejected" -> R.color.brgy_red
-                "done" -> R.color.brgy_green
-                "expired" -> R.color.text_secondary
-                else -> R.color.text_white
-            }
-
-            tvStatusLabel.setTextColor(
-                ContextCompat.getColor(requireContext(), statusColor)
-            )
-
-            // Show download button only for Approved or Done
-            btnDownloadFile.visibility =
-                if (
-                    statusText.equals("Approved", ignoreCase = true) ||
-                    statusText.equals("Done", ignoreCase = true)
-                ) {
-                    View.VISIBLE
-                } else {
-                    View.GONE
-                }
+            // Set Color logic remains the same
+            btnDownloadFile.visibility = if (statusText.equals("Approved", true) ||
+                statusText.equals("Done", true)) View.VISIBLE else View.GONE
         }
     }
 
-    private fun getGreetingMessage(): String {
-        val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
-
-        return when (hour) {
-            in 0..11 -> "Good morning,"
-            in 12..17 -> "Good afternoon,"
-            else -> "Good evening,"
-        }
+    private fun getGreetingMessage(): String = when (Calendar.getInstance().get(Calendar.HOUR_OF_DAY)) {
+        in 0..11 -> "Good morning,"
+        in 12..17 -> "Good afternoon,"
+        else -> "Good evening,"
     }
 
     override fun onDestroyView() {

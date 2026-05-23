@@ -51,10 +51,19 @@ class NewsFragment : Fragment() {
     private fun loadNews() {
         lifecycleScope.launch {
             try {
-                val news = NewsRepository.fetchNews().filter { it.status != "Deleted" }
-                newsAdapter.updateData(news)
+                val allNews = NewsRepository.fetchNews().filter { it.status != "Deleted" }
+                newsAdapter.updateData(allNews)
+
+                // Check for high-priority alerts to show in the red card
+                val urgentNews = allNews.firstOrNull { it.priority == "High" }
+                if (urgentNews != null) {
+                    binding.alertCard.visibility = View.VISIBLE
+                    binding.tvAlertText.text = "ALERT: ${urgentNews.title}"
+                } else {
+                    binding.alertCard.visibility = View.GONE
+                }
             } catch (e: Exception) {
-                Toast.makeText(requireContext(), "Error loading news: ${e.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Error loading news", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -65,13 +74,8 @@ class NewsFragment : Fragment() {
             val changeFlow = channel.postgresChangeFlow<PostgresAction>(schema = "public") {
                 table = "announcements"
             }
-
             channel.subscribe()
-
-            changeFlow.collect {
-                // When any change happens in the announcements table, reload the news
-                loadNews()
-            }
+            changeFlow.collect { loadNews() }
         }
     }
 

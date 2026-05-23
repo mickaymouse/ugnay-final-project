@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_dark">
+    android:fillViewport="true"
+    android:background="#1E1E1E">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,141 +13,148 @@
         android:gravity="center_horizontal"
         android:padding="24dp">
 
-        <!-- TITLE -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="DIGITAL RESIDENT ID"
-            android:textColor="@color/brgy_yellow"
+            android:textColor="#FFD700"
             android:fontFamily="@font/poppins_semibold"
-            android:textSize="18sp"
-            android:layout_marginBottom="20dp"/>
+            android:textSize="14sp"
+            android:letterSpacing="0.15"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="24dp"/>
 
-        <!-- ID CARD WITH BORDER RADIUS -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardCornerRadius="24dp"
-            app:cardElevation="10dp"
-            app:cardBackgroundColor="@color/card_background"
-            android:layout_marginBottom="20dp">
+            app:cardElevation="8dp"
+            app:cardBackgroundColor="#2D2D2D"
+            android:layout_marginBottom="32dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="22dp"
+                android:padding="32dp"
                 android:gravity="center_horizontal">
 
-                <!-- PROFILE IMAGE -->
-                <ImageView
-                    android:id="@+id/img_profile"
-                    android:layout_width="110dp"
-                    android:layout_height="110dp"
-                    android:src="@drawable/ic_person"
-                    android:background="@color/brgy_yellow"
-                    android:padding="10dp"/>
+                <androidx.cardview.widget.CardView
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    app:cardCornerRadius="60dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="#3D3D3D">
 
-                <!-- NAME -->
+                    <ImageView
+                        android:id="@+id/img_profile"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_person"
+                        android:contentDescription="Profile Photo"
+                        android:scaleType="centerCrop"
+                        android:padding="20dp"
+                        app:tint="#FFD700" />
+                </androidx.cardview.widget.CardView>
+
                 <TextView
                     android:id="@+id/tv_profile_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Resident Name"
-                    android:textColor="@color/text_white"
+                    android:textColor="#FFFFFF"
                     android:fontFamily="@font/poppins_bold"
-                    android:textSize="20sp"
-                    android:layout_marginTop="12dp"/>
+                    android:textSize="24sp"
+                    android:gravity="center"
+                    android:layout_marginTop="20dp"/>
 
-                <!-- USER ID -->
                 <TextView
                     android:id="@+id/tv_profile_user_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="GUIN-0000-RES"
-                    android:textColor="@color/brgy_yellow"
+                    android:textColor="#6495ED"
                     android:fontFamily="@font/poppins_medium"
+                    android:textSize="15sp"
                     android:layout_marginTop="4dp"/>
 
-                <!-- EMAIL -->
-                <TextView
-                    android:id="@+id/tv_profile_email"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="email@example.com"
-                    android:textColor="@color/text_secondary"
-                    android:layout_marginTop="4dp"/>
-
-                <!-- DIVIDER -->
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/text_secondary"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp"/>
+                    android:background="#3D3D3D"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="24dp"/>
 
-                <!-- EXTRA DETAILS -->
-                <TextView
-                    android:id="@+id/tv_profile_gender"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Gender: -"
-                    android:textColor="@color/text_white"
-                    android:layout_marginBottom="4dp"/>
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="14dp">
+                    <TextView
+                        android:layout_width="85dp"
+                        android:layout_height="wrap_content"
+                        android:text="Email"
+                        android:textColor="#88FFFFFF"
+                        android:textSize="13sp"
+                        android:fontFamily="@font/poppins_regular" />
+                    <TextView
+                        android:id="@+id/tv_profile_email"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="email@example.com"
+                        android:textColor="#FFFFFF"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/poppins_medium" />
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/tv_profile_birthdate"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Birthdate: -"
-                    android:textColor="@color/text_white"
-                    android:layout_marginBottom="4dp"/>
-
-                <TextView
-                    android:id="@+id/tv_profile_contact"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Contact: -"
-                    android:textColor="@color/text_white"
-                    android:layout_marginBottom="4dp"/>
-
-                <TextView
-                    android:id="@+id/tv_profile_address"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Address: -"
-                    android:textColor="@color/text_white"/>
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="85dp"
+                        android:layout_height="wrap_content"
+                        android:text="Contact"
+                        android:textColor="#88FFFFFF"
+                        android:textSize="13sp"
+                        android:fontFamily="@font/poppins_regular" />
+                    <TextView
+                        android:id="@+id/tv_profile_contact"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="-"
+                        android:textColor="#FFFFFF"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/poppins_medium" />
+                </LinearLayout>
 
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
 
-        <!-- ACTIONS -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/text_secondary"
-            android:layout_marginBottom="16dp"/>
-
         <Button
             android:id="@+id/btn_edit_profile"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="54dp"
             android:text="Account Settings"
-            android:backgroundTint="@color/brgy_blue"
-            android:textColor="@color/text_white"
+            android:backgroundTint="#6495ED"
+            android:textColor="#FFFFFF"
             android:textAllCaps="false"
+            android:textSize="15sp"
             android:fontFamily="@font/poppins_medium"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="12dp"/>
 
         <Button
             android:id="@+id/btn_logout"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="54dp"
             android:text="Logout"
-            android:backgroundTint="@color/brgy_red"
-            android:textColor="@color/text_white"
+            android:backgroundTint="#C62828"
+            android:textColor="#FFFFFF"
             android:textAllCaps="false"
+            android:textSize="15sp"
             android:fontFamily="@font/poppins_semibold"/>
 
     </LinearLayout>

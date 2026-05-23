@@ -6,10 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import coil.load
+import coil.transform.CircleCropTransformation
 import ugnay.app.R
 import ugnay.app.backend.residents.data.UserType
 import ugnay.app.backend.residents.login.LoginRepository
 import ugnay.app.databinding.FragmentResidentsProfileBinding
+import java.util.Locale
 
 class ProfileFragment : Fragment() {
 
@@ -50,9 +53,29 @@ class ProfileFragment : Fragment() {
         val user = LoginRepository.getCurrentUser()
 
         if (user != null) {
-            binding.tvProfileName.text = "${user.firstName} ${user.lastName}"
-            binding.tvProfileEmail.text = user.emailAddress
-            binding.tvProfileUserId.text = user.userId
+            // Profile Text Components
+            binding.tvProfileName.text = "${user.firstName} ${user.lastName}".trim()
+
+            // Force User ID to be completely uppercase
+            binding.tvProfileUserId.text = user.userId?.uppercase(Locale.ROOT) ?: "N/A"
+
+            binding.tvProfileEmail.text = user.emailAddress ?: "No email address linked"
+            binding.tvProfileContact.text = user.contactNumber ?: "No contact number"
+
+            // Async Image Fetching via Supabase Public URL String
+            if (!user.profilePictureUrl.isNullOrBlank()) {
+                binding.imgProfile.load(user.profilePictureUrl) {
+                    crossfade(true)
+                    placeholder(R.drawable.ic_person)
+                    error(R.drawable.ic_person)
+                }
+                // Clear the default tint so user photo colors aren't overridden by the yellow filter
+                binding.imgProfile.imageTintList = null
+                binding.imgProfile.setPadding(0, 0, 0, 0)
+            } else {
+                // Fallback state if no image URL exists
+                binding.imgProfile.setImageResource(R.drawable.ic_person)
+            }
         }
     }
 
