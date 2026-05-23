@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:background="@color/background_dark">
+    android:background="#1E1E1E"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,162 +12,117 @@
         android:orientation="vertical"
         android:padding="24dp">
 
-        <!-- HEADER -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Create Announcement"
-            android:textSize="24sp"
-            android:fontFamily="@font/poppins_bold"
-            android:textColor="@color/text_white"
-            android:includeFontPadding="false" />
+            android:textColor="#FFFFFF"
+            android:textSize="28sp"
+            android:fontFamily="@font/poppins_bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Share official barangay updates with residents"
-            android:textColor="@color/text_secondary"
+            android:textColor="#88FFFFFF"
             android:textSize="14sp"
             android:fontFamily="@font/poppins_regular"
-            android:layout_marginTop="6dp"
-            android:layout_marginBottom="28dp" />
+            android:layout_marginBottom="32dp" />
 
-        <!-- CARD CONTAINER -->
-        <com.google.android.material.card.MaterialCardView
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilPostTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/card_background"
-            app:cardCornerRadius="16dp"
-            app:strokeWidth="0dp"
-            android:layout_marginBottom="28dp">
+            android:layout_marginBottom="16dp"
+            android:hint="Announcement Title"
+            app:hintTextColor="#6495ED"
+            app:boxStrokeColor="#6495ED"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-            <LinearLayout
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etPostTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="20dp">
+                android:textColor="#FFFFFF"
+                android:fontFamily="@font/poppins_medium" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- TITLE INPUT -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tilPostTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
-                    android:hint="Announcement Title"
-                    app:hintTextColor="@color/brgy_yellow"
-                    app:boxStrokeColor="@color/brgy_blue"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilPostContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Write announcement details..."
+            app:hintTextColor="#6495ED"
+            app:boxStrokeColor="#6495ED"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etPostTitle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textCapSentences"
-                        android:textColor="@color/text_white"
-                        android:fontFamily="@font/poppins_medium"
-                        android:textSize="16sp" />
-                </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etPostContent"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:gravity="top"
+                android:inputType="textMultiLine"
+                android:textColor="#FFFFFF"
+                android:fontFamily="@font/poppins_regular" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- CONTENT INPUT -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tilPostContent"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Write your announcement..."
-                    app:hintTextColor="@color/brgy_yellow"
-                    app:boxStrokeColor="@color/brgy_blue"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSelectPostImage"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="16dp"
+            android:text="Attach Photo (Optional)"
+            android:backgroundTint="#2D2D2D"
+            app:cornerRadius="8dp" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etPostContent"
-                        android:layout_width="match_parent"
-                        android:layout_height="180dp"
-                        android:gravity="top"
-                        android:inputType="textMultiLine"
-                        android:textColor="@color/text_white"
-                        android:fontFamily="@font/poppins_regular"
-                        android:textSize="15sp" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <!-- ANNOUNCEMENT IMAGE SELECTOR -->
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Attach photo (optional)"
-                    android:textColor="@color/text_white"
-                    android:textSize="14sp"
-                    android:fontFamily="@font/poppins_medium"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="8dp" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnSelectPostImage"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:text="Select Photo"
-                    android:textColor="@color/text_white"
-                    android:textSize="16sp"
-                    android:fontFamily="@font/poppins_medium"
-                    android:backgroundTint="@color/brgy_blue"
-                    android:textAllCaps="false"
-                    app:cornerRadius="12dp" />
-
-                <ImageView
-                    android:id="@+id/ivPostImagePreview"
-                    android:layout_width="match_parent"
-                    android:layout_height="180dp"
-                    android:layout_marginTop="12dp"
-                    android:background="@color/card_background"
-                    android:contentDescription="Selected announcement photo"
-                    android:scaleType="centerCrop"
-                    android:visibility="gone" />
-
-                <!-- PRIORITY SELECTOR -->
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Priority"
-                    android:textColor="@color/text_white"
-                    android:textSize="14sp"
-                    android:fontFamily="@font/poppins_medium"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="8dp" />
-
-                <Spinner
-                    android:id="@+id/spPriority"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:popupTheme="@style/Theme.MaterialComponents.Light" />
-
-            </LinearLayout>
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardImagePreview"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:layout_marginTop="12dp"
+            android:visibility="gone"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="0dp">
+            <ImageView
+                android:id="@+id/ivPostImagePreview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop" />
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- ACTION BUTTONS -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Priority Level"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="8dp" />
+
+        <Spinner
+            android:id="@+id/spPriority"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#2D2D2D" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSubmitPost"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="32dp"
             android:text="Publish Announcement"
-            android:textColor="@color/text_white"
-            android:textSize="16sp"
-            android:fontFamily="@font/poppins_bold"
-            android:backgroundTint="@color/brgy_blue"
-            android:textAllCaps="false"
-            app:cornerRadius="12dp"
-            android:layout_marginBottom="12dp" />
+            android:backgroundTint="#6495ED"
+            app:cornerRadius="8dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnCancelPost"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="8dp"
             android:text="Cancel"
-            android:textColor="@color/text_white"
-            android:textSize="16sp"
-            android:fontFamily="@font/poppins_medium"
-            android:backgroundTint="@color/card_background"
-            android:textAllCaps="false"
-            app:cornerRadius="12dp"
-            style="@style/Widget.MaterialComponents.Button.TextButton" />
-
+            android:textColor="#FFFFFF"
+            android:backgroundTint="@android:color/transparent"
+            app:strokeColor="#2D2D2D"
+            app:strokeWidth="1dp"
+            app:cornerRadius="8dp" />
     </LinearLayout>
 </ScrollView>

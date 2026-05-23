@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_dark">
+    android:background="#1E1E1E"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -11,99 +12,185 @@
         android:orientation="vertical"
         android:padding="20dp">
 
-        <!-- HEADER -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_greeting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_regular"
+                android:text="Good day, Official"
+                android:textColor="#88FFFFFF"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_official_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_bold"
+                android:text="Barangay Admin"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="110dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                app:cardBackgroundColor="#2D2D2D"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_stat_residents"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_bold"
+                        android:text="0"
+                        android:textColor="#6495ED"
+                        android:textSize="24sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="Residents"
+                        android:textColor="#88FFFFFF"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="110dp"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                app:cardBackgroundColor="#2D2D2D"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_stat_services"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_bold"
+                        android:text="0"
+                        android:textColor="#6495ED"
+                        android:textSize="24sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="Pending Req."
+                        android:textColor="#88FFFFFF"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Barangay Official Dashboard"
-            android:textColor="@color/brgy_yellow"
-            android:textSize="20sp"
-            android:fontFamily="@font/poppins_semibold"
-            android:layout_marginBottom="16dp"/>
-
-        <!-- REQUESTS -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_requests"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
             android:layout_marginBottom="12dp"
-            android:backgroundTint="@color/card_background"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="6dp">
+            android:fontFamily="@font/poppins_semibold"
+            android:text="Recent Announcement"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:padding="16dp"
-                android:text="Requests"
-                android:textColor="@color/text_white"
-                android:textSize="18sp"
-                android:fontFamily="@font/poppins_semibold"/>
-        </androidx.cardview.widget.CardView>
-
-        <!-- ANNOUNCEMENTS -->
         <androidx.cardview.widget.CardView
             android:id="@+id/card_announcements"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardBackgroundColor="#2D2D2D"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp">
+
+            <TextView
+                android:id="@+id/tv_latest_news"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_regular"
+                android:padding="20dp"
+                android:text="Loading..."
+                android:textColor="#FFFFFF" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            android:backgroundTint="@color/card_background"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="6dp">
+            android:fontFamily="@font/poppins_semibold"
+            android:text="Contact Information"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:padding="16dp"
-                android:text="Announcements"
-                android:textColor="@color/text_white"
-                android:textSize="18sp"
-                android:fontFamily="@font/poppins_semibold"/>
-        </androidx.cardview.widget.CardView>
-
-        <!-- OFFICIALS -->
         <androidx.cardview.widget.CardView
-            android:id="@+id/card_officials"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_marginBottom="12dp"
-            android:backgroundTint="@color/card_background"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="6dp">
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="#2D2D2D"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:padding="16dp"
-                android:text="Barangay Officials"
-                android:textColor="@color/text_white"
-                android:textSize="18sp"
-                android:fontFamily="@font/poppins_semibold"/>
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:drawablePadding="12dp"
+                    android:drawableStart="@drawable/ic_phone"
+                    android:fontFamily="@font/poppins_medium"
+                    android:gravity="center_vertical"
+                    android:text="+63 912 345 6789"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp"
+                    app:drawableTint="#6495ED" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="12dp"
+                    android:drawableStart="@drawable/ic_email"
+                    android:fontFamily="@font/poppins_medium"
+                    android:gravity="center_vertical"
+                    android:text="help@ugnay.ph"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp"
+                    app:drawableTint="#6495ED" />
+            </LinearLayout>
         </androidx.cardview.widget.CardView>
-
-        <!-- CONTACT -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_contact"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:backgroundTint="@color/card_background"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="6dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:padding="16dp"
-                android:text="Contact Information"
-                android:textColor="@color/text_white"
-                android:textSize="18sp"
-                android:fontFamily="@font/poppins_semibold"/>
-        </androidx.cardview.widget.CardView>
-
     </LinearLayout>
-
-</ScrollView>
+</androidx.core.widget.NestedScrollView>
