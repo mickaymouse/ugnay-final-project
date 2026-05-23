@@ -4,4 +4,9 @@
         <!-- Host only, no https:// and no quotes -->
         <domain includeSubdomains="true">ayzydnwrsecujoubohuy.supabase.co</domain>
     </domain-config>
+    
+    <!-- Allow HTTPS connections to storage -->
+    <domain-config cleartextTrafficPermitted="false">
+        <domain includeSubdomains="true">supabase.co</domain>
+    </domain-config>
 </network-security-config>

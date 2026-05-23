@@ -22,6 +22,15 @@ object NewsRepository {
             )
     }
 
+    suspend fun fetchLatestAnnouncement(): News? {
+        return SupabaseConfig.client.from("announcements")
+            .select()
+            .decodeList<News>()
+            .filter { it.status != "Deleted" }
+            .sortedByDescending { it.datePosted }
+            .firstOrNull()
+    }
+
     suspend fun uploadAnnouncementImage(announcementId: String, byteArray: ByteArray): String {
         val storage = SupabaseConfig.client.storage
         val bucket = storage.from("announcement_images")

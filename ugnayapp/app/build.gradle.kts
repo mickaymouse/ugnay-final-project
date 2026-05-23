@@ -55,4 +55,7 @@ dependencies {
     implementation("io.github.jan-tennert.supabase:auth-kt-android")
     implementation("io.github.jan-tennert.supabase:realtime-kt")
     implementation("io.ktor:ktor-client-android:3.4.3")
+    
+    // Image loading
+    implementation("io.coil-kt:coil:2.6.0")
 }

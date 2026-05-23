@@ -9,7 +9,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import io.github.jan.supabase.realtime.PostgresAction
+import io.github.jan.supabase.realtime.channel
+import io.github.jan.supabase.realtime.postgresChangeFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import ugnay.app.backend.residents.SupabaseConfig
 import ugnay.app.backend.residents.news.NewsRepository
 import ugnay.app.databinding.FragmentOfficialNewsBinding
 import ugnay.app.frontend.residents.ui.news.NewsAdapter
@@ -44,6 +49,7 @@ class OfficialNewsFragment : Fragment() {
         }
 
         loadNews()
+        setupRealtimeListener()
     }
 
     private fun setupRecyclerView() {
@@ -61,6 +67,22 @@ class OfficialNewsFragment : Fragment() {
                 newsAdapter.updateData(news)
             } catch (exception: Exception) {
                 Toast.makeText(requireContext(), "Error loading announcements: ${exception.message}", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    private fun setupRealtimeListener() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            val channel = SupabaseConfig.client.channel("announcements_channel_officials")
+            val changeFlow = channel.postgresChangeFlow<PostgresAction>(schema = "public") {
+                table = "announcements"
+            }
+
+            channel.subscribe()
+
+            changeFlow.collect {
+                // When any change happens in the announcements table, reload the news
+                loadNews()
             }
         }
     }

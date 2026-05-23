@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import coil.load
 import io.github.jan.supabase.realtime.PostgresAction
 import io.github.jan.supabase.realtime.channel
 import io.github.jan.supabase.realtime.postgresChangeFlow
@@ -17,6 +18,7 @@ import ugnay.app.R
 import ugnay.app.backend.residents.SupabaseConfig
 import ugnay.app.backend.residents.data.Request
 import ugnay.app.backend.residents.login.LoginRepository
+import ugnay.app.backend.residents.news.NewsRepository
 import ugnay.app.backend.residents.request.RequestRepository
 import ugnay.app.databinding.FragmentResidentsHomeBinding
 import ugnay.app.databinding.ItemStatusCardBinding
@@ -42,7 +44,13 @@ class HomeFragment : Fragment() {
 
         setupUI()
         loadRequestStatus()
+        loadLatestAnnouncement()
         setupRealtimeListener()
+        setupAnnouncementRealtimeListener()
+        
+        binding.cvLatestAnnouncement.setOnClickListener {
+            findNavController().navigate(R.id.nav_news)
+        }
     }
 
     private fun setupRealtimeListener() {
@@ -57,6 +65,22 @@ class HomeFragment : Fragment() {
             changeFlow.collect {
                 // When any change happens in the requests table, reload the status
                 loadRequestStatus()
+            }
+        }
+    }
+
+    private fun setupAnnouncementRealtimeListener() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            val channel = SupabaseConfig.client.channel("announcements_channel")
+            val changeFlow = channel.postgresChangeFlow<PostgresAction>(schema = "public") {
+                table = "announcements"
+            }
+
+            channel.subscribe()
+
+            changeFlow.collect {
+                // When any change happens in the announcements table, reload the latest announcement
+                loadLatestAnnouncement()
             }
         }
     }
@@ -94,6 +118,33 @@ class HomeFragment : Fragment() {
             } catch (e: Exception) {
                 e.printStackTrace()
                 binding.llStatusContainer.visibility = View.GONE
+            }
+        }
+    }
+
+    private fun loadLatestAnnouncement() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            try {
+                val latestAnnouncement = NewsRepository.fetchLatestAnnouncement()
+                
+                if (latestAnnouncement != null) {
+                    binding.tvLatestAnnouncementTitle.text = latestAnnouncement.title
+                    binding.tvLatestAnnouncementContent.text = latestAnnouncement.content
+                    
+                    // Load image if available
+                    if (!latestAnnouncement.imageUrl.isNullOrBlank()) {
+                        binding.ivLatestAnnouncementImage.visibility = View.VISIBLE
+                        binding.ivLatestAnnouncementImage.load(latestAnnouncement.imageUrl) {
+                            crossfade(true)
+                            placeholder(R.drawable.ic_launcher_foreground)
+                            error(R.drawable.ic_launcher_foreground)
+                        }
+                    } else {
+                        binding.ivLatestAnnouncementImage.visibility = View.GONE
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
     }

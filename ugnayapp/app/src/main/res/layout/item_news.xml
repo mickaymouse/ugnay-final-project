@@ -41,6 +41,15 @@
                 android:layout_marginStart="8dp" />
         </LinearLayout>
 
+        <ImageView
+            android:id="@+id/iv_news_item_image"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="12dp"
+            android:scaleType="centerCrop"
+            android:contentDescription="Announcement image"
+            android:visibility="gone" />
+
         <TextView
             android:id="@+id/tv_news_item_content"
             android:layout_width="match_parent"
