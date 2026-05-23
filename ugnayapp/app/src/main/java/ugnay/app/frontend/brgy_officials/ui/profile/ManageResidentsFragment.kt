@@ -12,6 +12,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import coil.transform.CircleCropTransformation
 import io.github.jan.supabase.postgrest.from
 import kotlinx.coroutines.launch
 import ugnay.app.R
@@ -99,18 +101,11 @@ class ManageResidentsFragment : Fragment() {
         class ResidentViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             val imgAvatar: ImageView = view.findViewById(R.id.imgResidentAvatar)
             val tvName: TextView = view.findViewById(R.id.tvItemName)
-            val tvUserId: TextView = view.findViewById(R.id.tvItemUserId)
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ResidentViewHolder {
-            val mainView = LayoutInflater.from(parent.context)
-                .inflate(R.layout.fragment_manage_residents, parent, false)
-
-            val rowView = mainView.findViewById<ViewGroup>(R.id.itemResidentTemplate)
-
-            // Detach template layout from the parent layout group to reuse as item rows
-            (rowView.parent as ViewGroup).removeView(rowView)
-            rowView.visibility = View.VISIBLE
+            val rowView = LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_resident_row, parent, false)
 
             return ResidentViewHolder(rowView)
         }
@@ -119,13 +114,21 @@ class ManageResidentsFragment : Fragment() {
             val resident = residents[position]
 
             // 1. Bind Name
-            holder.tvName.text = "${resident.firstName} ${resident.lastName}".trim()
+            holder.tvName.text = holder.itemView.context.getString(R.string.resident_full_name, resident.firstName, resident.lastName).trim()
 
-            // 2. Bind Whole User ID directly with no truncation and no formatting symbol prefixes
-            holder.tvUserId.text = resident.userId ?: "No ID Available"
-
-            // 3. Image Placeholder
-            holder.imgAvatar.setImageResource(android.R.drawable.sym_def_app_icon)
+            // 2. Image Loading
+            if (!resident.profilePictureUrl.isNullOrBlank()) {
+                holder.imgAvatar.load(resident.profilePictureUrl) {
+                    crossfade(true)
+                    transformations(CircleCropTransformation())
+                    placeholder(R.drawable.ic_person)
+                    error(R.drawable.ic_person)
+                }
+                holder.imgAvatar.setPadding(0, 0, 0, 0)
+            } else {
+                holder.imgAvatar.setImageResource(R.drawable.ic_person)
+                holder.imgAvatar.setPadding(4, 4, 4, 4)
+            }
         }
 
         override fun getItemCount(): Int = residents.size

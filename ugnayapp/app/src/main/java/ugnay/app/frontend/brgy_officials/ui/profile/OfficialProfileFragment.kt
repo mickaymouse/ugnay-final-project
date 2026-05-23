@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import coil.load
 import kotlinx.coroutines.launch
 import ugnay.app.R
 import ugnay.app.backend.residents.login.LoginRepository // Uses the central session repository
@@ -35,15 +36,15 @@ class OfficialProfileFragment : Fragment() {
 
         // Navigation Actions
         binding.btnManageResidents.setOnClickListener {
-            findNavController().navigate(R.id.nav_manage_residents)
+            findNavController().navigate(R.id.action_profile_to_manage_residents)
         }
 
         binding.btnManageOfficials.setOnClickListener {
-            findNavController().navigate(R.id.nav_manage_officials)
+            findNavController().navigate(R.id.action_profile_to_manage_officials)
         }
 
         binding.btnManageProfile.setOnClickListener {
-            findNavController().navigate(R.id.nav_manage_official_profile)
+            findNavController().navigate(R.id.action_profile_to_manage_profile)
         }
 
         binding.btnLogout.setOnClickListener {
@@ -67,7 +68,16 @@ class OfficialProfileFragment : Fragment() {
                     binding.tvOfficialEmail.text = currentOfficial.emailAddress ?: "No Email Linked"
                     binding.tvOfficialPhone.text = currentOfficial.contactNumber ?: "No Contact Number"
 
-                    binding.tvOfficialId.text = currentOfficial.userId?.uppercase() ?: "NO ID FOUND"
+                    if (!currentOfficial.profilePictureUrl.isNullOrBlank()) {
+                        binding.ivOfficialAvatar.load(currentOfficial.profilePictureUrl) {
+                            crossfade(true)
+                            placeholder(R.drawable.ic_person)
+                            error(R.drawable.ic_person)
+                            listener(onSuccess = { _, _ ->
+                                binding.ivOfficialAvatar.imageTintList = null
+                            })
+                        }
+                    }
 
                 } else {
                     showErrorState("No active session found. Please log in again.")

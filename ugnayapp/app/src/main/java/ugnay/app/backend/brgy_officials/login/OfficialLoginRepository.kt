@@ -17,8 +17,6 @@ object OfficialLoginRepository {
         val trimmedEmail = email.trim()
         Log.d(TAG, "Attempting login for official: $trimmedEmail")
 
-        // 1. FIRST: Check if user exists in the database and is a Barangay Official
-        // We use ilike for case-insensitive matching and trim the input.
         val dbUser = try {
             val response = SupabaseConfig.client.from("users")
                 .select {
@@ -48,7 +46,6 @@ object OfficialLoginRepository {
         Log.d(TAG, "Initial login attempt result: ${if (user != null) "Success" else "Failure"}")
 
         // 3. SPECIAL CASE: First-time login with the default password "Guintas@2023"
-        // This handles officials who are in the 'users' table but not yet in Supabase Auth.
         if (user == null && password == "Guintas@2023") {
             Log.i(TAG, "Normal login failed with default password. Attempting first-time setup flow.")
             try {

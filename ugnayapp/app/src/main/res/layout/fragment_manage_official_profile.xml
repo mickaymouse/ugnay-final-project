@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_dark">
+    android:background="@color/background_dark"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,144 +13,265 @@
         android:padding="24dp">
 
         <TextView
-            android:id="@+id/tvManageProfileTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_semibold"
-            android:text="Edit Account"
+            android:text="Edit Official Profile"
             android:textColor="@color/text_white"
-            android:textSize="22sp" />
+            android:textSize="24sp"
+            android:fontFamily="@font/poppins_bold"
+            android:layout_marginBottom="8dp"/>
 
         <TextView
-            android:id="@+id/tvManageProfileSubtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_regular"
-            android:text="Update your personal information and password"
+            android:text="Update your official account details"
             android:textColor="@color/text_secondary"
-            android:textSize="14sp" />
+            android:fontFamily="@font/poppins_regular"
+            android:layout_marginBottom="24dp"/>
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="32dp" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="24dp">
 
-        <!-- Personal Info -->
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/img_official_profile"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_person"
+                android:scaleType="centerCrop"
+                android:background="#3D3D3D"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
+                app:strokeColor="@color/brgy_blue"
+                app:strokeWidth="2dp" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_official_change_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/img_official_profile"
+                android:layout_alignEnd="@id/img_official_profile"
+                android:layout_margin="-8dp"
+                app:fabSize="mini"
+                android:src="@android:drawable/ic_menu_camera"
+                app:backgroundTint="@color/brgy_blue"
+                app:tint="@color/text_white"
+                android:contentDescription="Change Photo" />
+        </RelativeLayout>
+
+        <!-- Editable Fields -->
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="First Name"
-            android:textColorHint="@color/text_secondary"
-            app:boxStrokeColor="@color/brgy_blue"
-            app:hintTextColor="@color/brgy_blue">
-
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:hintTextColor="@color/brgy_blue"
+            app:boxStrokeColor="@color/brgy_blue">
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_first_name"
+                android:id="@+id/et_official_firstname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/text_white" />
+                android:textColor="@color/text_white"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:hint="Middle Name"
+            android:layout_marginTop="12dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:hintTextColor="@color/brgy_blue"
+            app:boxStrokeColor="@color/brgy_blue">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_official_middlename"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_white"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:hint="Last Name"
-            android:textColorHint="@color/text_secondary"
-            app:boxStrokeColor="@color/brgy_blue"
-            app:hintTextColor="@color/brgy_blue">
-
+            android:layout_marginTop="12dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:hintTextColor="@color/brgy_blue"
+            app:boxStrokeColor="@color/brgy_blue">
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_last_name"
+                android:id="@+id/et_official_lastname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/text_white" />
+                android:textColor="@color/text_white"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:hint="Contact Number"
-            android:textColorHint="@color/text_secondary"
-            app:boxStrokeColor="@color/brgy_blue"
-            app:hintTextColor="@color/brgy_blue">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_contact_number"
+            android:hint="Civil Status"
+            android:layout_marginTop="12dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            app:hintTextColor="@color/brgy_blue"
+            app:boxStrokeColor="@color/brgy_blue">
+            <AutoCompleteTextView
+                android:id="@+id/act_official_civil_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="phone"
-                android:textColor="@color/text_white" />
+                android:inputType="none"
+                android:textColor="@color/text_white"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginVertical="24dp"
-            android:background="@color/text_secondary"
-            android:alpha="0.2" />
-
-        <!-- Password Section -->
+        <!-- Read-only Info -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_semibold"
-            android:text="Change Password"
+            android:text="Official Information (Read-only)"
             android:textColor="@color/text_white"
-            android:textSize="16sp" />
+            android:textSize="18sp"
+            android:fontFamily="@font/poppins_bold"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="12dp"/>
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:orientation="vertical"
+            android:background="#2D2D2D"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Gender"
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp"/>
+            <TextView
+                android:id="@+id/tv_official_gender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_white"
+                android:textSize="16sp"
+                android:text="---"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Birthdate"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp"/>
+            <TextView
+                android:id="@+id/tv_official_birthdate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_white"
+                android:textSize="16sp"
+                android:text="---"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Birthplace"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp"/>
+            <TextView
+                android:id="@+id/tv_official_birthplace"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_white"
+                android:textSize="16sp"
+                android:text="---"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Email Address"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp"/>
+            <TextView
+                android:id="@+id/tv_official_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_white"
+                android:textSize="16sp"
+                android:text="---"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Contact Number"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp"/>
+            <TextView
+                android:id="@+id/tv_official_contact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_white"
+                android:textSize="16sp"
+                android:text="---"/>
+        </LinearLayout>
+
+        <!-- Change Password Section -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Change Password"
+            android:textColor="@color/text_white"
+            android:textSize="18sp"
+            android:fontFamily="@font/poppins_bold"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="12dp"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:hint="New Password"
-            android:textColorHint="@color/text_secondary"
-            app:boxStrokeColor="@color/brgy_blue"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:hintTextColor="@color/brgy_blue"
+            app:boxStrokeColor="@color/brgy_blue"
             app:passwordToggleEnabled="true"
             app:passwordToggleTint="@color/text_secondary">
-
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_new_password"
+                android:id="@+id/et_official_new_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:textColor="@color/text_white" />
+                android:textColor="@color/text_white"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:hint="Confirm Password"
-            android:textColorHint="@color/text_secondary"
-            app:boxStrokeColor="@color/brgy_blue"
+            android:layout_marginTop="12dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:hintTextColor="@color/brgy_blue"
+            app:boxStrokeColor="@color/brgy_blue"
             app:passwordToggleEnabled="true"
             app:passwordToggleTint="@color/text_secondary">
-
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_confirm_password"
+                android:id="@+id/et_official_confirm_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:textColor="@color/text_white" />
+                android:textColor="@color/text_white"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_save_profile"
+            android:id="@+id/btn_save_official"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:layout_marginTop="32dp"
             android:text="Save Changes"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="24dp"
+            android:backgroundTint="@color/brgy_blue"
+            android:textColor="@color/text_white"
             android:fontFamily="@font/poppins_semibold"
             app:cornerRadius="12dp"
-            android:backgroundTint="@color/brgy_blue" />
+            android:textAllCaps="false"/>
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

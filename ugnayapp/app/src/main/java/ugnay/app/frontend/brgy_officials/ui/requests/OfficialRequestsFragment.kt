@@ -16,7 +16,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import io.github.jan.supabase.postgrest.from
+import com.google.android.material.tabs.TabLayoutMediator
+import ugnay.app.backend.residents.data.User
+import ugnay.app.backend.residents.data.Address
+import ugnay.app.databinding.DialogPageRequestBinding
+import ugnay.app.databinding.DialogPageResidentInfoBinding
+import coil.load
+import coil.transform.CircleCropTransformation
 import io.github.jan.supabase.realtime.PostgresAction
 import io.github.jan.supabase.realtime.channel
 import io.github.jan.supabase.realtime.postgresChangeFlow
@@ -56,11 +62,28 @@ class OfficialRequestsFragment : Fragment() {
         setupFilters()
         loadRequests()
         setupRealtimeListener()
+        loadOfficialHeader()
 
         // FIXED: Correctly matching the XML element ID 'etSearchRequest'
         binding.etSearchRequest.addTextChangedListener { text ->
             currentSearchQuery = text.toString()
             applyFilterAndSearch()
+        }
+    }
+
+    private fun loadOfficialHeader() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            val currentUser = ugnay.app.backend.residents.login.LoginRepository.getCurrentUser()
+            if (currentUser != null && !currentUser.profilePictureUrl.isNullOrBlank()) {
+                binding.ivOfficialProfilePicRequests.load(currentUser.profilePictureUrl) {
+                    crossfade(true)
+                    placeholder(R.drawable.ic_person)
+                    error(R.drawable.ic_person)
+                    listener(onSuccess = { _, _ ->
+                        binding.ivOfficialProfilePicRequests.imageTintList = null
+                    })
+                }
+            }
         }
     }
 
@@ -135,7 +158,7 @@ class OfficialRequestsFragment : Fragment() {
 
         // 1. Status Filter Tab Rule
         if (activeFilterStatus != "ALL") {
-            filtered = filtered.filter { it.status?.name == activeFilterStatus }
+            filtered = filtered.filter { it.status.name == activeFilterStatus }
         }
 
         // 2. Text Search Input Filter Rule
@@ -164,19 +187,40 @@ class OfficialRequestsFragment : Fragment() {
                     dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
                     dialogBinding.apply {
-                        tvRequestFullName.text = request.fullName
-                        tvRequestTypeInfo.text = request.type
-                        tvRequestPurposeInfo.text = request.purpose
-                        tvRequestStartDate.text = request.startDate ?: "N/A"
-
-                        tvProfileName.text = "${user.firstName} ${user.lastName}"
+                        val fullName = buildString {
+                            append(user.firstName)
+                            if (!user.middleName.isNullOrBlank()) append(" ${user.middleName}")
+                            append(" ${user.lastName}")
+                            if (!user.nameSuffix.isNullOrBlank()) append(" ${user.nameSuffix}")
+                        }
+                        tvProfileName.text = fullName
                         tvProfileType.text = user.userType?.name ?: "Resident"
-                        tvProfileEmail.text = user.emailAddress ?: "No email"
-                        tvProfileContact.text = user.contactNumber ?: "No contact"
 
-                        tvProfileAddress.text = address?.let { "${it.purok}, ${it.barangay}, ${it.municipality}" } ?: "No address"
+                        // Load profile picture if available
+                        if (!user.profilePictureUrl.isNullOrBlank()) {
+                            ivResidentPhoto.load(user.profilePictureUrl) {
+                                crossfade(true)
+                                transformations(CircleCropTransformation())
+                                placeholder(R.drawable.ic_person)
+                                error(R.drawable.ic_person)
+                                listener(onSuccess = { _, _ ->
+                                    ivResidentPhoto.imageTintList = null
+                                })
+                            }
+                        } else {
+                            ivResidentPhoto.setImageResource(R.drawable.ic_person)
+                            ivResidentPhoto.imageTintList = android.content.res.ColorStateList.valueOf(
+                                resources.getColor(R.color.brgy_blue, null)
+                            )
+                        }
+                        
+                        val pagerAdapter = ProfileViewPagerAdapter(request, user, address) {
+                            showStatusPopup(it, request, dialog)
+                        }
+                        viewPagerProfile.adapter = pagerAdapter
+                        
+                        TabLayoutMediator(tabLayoutIndicator, viewPagerProfile) { _, _ -> }.attach()
 
-                        btnUpdateStatusDialog.setOnClickListener { showStatusPopup(it, request, dialog) }
                         btnClose.setOnClickListener { dialog.dismiss() }
                     }
 
@@ -218,6 +262,63 @@ class OfficialRequestsFragment : Fragment() {
         _binding = null
     }
 
+    // --- VIEWPAGER ADAPTER FOR PROFILE DIALOG ---
+    private class ProfileViewPagerAdapter(
+        private val request: Request,
+        private val user: User,
+        private val address: Address?,
+        private val onUpdateStatus: (View) -> Unit
+    ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+        companion object {
+            private const val TYPE_REQUEST = 0
+            private const val TYPE_RESIDENT = 1
+        }
+
+        override fun getItemViewType(position: Int): Int = position
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+            val inflater = LayoutInflater.from(parent.context)
+            return if (viewType == TYPE_REQUEST) {
+                val binding = DialogPageRequestBinding.inflate(inflater, parent, false)
+                RequestViewHolder(binding)
+            } else {
+                val binding = DialogPageResidentInfoBinding.inflate(inflater, parent, false)
+                ResidentViewHolder(binding)
+            }
+        }
+
+        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+            if (holder is RequestViewHolder) {
+                holder.binding.apply {
+                    tvRequestFullName.text = request.fullName
+                    tvRequestTypeInfo.text = request.type
+                    tvRequestPurposeInfo.text = "Purpose: ${request.purpose}"
+                    tvRequestStartDate.text = "Submitted on: ${request.startDate ?: "N/A"}"
+                    btnUpdateStatusDialog.setOnClickListener { onUpdateStatus(it) }
+                }
+            } else if (holder is ResidentViewHolder) {
+                holder.binding.apply {
+                    tvProfileEmail.text = user.emailAddress ?: "No email"
+                    tvProfileContact.text = user.contactNumber ?: "No contact"
+                    tvProfileAddress.text = address?.let {
+                        "${it.purok}, ${it.barangay}, ${it.municipality}"
+                    } ?: "No address"
+                    tvProfileGender.text = user.gender?.name ?: "N/A"
+                    tvProfileCivilStatus.text = user.civilStatus?.name ?: "N/A"
+                    tvProfileBirthdate.text = user.birthdate ?: "N/A"
+                    tvProfileBirthplace.text = user.birthplace ?: "N/A"
+                    tvProfileNationality.text = user.nationality ?: "Filipino"
+                }
+            }
+        }
+
+        override fun getItemCount(): Int = 2
+
+        class RequestViewHolder(val binding: DialogPageRequestBinding) : RecyclerView.ViewHolder(binding.root)
+        class ResidentViewHolder(val binding: DialogPageResidentInfoBinding) : RecyclerView.ViewHolder(binding.root)
+    }
+
     // --- RECYCLERVIEW ADAPTER COMPONENT ---
     private class OfficialRequestAdapter(
         private var requests: List<Request>,
@@ -247,9 +348,9 @@ class OfficialRequestsFragment : Fragment() {
 
             // Stylize status badging colors dynamically
             val status = request.status
-            holder.tvStatusBadge.text = status?.displayName ?: "Pending"
+            holder.tvStatusBadge.text = status.displayName
 
-            val badgeColor = when (status?.name) {
+            val badgeColor = when (status.name) {
                 "APPROVED" -> "#2E7D32" // Balanced Dark Green
                 "REJECTED", "EXPIRED" -> "#C62828" // Dark Red
                 else -> "#EF6C00" // Warm Amber Orange/Yellow for Pending

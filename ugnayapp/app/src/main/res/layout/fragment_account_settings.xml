@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_dark">
+    android:background="@color/background_dark"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,8 +19,48 @@
             android:textColor="@color/text_white"
             android:textSize="24sp"
             android:fontFamily="@font/poppins_bold"
+            android:layout_marginBottom="8dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Update your personal details"
+            android:textColor="@color/text_secondary"
+            android:fontFamily="@font/poppins_regular"
             android:layout_marginBottom="24dp"/>
 
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="24dp">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/img_settings_profile"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_person"
+                android:scaleType="centerCrop"
+                android:background="#3D3D3D"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
+                app:strokeColor="@color/brgy_yellow"
+                app:strokeWidth="2dp" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_change_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/img_settings_profile"
+                android:layout_alignEnd="@id/img_settings_profile"
+                android:layout_margin="-8dp"
+                app:fabSize="mini"
+                android:src="@android:drawable/ic_menu_camera"
+                app:backgroundTint="@color/brgy_yellow"
+                app:tint="@color/background_dark"
+                android:contentDescription="Change Photo" />
+        </RelativeLayout>
+
+        <!-- Editable Fields -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -29,6 +70,21 @@
             app:boxStrokeColor="@color/brgy_yellow">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_settings_firstname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_white"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Middle Name"
+            android:layout_marginTop="12dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:hintTextColor="@color/brgy_yellow"
+            app:boxStrokeColor="@color/brgy_yellow">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_settings_middlename"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/text_white"/>
@@ -52,39 +108,117 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Email"
+            android:hint="Civil Status"
             android:layout_marginTop="12dp"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             app:hintTextColor="@color/brgy_yellow"
             app:boxStrokeColor="@color/brgy_yellow">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_settings_email"
+            <AutoCompleteTextView
+                android:id="@+id/act_settings_civil_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/text_white"
-                android:inputType="textEmailAddress"/>
+                android:inputType="none"
+                android:textColor="@color/text_white"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Contact Number"
-            android:layout_marginTop="12dp"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            app:hintTextColor="@color/brgy_yellow"
-            app:boxStrokeColor="@color/brgy_yellow">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_settings_contact"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/text_white"
-                android:inputType="phone"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
+        <!-- Read-only Info -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Address Information"
+            android:text="Personal Information (Read-only)"
+            android:textColor="@color/text_white"
+            android:textSize="18sp"
+            android:fontFamily="@font/poppins_bold"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="12dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#2D2D2D"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Gender"
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp"/>
+            <TextView
+                android:id="@+id/tv_settings_gender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_white"
+                android:textSize="16sp"
+                android:text="---"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Birthdate"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp"/>
+            <TextView
+                android:id="@+id/tv_settings_birthdate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_white"
+                android:textSize="16sp"
+                android:text="---"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Birthplace"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp"/>
+            <TextView
+                android:id="@+id/tv_settings_birthplace"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_white"
+                android:textSize="16sp"
+                android:text="---"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Email Address"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp"/>
+            <TextView
+                android:id="@+id/tv_settings_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_white"
+                android:textSize="16sp"
+                android:text="---"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Contact Number"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp"/>
+            <TextView
+                android:id="@+id/tv_settings_contact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_white"
+                android:textSize="16sp"
+                android:text="---"/>
+        </LinearLayout>
+
+        <!-- Change Password Section -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Change Password"
             android:textColor="@color/text_white"
             android:textSize="18sp"
             android:fontFamily="@font/poppins_bold"
@@ -94,87 +228,50 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Purok"
+            android:hint="New Password"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:hintTextColor="@color/brgy_yellow"
-            app:boxStrokeColor="@color/brgy_yellow">
+            app:boxStrokeColor="@color/brgy_yellow"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/text_secondary">
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_settings_purok"
+                android:id="@+id/et_settings_new_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textPassword"
                 android:textColor="@color/text_white"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Barangay"
+            android:hint="Confirm Password"
             android:layout_marginTop="12dp"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:hintTextColor="@color/brgy_yellow"
-            app:boxStrokeColor="@color/brgy_yellow">
+            app:boxStrokeColor="@color/brgy_yellow"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/text_secondary">
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_settings_barangay"
+                android:id="@+id/et_settings_confirm_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textPassword"
                 android:textColor="@color/text_white"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Municipality"
-            android:layout_marginTop="12dp"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            app:hintTextColor="@color/brgy_yellow"
-            app:boxStrokeColor="@color/brgy_yellow">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_settings_municipality"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/text_white"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Province"
-            android:layout_marginTop="12dp"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            app:hintTextColor="@color/brgy_yellow"
-            app:boxStrokeColor="@color/brgy_yellow">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_settings_province"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/text_white"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Zip Code"
-            android:layout_marginTop="12dp"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            app:hintTextColor="@color/brgy_yellow"
-            app:boxStrokeColor="@color/brgy_yellow">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_settings_zip"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/text_white"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_save_settings"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
+            android:layout_height="56dp"
             android:text="Save Changes"
             android:layout_marginTop="32dp"
+            android:layout_marginBottom="24dp"
             android:backgroundTint="@color/brgy_yellow"
             android:textColor="@color/background_dark"
             android:fontFamily="@font/poppins_semibold"
+            app:cornerRadius="12dp"
             android:textAllCaps="false"/>
 
     </LinearLayout>
-</ScrollView>
+</androidx.core.widget.NestedScrollView>

@@ -56,9 +56,6 @@ class ProfileFragment : Fragment() {
             // Profile Text Components
             binding.tvProfileName.text = "${user.firstName} ${user.lastName}".trim()
 
-            // Force User ID to be completely uppercase
-            binding.tvProfileUserId.text = user.userId?.uppercase(Locale.ROOT) ?: "N/A"
-
             binding.tvProfileEmail.text = user.emailAddress ?: "No email address linked"
             binding.tvProfileContact.text = user.contactNumber ?: "No contact number"
 

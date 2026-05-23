@@ -8,23 +8,50 @@
     android:orientation="vertical"
     android:padding="20dp">
 
-    <TextView
-        android:id="@+id/tvOfficialRequestsTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Resident Requests"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:textColor="#FFFFFF" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/tvOfficialRequestsSubtitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="Manage resident document requests and certificates"
-        android:textSize="14sp"
-        android:textColor="#88FFFFFF" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/iv_official_profile_pic_requests"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvOfficialRequestsTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Resident Requests"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF" />
+
+            <TextView
+                android:id="@+id/tvOfficialRequestsSubtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Manage resident document requests"
+                android:textSize="14sp"
+                android:textColor="#88FFFFFF" />
+        </LinearLayout>
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/iv_official_profile_pic_requests"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_person"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
+            app:strokeColor="@color/brgy_blue"
+            app:strokeWidth="2dp"
+            app:tint="@color/brgy_blue" />
+    </RelativeLayout>
 
     <EditText
         android:id="@+id/etSearchRequest"

@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import coil.load
 import io.github.jan.supabase.realtime.PostgresAction
 import io.github.jan.supabase.realtime.channel
 import io.github.jan.supabase.realtime.postgresChangeFlow
@@ -38,7 +39,7 @@ class OfficialNewsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.tvNewsTitle.text = "Official News & Announcements"
+        binding.tvNewsTitle.text = "Official News"
 
         setupRecyclerView()
 
@@ -50,6 +51,23 @@ class OfficialNewsFragment : Fragment() {
 
         loadNews()
         setupRealtimeListener()
+        loadOfficialHeader()
+    }
+
+    private fun loadOfficialHeader() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            val currentUser = ugnay.app.backend.residents.login.LoginRepository.getCurrentUser()
+            if (currentUser != null && !currentUser.profilePictureUrl.isNullOrBlank()) {
+                binding.ivOfficialProfilePicNews.load(currentUser.profilePictureUrl) {
+                    crossfade(true)
+                    placeholder(R.drawable.ic_person)
+                    error(R.drawable.ic_person)
+                    listener(onSuccess = { _, _ ->
+                        binding.ivOfficialProfilePicNews.imageTintList = null
+                    })
+                }
+            }
+        }
     }
 
     private fun setupRecyclerView() {

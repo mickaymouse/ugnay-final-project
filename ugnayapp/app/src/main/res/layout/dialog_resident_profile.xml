@@ -3,237 +3,110 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="4dp"
-    android:layout_margin="8dp"
-    app:cardBackgroundColor="@color/card_background">
+    android:layout_margin="16dp"
+    app:cardBackgroundColor="@color/card_background"
+    app:cardCornerRadius="28dp"
+    app:cardElevation="12dp"
+    app:strokeWidth="1dp"
+    app:strokeColor="#1AFFFFFF">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="none">
+        android:orientation="vertical">
 
-        <LinearLayout
+        <!-- Header Area with slight background contrast -->
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="12dp">
+            android:padding="24dp"
+            android:background="#08FFFFFF">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Resident Request Details"
-                android:textColor="@color/brgy_yellow"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:layout_marginBottom="10dp" />
-
-            <!-- REQUEST SECTION -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="8dp"
-                android:background="@color/background_dark"
-                android:layout_marginBottom="10dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Full Name"
-                    android:textColor="@color/text_secondary"
-                    android:textSize="9sp" />
-                <TextView
-                    android:id="@+id/tv_request_full_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="-"
-                    android:textColor="@color/text_white"
-                    android:textStyle="bold"
-                    android:textSize="13sp"
-                    android:layout_marginBottom="2dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Document Type"
-                    android:textColor="@color/text_secondary"
-                    android:textSize="9sp" />
-                <TextView
-                    android:id="@+id/tv_request_type_info"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="-"
-                    android:textColor="@color/text_white"
-                    android:textStyle="bold"
-                    android:textSize="13sp"
-                    android:layout_marginBottom="2dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Purpose"
-                    android:textColor="@color/text_secondary"
-                    android:textSize="9sp" />
-                <TextView
-                    android:id="@+id/tv_request_purpose_info"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="-"
-                    android:textColor="@color/text_white"
-                    android:textSize="12sp"
-                    android:layout_marginBottom="2dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Date Requested"
-                    android:textColor="@color/text_secondary"
-                    android:textSize="9sp" />
-                <TextView
-                    android:id="@+id/tv_request_start_date"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="-"
-                    android:textColor="@color/text_white"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
-            <!-- RESIDENT PROFILE SECTION -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="8dp">
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_photo_container"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                app:cardCornerRadius="36dp"
+                app:cardElevation="2dp"
+                app:strokeColor="@color/brgy_blue"
+                app:strokeWidth="2dp">
 
                 <ImageView
-                    android:id="@+id/iv_profile_picture"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:src="@android:drawable/ic_menu_gallery"
+                    android:id="@+id/iv_resident_photo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:scaleType="centerCrop"
-                    android:background="@color/background_dark"
-                    app:tint="@color/text_secondary" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginStart="10dp">
-
-                    <TextView
-                        android:id="@+id/tv_profile_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Full Name"
-                        android:textColor="@color/text_white"
-                        android:textSize="13sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tv_profile_type"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Resident"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="10sp" />
-                </LinearLayout>
-            </LinearLayout>
+                    android:src="@drawable/ic_person"
+                    app:tint="@color/brgy_blue"
+                    android:contentDescription="Resident Photo" />
+            </com.google.android.material.card.MaterialCardView>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingHorizontal="4dp">
+                android:layout_toEndOf="@id/cv_photo_container"
+                android:layout_toStartOf="@id/btnClose"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="8dp"
+                android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tvProfileName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Email Address"
-                    android:textColor="@color/text_secondary"
-                    android:textSize="9sp" />
-                <TextView
-                    android:id="@+id/tv_profile_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="-"
+                    android:fontFamily="@font/poppins_bold"
+                    android:text="Juan Dela Cruz"
                     android:textColor="@color/text_white"
-                    android:textSize="12sp"
-                    android:layout_marginBottom="3dp" />
+                    android:textSize="20sp"
+                    android:lineSpacingExtra="-2sp"/>
 
                 <TextView
+                    android:id="@+id/tvProfileType"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Contact Number"
-                    android:textColor="@color/text_secondary"
-                    android:textSize="9sp" />
-                <TextView
-                    android:id="@+id/tv_profile_contact"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="-"
-                    android:textColor="@color/text_white"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:text="Verified Resident"
+                    android:textColor="@color/brgy_blue"
                     android:textSize="12sp"
-                    android:layout_marginBottom="3dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Address"
-                    android:textColor="@color/text_secondary"
-                    android:textSize="9sp" />
-                <TextView
-                    android:id="@+id/tv_profile_address"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="-"
-                    android:textColor="@color/text_white"
-                    android:textSize="12sp"
-                    android:layout_marginBottom="10dp" />
+                    android:textAllCaps="true"
+                    android:letterSpacing="0.05"
+                    android:layout_marginTop="2dp"/>
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/background_dark"
-                android:layout_marginBottom="10dp" />
+            <ImageButton
+                android:id="@+id/btnClose"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                app:tint="@color/text_secondary"
+                android:contentDescription="Close Dialog" />
+        </RelativeLayout>
 
-            <!-- ACTION BUTTONS -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+        <!-- Pager Content -->
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPagerProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="420dp" />
 
-                <Button
-                    android:id="@+id/btn_update_status_dialog"
-                    android:layout_width="0dp"
-                    android:layout_height="36dp"
-                    android:layout_weight="1"
-                    android:text="Update"
-                    android:backgroundTint="@color/brgy_yellow"
-                    android:textColor="@color/background_dark"
-                    android:textSize="10sp"
-                    android:padding="0dp"
-                    android:insetTop="0dp"
-                    android:insetBottom="0dp" />
+        <!-- Fixed Indicator at the bottom -->
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayoutIndicator"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:layout_marginBottom="16dp"
+            app:tabBackground="@drawable/tab_selector"
+            app:tabGravity="center"
+            app:tabIndicatorHeight="0dp"
+            app:tabMaxWidth="24dp"
+            app:tabPaddingStart="4dp"
+            app:tabPaddingEnd="4dp"
+            app:tabRippleColor="@android:color/transparent"
+            android:background="@android:color/transparent"/>
 
-                <Button
-                    android:id="@+id/btn_close"
-                    android:layout_width="0dp"
-                    android:layout_height="36dp"
-                    android:layout_weight="1"
-                    android:text="Close"
-                    android:backgroundTint="@color/brgy_blue"
-                    android:textColor="@color/text_white"
-                    android:textSize="10sp"
-                    android:layout_marginStart="8dp"
-                    android:padding="0dp"
-                    android:insetTop="0dp"
-                    android:insetBottom="0dp" />
-            </LinearLayout>
-
-        </LinearLayout>
-    </ScrollView>
+    </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

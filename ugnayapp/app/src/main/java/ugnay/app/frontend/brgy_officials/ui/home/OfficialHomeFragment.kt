@@ -4,19 +4,23 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import io.github.jan.supabase.auth.auth
+import coil.load
 import io.github.jan.supabase.postgrest.postgrest
 import io.github.jan.supabase.postgrest.query.Count
-import io.github.jan.supabase.postgrest.query.Order
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ugnay.app.R
 import ugnay.app.backend.residents.SupabaseConfig
+import ugnay.app.backend.residents.data.News
+import ugnay.app.backend.residents.login.LoginRepository
+import ugnay.app.backend.residents.news.NewsRepository
 import ugnay.app.databinding.FragmentOfficialHomeBinding
 
 class OfficialHomeFragment : Fragment() {
@@ -38,12 +42,13 @@ class OfficialHomeFragment : Fragment() {
         // Set UI to loading
         binding.tvStatResidents.text = "0"
         binding.tvStatServices.text = "0"
-        binding.tvLatestNews.text = "Loading..."
         binding.tvOfficialName.text = "Loading..."
+        binding.tvOfficialEmail.text = "Loading..."
+        binding.tvOfficialContact.text = "Loading..."
 
         loadDashboardData()
 
-        binding.cardAnnouncements.setOnClickListener {
+        binding.tvSeeMoreNews.setOnClickListener {
             findNavController().navigate(R.id.nav_official_news)
         }
     }
@@ -53,42 +58,76 @@ class OfficialHomeFragment : Fragment() {
             // Run all queries in parallel for faster loading
             val residentsDeferred = async { fetchResidentCount() }
             val requestsDeferred = async { fetchPendingServicesCount() }
-            val newsDeferred = async { fetchLatestNews() }
-            val nameDeferred = async { fetchOfficialName() }
+            val newsDeferred = async { fetchLatestNewsList() }
+            val currentUser = LoginRepository.getCurrentUser()
 
             // Await results and update UI
             binding.tvStatResidents.text = residentsDeferred.await().toString()
             binding.tvStatServices.text = requestsDeferred.await().toString()
-            binding.tvLatestNews.text = newsDeferred.await() ?: "No recent announcements."
-            binding.tvOfficialName.text = nameDeferred.await()
-        }
-    }
+            
+            val latestNews = newsDeferred.await()
+            updateNewsUI(latestNews)
 
-    private suspend fun fetchOfficialName(): String = withContext(Dispatchers.IO) {
-        try {
-            val userId = SupabaseConfig.client.auth.currentUserOrNull()?.id ?: return@withContext "Official"
-            val response = SupabaseConfig.client.postgrest.from("users")
-                .select { filter { eq("id", userId) }; single() }
-                .decodeSingle<Map<String, Any>>()
+            if (currentUser != null) {
+                binding.tvOfficialName.text = "${currentUser.firstName} ${currentUser.lastName}"
+                binding.tvOfficialEmail.text = currentUser.emailAddress ?: "No email"
+                binding.tvOfficialContact.text = currentUser.contactNumber ?: "No contact"
 
-            response["full_name"]?.toString() ?: "Official"
-        } catch (e: Exception) {
-            "Official"
-        }
-    }
-
-    private suspend fun fetchLatestNews(): String? = withContext(Dispatchers.IO) {
-        try {
-            val response = SupabaseConfig.client.postgrest.from("news")
-                .select {
-                    limit(1)
-                    order("created_at", order = Order.DESCENDING)
+                if (!currentUser.profilePictureUrl.isNullOrBlank()) {
+                    binding.ivOfficialProfilePic.load(currentUser.profilePictureUrl) {
+                        crossfade(true)
+                        placeholder(R.drawable.ic_person)
+                        error(R.drawable.ic_person)
+                        listener(onSuccess = { _, _ ->
+                            binding.ivOfficialProfilePic.imageTintList = null
+                        })
+                    }
                 }
-                .decodeSingleOrNull<Map<String, Any>>()
+            }
+        }
+    }
 
-            response?.get("title")?.toString()
+    private fun updateNewsUI(newsList: List<News>) {
+        binding.llNewsContainer.removeAllViews()
+        if (newsList.isEmpty()) {
+            binding.tvNewsPlaceholder.visibility = View.VISIBLE
+            binding.tvNewsPlaceholder.text = "No recent announcements."
+        } else {
+            binding.tvNewsPlaceholder.visibility = View.GONE
+            newsList.forEach { news ->
+                val newsView = LayoutInflater.from(requireContext())
+                    .inflate(R.layout.item_news, binding.llNewsContainer, false)
+                
+                newsView.findViewById<TextView>(R.id.tv_news_item_title).text = news.title
+                newsView.findViewById<TextView>(R.id.tv_news_item_content).text = news.content
+                newsView.findViewById<TextView>(R.id.tv_news_item_duration).text = news.relativeDuration() ?: "Recent"
+                
+                val imageView = newsView.findViewById<ImageView>(R.id.iv_news_item_image)
+                val imageContainer = newsView.findViewById<View>(R.id.cv_news_image_container)
+                
+                if (!news.imageUrl.isNullOrBlank()) {
+                    imageContainer.visibility = View.VISIBLE
+                    imageView.load(news.imageUrl) {
+                        crossfade(true)
+                    }
+                } else {
+                    imageContainer.visibility = View.GONE
+                }
+
+                newsView.setOnClickListener {
+                    findNavController().navigate(R.id.nav_official_news)
+                }
+                
+                binding.llNewsContainer.addView(newsView)
+            }
+        }
+    }
+
+    private suspend fun fetchLatestNewsList(): List<News> = withContext(Dispatchers.IO) {
+        try {
+            NewsRepository.fetchNews().take(3)
         } catch (e: Exception) {
-            null
+            emptyList()
         }
     }
 

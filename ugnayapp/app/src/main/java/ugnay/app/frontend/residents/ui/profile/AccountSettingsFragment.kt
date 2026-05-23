@@ -1,24 +1,44 @@
 package ugnay.app.frontend.residents.ui.profile
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import coil.load
+import coil.transform.CircleCropTransformation
+import io.github.jan.supabase.auth.auth
 import kotlinx.coroutines.launch
+import ugnay.app.R
+import ugnay.app.backend.residents.SupabaseConfig
 import ugnay.app.backend.residents.data.Address
+import ugnay.app.backend.residents.data.CivilStatus
 import ugnay.app.backend.residents.data.User
 import ugnay.app.backend.residents.login.LoginRepository
 import ugnay.app.backend.residents.profile.ProfileRepository
+import ugnay.app.backend.residents.register.RegisterRepository
 import ugnay.app.databinding.FragmentAccountSettingsBinding
 
 class AccountSettingsFragment : Fragment() {
 
     private var _binding: FragmentAccountSettingsBinding? = null
     private val binding get() = _binding!!
+    private var selectedImageUri: Uri? = null
+
+    private val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+        uri?.let {
+            selectedImageUri = it
+            binding.imgSettingsProfile.load(it) {
+                transformations(CircleCropTransformation())
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,8 +55,14 @@ class AccountSettingsFragment : Fragment() {
         val currentUser = LoginRepository.getCurrentUser()
         val currentAddress = LoginRepository.getCurrentAddress()
         
+        setupCivilStatusSpinner()
+
         if (currentUser != null && currentAddress != null) {
             populateFields(currentUser, currentAddress)
+        }
+
+        binding.fabChangePhoto.setOnClickListener {
+            imagePickerLauncher.launch("image/*")
         }
 
         binding.btnSaveSettings.setOnClickListener {
@@ -44,59 +70,102 @@ class AccountSettingsFragment : Fragment() {
         }
     }
 
+    private fun setupCivilStatusSpinner() {
+        val statuses = CivilStatus.values().map { it.name.lowercase().replaceFirstChar { it.uppercase() } }
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, statuses)
+        binding.actSettingsCivilStatus.setAdapter(adapter)
+    }
+
     private fun populateFields(user: User, address: Address) {
         binding.etSettingsFirstname.setText(user.firstName)
+        binding.etSettingsMiddlename.setText(user.middleName)
         binding.etSettingsLastname.setText(user.lastName)
-        binding.etSettingsEmail.setText(user.emailAddress)
-        binding.etSettingsContact.setText(user.contactNumber)
         
-        binding.etSettingsPurok.setText(address.purok)
-        binding.etSettingsBarangay.setText(address.barangay)
-        binding.etSettingsMunicipality.setText(address.municipality)
-        binding.etSettingsProvince.setText(address.province)
-        binding.etSettingsZip.setText(address.zipCode)
+        user.civilStatus?.let {
+            binding.actSettingsCivilStatus.setText(it.name.lowercase().replaceFirstChar { it.uppercase() }, false)
+        }
+
+        // Read-only fields
+        binding.tvSettingsGender.text = user.gender?.name ?: "---"
+        binding.tvSettingsBirthdate.text = user.birthdate ?: "---"
+        binding.tvSettingsBirthplace.text = user.birthplace ?: "---"
+        binding.tvSettingsEmail.text = user.emailAddress ?: "---"
+        binding.tvSettingsContact.text = user.contactNumber ?: "---"
+
+        if (!user.profilePictureUrl.isNullOrBlank()) {
+            binding.imgSettingsProfile.load(user.profilePictureUrl) {
+                transformations(CircleCropTransformation())
+                placeholder(R.drawable.ic_person)
+                error(R.drawable.ic_person)
+            }
+        }
     }
 
     private fun saveChanges() {
         val currentUser = LoginRepository.getCurrentUser() ?: return
         val currentAddress = LoginRepository.getCurrentAddress() ?: return
         
-        val updatedUser = currentUser.copy(
-            firstName = binding.etSettingsFirstname.text.toString().trim(),
-            lastName = binding.etSettingsLastname.text.toString().trim(),
-            emailAddress = binding.etSettingsEmail.text.toString().trim(),
-            contactNumber = binding.etSettingsContact.text.toString().trim()
-        )
-
-        val updatedAddress = currentAddress.copy(
-            purok = binding.etSettingsPurok.text.toString().trim(),
-            barangay = binding.etSettingsBarangay.text.toString().trim(),
-            municipality = binding.etSettingsMunicipality.text.toString().trim(),
-            province = binding.etSettingsProvince.text.toString().trim(),
-            zipCode = binding.etSettingsZip.text.toString().trim()
-        )
-
-        val errors = ProfileRepository.validateProfileUpdate(updatedUser, updatedAddress)
-        if (errors.isNotEmpty()) {
-            errors["firstName"]?.let { binding.etSettingsFirstname.error = it }
-            errors["lastName"]?.let { binding.etSettingsLastname.error = it }
-            errors["email"]?.let { binding.etSettingsEmail.error = it }
-            
-            errors["purok"]?.let { binding.etSettingsPurok.error = it }
-            errors["barangay"]?.let { binding.etSettingsBarangay.error = it }
-            errors["municipality"]?.let { binding.etSettingsMunicipality.error = it }
-            errors["province"]?.let { binding.etSettingsProvince.error = it }
-            errors["zipCode"]?.let { binding.etSettingsZip.error = it }
-            return
-        }
-
         lifecycleScope.launch {
             try {
                 binding.btnSaveSettings.isEnabled = false
-                val result = ProfileRepository.updateProfile(updatedUser, updatedAddress)
+                
+                var profileUrl = currentUser.profilePictureUrl
+                selectedImageUri?.let { uri ->
+                    val bytes = requireContext().contentResolver.openInputStream(uri)?.readBytes()
+                    if (bytes != null) {
+                        profileUrl = RegisterRepository.uploadProfilePicture(currentUser.userId!!, bytes)
+                    }
+                }
+
+                val selectedCivilStatus = try {
+                    CivilStatus.valueOf(binding.actSettingsCivilStatus.text.toString().uppercase())
+                } catch (e: Exception) {
+                    currentUser.civilStatus
+                }
+
+                // Password change if provided
+                val newPassword = binding.etSettingsNewPassword.text.toString().trim()
+                val confirmPassword = binding.etSettingsConfirmPassword.text.toString().trim()
+                var hashedPassword = currentUser.password
+
+                if (newPassword.isNotEmpty()) {
+                    if (newPassword != confirmPassword) {
+                        Toast.makeText(requireContext(), "Passwords do not match", Toast.LENGTH_SHORT).show()
+                        binding.btnSaveSettings.isEnabled = true
+                        return@launch
+                    }
+                    if (newPassword.length < 6) {
+                        Toast.makeText(requireContext(), "Password must be at least 6 characters", Toast.LENGTH_SHORT).show()
+                        binding.btnSaveSettings.isEnabled = true
+                        return@launch
+                    }
+                    // Update password in Supabase Auth
+                    SupabaseConfig.client.auth.updateUser {
+                        password = newPassword
+                    }
+                    hashedPassword = ugnay.app.backend.residents.utils.HashUtils.hashPassword(newPassword)
+                }
+
+                val updatedUser = currentUser.copy(
+                    firstName = binding.etSettingsFirstname.text.toString().trim(),
+                    middleName = binding.etSettingsMiddlename.text.toString().trim(),
+                    lastName = binding.etSettingsLastname.text.toString().trim(),
+                    civilStatus = selectedCivilStatus,
+                    profilePictureUrl = profileUrl,
+                    password = hashedPassword
+                )
+
+                val errors = ProfileRepository.validateProfileUpdate(updatedUser, currentAddress)
+                if (errors.isNotEmpty()) {
+                    errors["firstName"]?.let { binding.etSettingsFirstname.error = it }
+                    errors["lastName"]?.let { binding.etSettingsLastname.error = it }
+                    binding.btnSaveSettings.isEnabled = true
+                    return@launch
+                }
+
+                val result = ProfileRepository.updateProfile(updatedUser, currentAddress)
                 if (result.isSuccess) {
                     LoginRepository.updateCurrentUser(updatedUser)
-                    LoginRepository.updateCurrentAddress(updatedAddress)
                     Toast.makeText(requireContext(), "Profile updated successfully", Toast.LENGTH_SHORT).show()
                     findNavController().popBackStack()
                 } else {

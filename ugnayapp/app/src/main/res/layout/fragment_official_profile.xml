@@ -55,9 +55,11 @@
                         android:id="@+id/ivOfficialAvatar"
                         android:layout_width="72dp"
                         android:layout_height="72dp"
-                        android:src="@android:drawable/sym_def_app_icon"
-                        android:background="@color/background_dark"
-                        android:padding="12dp"
+                        android:src="@drawable/ic_person"
+                        android:scaleType="centerCrop"
+                        app:strokeColor="@color/brgy_blue"
+                        app:strokeWidth="2dp"
+                        app:tint="@color/brgy_blue"
                         app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
 
                     <LinearLayout
@@ -119,20 +121,6 @@
                     android:gravity="center_vertical"
                     android:layout_marginTop="12dp"
                     android:drawableStart="@android:drawable/ic_menu_call"
-                    android:drawablePadding="10dp"
-                    android:drawableTint="@color/text_secondary" />
-
-                <TextView
-                    android:id="@+id/tvOfficialId"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="FGD-FER-RFCSDERTCGYUY-5ER-VBXF"
-                    android:textColor="@color/text_secondary"
-                    android:textSize="12sp"
-                    android:fontFamily="@font/poppins_medium"
-                    android:gravity="center_vertical"
-                    android:layout_marginTop="12dp"
-                    android:drawableStart="@android:drawable/ic_menu_info_details"
                     android:drawablePadding="10dp"
                     android:drawableTint="@color/text_secondary" />
 
