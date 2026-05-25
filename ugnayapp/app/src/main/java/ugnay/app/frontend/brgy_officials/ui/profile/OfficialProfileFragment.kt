@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import coil.load
 import kotlinx.coroutines.launch
 import ugnay.app.R
-import ugnay.app.backend.residents.login.LoginRepository // Uses the central session repository
+import ugnay.app.backend.residents.login.LoginRepository
 import ugnay.app.databinding.FragmentOfficialProfileBinding
 
 class OfficialProfileFragment : Fragment() {
@@ -31,17 +31,15 @@ class OfficialProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Automatically load data from the logged-in session
         loadCurrentOfficialProfile()
 
-        // Navigation Actions
-        binding.btnManageResidents.setOnClickListener {
-            findNavController().navigate(R.id.action_profile_to_manage_residents)
-        }
-
-        binding.btnManageOfficials.setOnClickListener {
-            findNavController().navigate(R.id.action_profile_to_manage_officials)
-        }
+//        binding.btnManageResidents.setOnClickListener {
+//            findNavController().navigate(R.id.action_profile_to_manage_residents)
+//        }
+//
+//        binding.btnManageOfficials.setOnClickListener {
+//            findNavController().navigate(R.id.action_profile_to_manage_officials)
+//        }
 
         binding.btnManageProfile.setOnClickListener {
             findNavController().navigate(R.id.action_profile_to_manage_profile)
@@ -56,17 +54,18 @@ class OfficialProfileFragment : Fragment() {
     private fun loadCurrentOfficialProfile() {
         viewLifecycleOwner.lifecycleScope.launch {
             try {
-                // Fetching the user that was authenticated inside the LoginRepository
-                // Swap with LoginRepository.getCurrentUser() if configured as a function
                 val currentOfficial = LoginRepository.getCurrentUser()
 
                 if (currentOfficial != null) {
+                    // Retaining logic while updating ID display format
                     val fullName = "${currentOfficial.firstName} ${currentOfficial.lastName}".trim()
-
                     binding.tvOfficialName.text = fullName.ifEmpty { "Unnamed Official" }
                     binding.tvOfficialRole.text = currentOfficial.position?.toString() ?: "Barangay Official"
                     binding.tvOfficialEmail.text = currentOfficial.emailAddress ?: "No Email Linked"
                     binding.tvOfficialPhone.text = currentOfficial.contactNumber ?: "No Contact Number"
+
+                    // Use the GUIN- format for any official ID display if needed
+                    // Example: val formattedId = "ID: GUIN-${currentOfficial.userId?.take(4)?.uppercase() ?: "0000"}"
 
                     if (!currentOfficial.profilePictureUrl.isNullOrBlank()) {
                         binding.ivOfficialAvatar.load(currentOfficial.profilePictureUrl) {
@@ -77,6 +76,9 @@ class OfficialProfileFragment : Fragment() {
                                 binding.ivOfficialAvatar.imageTintList = null
                             })
                         }
+                    } else {
+                        // Ensure clear state for placeholder
+                        binding.ivOfficialAvatar.setImageResource(R.drawable.ic_person)
                     }
 
                 } else {
@@ -89,9 +91,11 @@ class OfficialProfileFragment : Fragment() {
     }
 
     private fun showErrorState(message: String) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
-        binding.tvOfficialName.text = "Error Loading Profile"
-        binding.tvOfficialRole.text = "Unavailable"
+        if (isAdded) { // Safety check
+            Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+            binding.tvOfficialName.text = "Error Loading Profile"
+            binding.tvOfficialRole.text = "Unavailable"
+        }
     }
 
     override fun onDestroyView() {

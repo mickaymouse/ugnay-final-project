@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1E1E1E"
+    android:background="@color/background_dark"
     android:fillViewport="true">
 
     <LinearLayout
@@ -17,12 +17,23 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp">
 
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/iv_official_profile_pic"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_person"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
+                app:tint="@color/brgy_blue" />
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
+                android:layout_toEndOf="@+id/iv_official_profile_pic"
+                android:layout_marginStart="12dp"
                 android:layout_centerVertical="true"
-                android:layout_toStartOf="@+id/iv_official_profile_pic"
                 android:orientation="vertical">
 
                 <TextView
@@ -44,18 +55,6 @@
                     android:textSize="24sp" />
             </LinearLayout>
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/iv_official_profile_pic"
-                android:layout_width="52dp"
-                android:layout_height="52dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_person"
-                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
-                app:strokeColor="@color/brgy_blue"
-                app:strokeWidth="2dp"
-                app:tint="@color/brgy_blue" />
         </RelativeLayout>
 
         <LinearLayout
@@ -86,7 +85,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_bold"
                         android:text="0"
-                        android:textColor="#6495ED"
+                        android:textColor="@color/brgy_yellow"
                         android:textSize="24sp" />
 
                     <TextView
@@ -120,14 +119,14 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_bold"
                         android:text="0"
-                        android:textColor="#6495ED"
+                        android:textColor="@color/brgy_yellow"
                         android:textSize="24sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_medium"
-                        android:text="Pending Req."
+                        android:text="Pending Requests"
                         android:textColor="#88FFFFFF"
                         android:textSize="12sp" />
                 </LinearLayout>
@@ -145,7 +144,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_semibold"
-                android:text="Recent Announcements"
+                android:text="News &amp; Announcements"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp" />
             <TextView
@@ -153,7 +152,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="See More"
-                android:textColor="#6495ED"
+                android:textColor="@color/text_white"
                 android:textSize="14sp"
                 android:fontFamily="@font/poppins_medium"
                 android:clickable="true"
@@ -164,7 +163,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            app:cardBackgroundColor="#2D2D2D"
+            app:cardBackgroundColor="@color/background_dark"
             app:cardCornerRadius="20dp"
             app:cardElevation="0dp">
 
@@ -220,7 +219,7 @@
                     android:text="+63 --- --- ----"
                     android:textColor="#FFFFFF"
                     android:textSize="14sp"
-                    app:drawableTint="#6495ED" />
+                    app:drawableTint="@color/brgy_yellow" />
 
                 <TextView
                     android:id="@+id/tv_official_email"
@@ -231,9 +230,9 @@
                     android:fontFamily="@font/poppins_medium"
                     android:gravity="center_vertical"
                     android:text="---@ugnay.ph"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/text_white"
                     android:textSize="14sp"
-                    app:drawableTint="#6495ED" />
+                    app:drawableTint="@color/brgy_yellow" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </LinearLayout>

@@ -71,6 +71,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="16dp"
+            android:textColor="#FFFFFF"
             android:text="Attach Photo (Optional)"
             android:backgroundTint="#2D2D2D"
             app:cornerRadius="8dp" />
@@ -109,8 +110,9 @@
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_marginTop="32dp"
+            android:textColor="#FFFFFF"
             android:text="Publish Announcement"
-            android:backgroundTint="#6495ED"
+            android:backgroundTint="@color/brgy_blue"
             app:cornerRadius="8dp" />
 
         <com.google.android.material.button.MaterialButton

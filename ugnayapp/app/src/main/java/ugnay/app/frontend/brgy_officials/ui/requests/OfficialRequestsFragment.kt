@@ -62,7 +62,7 @@ class OfficialRequestsFragment : Fragment() {
         setupFilters()
         loadRequests()
         setupRealtimeListener()
-        loadOfficialHeader()
+//        loadOfficialHeader()
 
         // FIXED: Correctly matching the XML element ID 'etSearchRequest'
         binding.etSearchRequest.addTextChangedListener { text ->
@@ -71,21 +71,21 @@ class OfficialRequestsFragment : Fragment() {
         }
     }
 
-    private fun loadOfficialHeader() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            val currentUser = ugnay.app.backend.residents.login.LoginRepository.getCurrentUser()
-            if (currentUser != null && !currentUser.profilePictureUrl.isNullOrBlank()) {
-                binding.ivOfficialProfilePicRequests.load(currentUser.profilePictureUrl) {
-                    crossfade(true)
-                    placeholder(R.drawable.ic_person)
-                    error(R.drawable.ic_person)
-                    listener(onSuccess = { _, _ ->
-                        binding.ivOfficialProfilePicRequests.imageTintList = null
-                    })
-                }
-            }
-        }
-    }
+//    private fun loadOfficialHeader() {
+//        viewLifecycleOwner.lifecycleScope.launch {
+//            val currentUser = ugnay.app.backend.residents.login.LoginRepository.getCurrentUser()
+//            if (currentUser != null && !currentUser.profilePictureUrl.isNullOrBlank()) {
+//                binding.ivOfficialProfilePicRequests.load(currentUser.profilePictureUrl) {
+//                    crossfade(true)
+//                    placeholder(R.drawable.ic_person)
+//                    error(R.drawable.ic_person)
+//                    listener(onSuccess = { _, _ ->
+//                        binding.ivOfficialProfilePicRequests.imageTintList = null
+//                    })
+//                }
+//            }
+//        }
+//    }
 
     private fun setupFilters() {
         // Highlighting selected category helper states

@@ -19,7 +19,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:src="@android:drawable/ic_menu_agenda"
-            app:tint="@color/brgy_blue" />
+            app:tint="@color/brgy_yellow" />
 
         <LinearLayout
             android:layout_width="wrap_content"

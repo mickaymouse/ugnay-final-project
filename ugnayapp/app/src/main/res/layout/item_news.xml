@@ -82,7 +82,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Barangay Hall"
-                    android:textColor="@color/brgy_blue"
+                    android:textColor="@color/brgy_yellow"
                     android:textSize="10sp"
                     android:fontFamily="@font/poppins_medium"
                     android:textAllCaps="true"
@@ -107,7 +107,7 @@
             android:fontFamily="@font/poppins_semibold"
             android:text="News Title"
             android:textColor="#FFFFFF"
-            android:textSize="15sp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tv_news_item_content"

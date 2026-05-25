@@ -50,28 +50,28 @@ class ProfileFragment : Fragment() {
     }
 
     private fun loadProfile() {
-        val user = LoginRepository.getCurrentUser()
+        val user = LoginRepository.getCurrentUser() ?: return
 
-        if (user != null) {
-            // Profile Text Components
-            binding.tvProfileName.text = "${user.firstName} ${user.lastName}".trim()
+        binding.apply {
+            // Change from tv_profile_name to tvProfileName, etc.
+            tvProfileName.text = "${user.firstName} ${user.middleName} ${user.lastName}".trim()
+            // Updated line inside binding.apply
+            tvUserId.text = "GUIN - ${user.userId?.take(8)?.uppercase() ?: "0000"}"
 
-            binding.tvProfileEmail.text = user.emailAddress ?: "No email address linked"
-            binding.tvProfileContact.text = user.contactNumber ?: "No contact number"
+            tvProfileEmail.text = user.emailAddress ?: "Not set"
+            tvProfileContact.text = user.contactNumber ?: "Not set"
+            tvGender.text = user.gender?.name?.lowercase()?.replaceFirstChar { it.uppercase() } ?: "N/A"
+            tvCivilStatus.text = user.civilStatus?.name?.lowercase()?.replaceFirstChar { it.uppercase() } ?: "N/A"
 
-            // Async Image Fetching via Supabase Public URL String
             if (!user.profilePictureUrl.isNullOrBlank()) {
-                binding.imgProfile.load(user.profilePictureUrl) {
+                imgProfile.load(user.profilePictureUrl) {
+                    transformations(CircleCropTransformation())
                     crossfade(true)
-                    placeholder(R.drawable.ic_person)
-                    error(R.drawable.ic_person)
                 }
-                // Clear the default tint so user photo colors aren't overridden by the yellow filter
-                binding.imgProfile.imageTintList = null
-                binding.imgProfile.setPadding(0, 0, 0, 0)
+                imgProfile.imageTintList = null
             } else {
-                // Fallback state if no image URL exists
-                binding.imgProfile.setImageResource(R.drawable.ic_person)
+                imgProfile.setImageResource(R.drawable.ic_person)
+                imgProfile.imageTintList = null
             }
         }
     }

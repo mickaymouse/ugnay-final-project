@@ -51,24 +51,24 @@ class OfficialNewsFragment : Fragment() {
 
         loadNews()
         setupRealtimeListener()
-        loadOfficialHeader()
+//        loadOfficialHeader()
     }
 
-    private fun loadOfficialHeader() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            val currentUser = ugnay.app.backend.residents.login.LoginRepository.getCurrentUser()
-            if (currentUser != null && !currentUser.profilePictureUrl.isNullOrBlank()) {
-                binding.ivOfficialProfilePicNews.load(currentUser.profilePictureUrl) {
-                    crossfade(true)
-                    placeholder(R.drawable.ic_person)
-                    error(R.drawable.ic_person)
-                    listener(onSuccess = { _, _ ->
-                        binding.ivOfficialProfilePicNews.imageTintList = null
-                    })
-                }
-            }
-        }
-    }
+//    private fun loadOfficialHeader() {
+//        viewLifecycleOwner.lifecycleScope.launch {
+//            val currentUser = ugnay.app.backend.residents.login.LoginRepository.getCurrentUser()
+//            if (currentUser != null && !currentUser.profilePictureUrl.isNullOrBlank()) {
+//                binding.ivOfficialProfilePicNews.load(currentUser.profilePictureUrl) {
+//                    crossfade(true)
+//                    placeholder(R.drawable.ic_person)
+//                    error(R.drawable.ic_person)
+//                    listener(onSuccess = { _, _ ->
+//                        binding.ivOfficialProfilePicNews.imageTintList = null
+//                    })
+//                }
+//            }
+//        }
+//    }
 
     private fun setupRecyclerView() {
         newsAdapter = NewsAdapter(emptyList())

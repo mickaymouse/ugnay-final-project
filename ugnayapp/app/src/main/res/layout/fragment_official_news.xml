@@ -22,14 +22,13 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:layout_toStartOf="@+id/iv_official_profile_pic_news"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tvNewsTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Official News"
+                    android:text="News &amp; Announcements"
                     android:textSize="24sp"
                     android:textStyle="bold"
                     android:textColor="@color/text_white" />
@@ -37,23 +36,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Barangay updates &amp; announcements"
+                    android:text="Stay updated to what's happening!"
                     android:textColor="@color/text_secondary"
                     android:layout_marginTop="4dp" />
             </LinearLayout>
-
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/iv_official_profile_pic_news"
-                android:layout_width="44dp"
-                android:layout_height="44dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_person"
-                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
-                app:strokeColor="@color/brgy_blue"
-                app:strokeWidth="2dp"
-                app:tint="@color/brgy_blue" />
         </RelativeLayout>
 
         <!-- BUTTON -->
