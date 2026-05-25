@@ -77,26 +77,62 @@
                         android:fontFamily="@font/poppins_regular" />
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/tv_news_author_position"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Barangay Hall"
-                    android:textColor="@color/brgy_yellow"
-                    android:textSize="10sp"
-                    android:fontFamily="@font/poppins_medium"
-                    android:textAllCaps="true"
-                    android:letterSpacing="0.05"/>
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/tv_news_author_position"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Barangay Hall"
+                        android:textColor="@color/brgy_yellow"
+                        android:textSize="10sp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:textAllCaps="true"
+                        android:letterSpacing="0.05"/>
+
+                    <TextView
+                        android:id="@+id/tv_news_edited_indicator"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textColor="#AAAAAA"
+                        android:textSize="9sp"
+                        android:fontFamily="@font/poppins_regular"
+                        android:layout_marginStart="8dp"
+                        android:visibility="gone" />
+                </LinearLayout>
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/tv_news_item_priority"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="★"
-                android:textColor="#FFD700"
-                android:textSize="14sp"
-                android:visibility="gone" />
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tv_news_item_priority"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="★"
+                    android:textColor="#FFD700"
+                    android:textSize="14sp"
+                    android:visibility="gone"
+                    android:layout_marginEnd="8dp" />
+
+                <ImageButton
+                    android:id="@+id/btn_news_menu"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/ic_menu"
+                    android:background="?attr/selectableItemBackground"
+                    android:scaleType="centerInside"
+                    android:contentDescription="Post menu"
+                    android:visibility="gone" />
+            </LinearLayout>
         </LinearLayout>
 
         <TextView

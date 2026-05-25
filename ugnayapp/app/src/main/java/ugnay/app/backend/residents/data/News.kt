@@ -4,6 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import java.time.Duration
 import java.time.Instant
+import java.io.Serializable as JavaSerializable
 
 @Serializable
 data class News(
@@ -26,8 +27,12 @@ data class News(
     @SerialName("priority")
     val priority: String? = null,
     @SerialName("image_url")
-    val imageUrl: String? = null
-) {
+    val imageUrl: String? = null,
+    @SerialName("date_edited")
+    val dateEdited: String? = null,
+    @SerialName("edited_by")
+    val editedBy: String? = null
+) : JavaSerializable {
     fun relativeDuration(): String? = computeRelativeDuration(datePosted)
 
     fun priorityRank(): Int = when (priority) {

@@ -17,15 +17,15 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ugnay.app.backend.residents.SupabaseConfig
 import ugnay.app.backend.residents.news.NewsRepository
+import ugnay.app.backend.residents.data.News
 import ugnay.app.databinding.FragmentOfficialNewsBinding
-import ugnay.app.frontend.residents.ui.news.NewsAdapter
 import ugnay.app.R
 
 class OfficialNewsFragment : Fragment() {
 
     private var _binding: FragmentOfficialNewsBinding? = null
     private val binding get() = _binding!!
-    private lateinit var newsAdapter: NewsAdapter
+    private lateinit var newsAdapter: OfficialNewsAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -71,7 +71,15 @@ class OfficialNewsFragment : Fragment() {
 //    }
 
     private fun setupRecyclerView() {
-        newsAdapter = NewsAdapter(emptyList())
+        newsAdapter = OfficialNewsAdapter(
+            emptyList(),
+            onEditClick = { news ->
+                navigateToEditPost(news)
+            },
+            onDeleteClick = { news ->
+                showDeleteConfirmation(news)
+            }
+        )
         binding.rvNewsFeed.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = newsAdapter
@@ -101,6 +109,36 @@ class OfficialNewsFragment : Fragment() {
             changeFlow.collect {
                 // When any change happens in the announcements table, reload the news
                 loadNews()
+            }
+        }
+    }
+
+    private fun navigateToEditPost(news: News) {
+        val bundle = Bundle().apply {
+            putSerializable("news", news)
+        }
+        findNavController().navigate(R.id.action_official_news_to_edit_post, bundle)
+    }
+
+    private fun showDeleteConfirmation(news: News) {
+        androidx.appcompat.app.AlertDialog.Builder(requireContext())
+            .setTitle("Delete Announcement")
+            .setMessage("Are you sure you want to delete this announcement? This action cannot be undone.")
+            .setPositiveButton("Delete") { _, _ ->
+                deletePost(news)
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
+    private fun deletePost(news: News) {
+        lifecycleScope.launch {
+            try {
+                NewsRepository.deleteAnnouncement(news.announcementId ?: return@launch)
+                Toast.makeText(requireContext(), "Announcement deleted successfully!", Toast.LENGTH_SHORT).show()
+                loadNews()
+            } catch (exception: Exception) {
+                Toast.makeText(requireContext(), "Unable to delete announcement: ${exception.message}", Toast.LENGTH_LONG).show()
             }
         }
     }

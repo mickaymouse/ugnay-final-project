@@ -1,5 +1,6 @@
 package ugnay.app.frontend.brgy_officials.ui.profile
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import kotlinx.coroutines.launch
 import ugnay.app.R
 import ugnay.app.backend.residents.login.LoginRepository
 import ugnay.app.databinding.FragmentOfficialProfileBinding
+import ugnay.app.frontend.MainActivity
 
 class OfficialProfileFragment : Fragment() {
 
@@ -47,7 +49,10 @@ class OfficialProfileFragment : Fragment() {
 
         binding.btnLogout.setOnClickListener {
             LoginRepository.logout()
-            findNavController().navigate(R.id.action_official_profile_to_login)
+            // Start MainActivity to go to login page instead of trying to navigate within official_nav_graph
+            val intent = Intent(requireContext(), MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
         }
     }
 

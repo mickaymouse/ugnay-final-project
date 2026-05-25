@@ -29,6 +29,10 @@
         <action
             android:id="@+id/action_official_news_to_create_post"
             app:destination="@id/nav_create_post" />
+
+        <action
+            android:id="@+id/action_official_news_to_edit_post"
+            app:destination="@id/nav_edit_post" />
     </fragment>
 
     <!-- CREATE POST -->
@@ -37,6 +41,13 @@
         android:name="ugnay.app.frontend.brgy_officials.ui.news.CreatePostFragment"
         android:label="Create Post"
         tools:layout="@layout/fragment_create_post" />
+
+    <!-- EDIT POST -->
+    <fragment
+        android:id="@+id/nav_edit_post"
+        android:name="ugnay.app.frontend.brgy_officials.ui.news.EditPostFragment"
+        android:label="Edit Post"
+        tools:layout="@layout/fragment_edit_post" />
 
     <!-- OFFICIAL NOTIFICATIONS -->
     <fragment

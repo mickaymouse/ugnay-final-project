@@ -91,5 +91,62 @@ object NewsRepository {
             throw e
         }
     }
+
+    suspend fun updateAnnouncement(
+        announcementId: String,
+        title: String,
+        content: String,
+        priority: String = "Normal",
+        imageUrl: String? = null
+    ): News {
+        val currentUser = LoginRepository.getCurrentUser()
+            ?: throw Exception("You must be logged in to edit announcements")
+
+        val fullName = "${currentUser.firstName} ${currentUser.lastName}".trim()
+        val dateEdited = java.time.Instant.now().toString()
+
+        Log.d(TAG, "Updating announcement: $announcementId")
+
+        return try {
+            SupabaseConfig.client.from("announcements")
+                .update(
+                    mapOf(
+                        "title" to title,
+                        "content" to content,
+                        "priority" to priority,
+                        "image_url" to imageUrl,
+                        "date_edited" to dateEdited,
+                        "edited_by" to fullName
+                    )
+                ) {
+                    filter {
+                        eq("announcement_id", announcementId)
+                    }
+                    select()
+                }
+                .decodeSingleOrNull<News>()
+                ?: throw Exception("Failed to update announcement (null response)")
+        } catch (e: Exception) {
+            Log.e(TAG, "Error updating announcement: ${e.message}", e)
+            throw e
+        }
+    }
+
+    suspend fun deleteAnnouncement(announcementId: String) {
+        Log.d(TAG, "Deleting announcement: $announcementId")
+
+        try {
+            SupabaseConfig.client.from("announcements")
+                .delete() {
+                    filter {
+                        eq("announcement_id", announcementId)
+                    }
+                }
+            Log.d(TAG, "Announcement deleted successfully")
+        } catch (e: Exception) {
+            Log.e(TAG, "Error deleting announcement: ${e.message}", e)
+            throw e
+        }
+    }
 }
 
