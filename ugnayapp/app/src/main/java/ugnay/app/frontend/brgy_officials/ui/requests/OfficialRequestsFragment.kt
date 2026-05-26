@@ -352,6 +352,7 @@ class OfficialRequestsFragment : Fragment() {
 
             val badgeColor = when (status.name) {
                 "APPROVED" -> "#2E7D32" // Balanced Dark Green
+                "DONE" -> "#0288D1"
                 "REJECTED", "EXPIRED" -> "#C62828" // Dark Red
                 else -> "#EF6C00" // Warm Amber Orange/Yellow for Pending
             }

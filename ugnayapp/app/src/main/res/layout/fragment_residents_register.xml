@@ -423,6 +423,7 @@
             android:layout_height="56dp"
             android:backgroundTint="@color/brgy_blue"
             android:fontFamily="@font/poppins_semibold"
+            android:textColor="@color/text_white"
             android:text="Register"
             android:textAllCaps="false"
             android:textSize="16sp" />
