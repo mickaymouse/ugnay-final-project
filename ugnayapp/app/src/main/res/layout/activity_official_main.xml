@@ -22,7 +22,7 @@
         android:id="@+id/bottom_nav_official"
         android:layout_width="0dp"
         android:layout_height="90dp"
-        android:background="@color/brgy_blue"
+        android:background="@color/background_dark"
         android:paddingBottom="8dp"
         app:elevation="1dp"
         app:itemIconSize="24dp"
